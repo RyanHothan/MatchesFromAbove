@@ -9,9 +9,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <script type="text/javascript" src="js/customerTableButton.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:useBean id = "currentUser" class="User.Person" scope="request"/>
-        <title>JSP Page</title>
+        <title>Employee Home</title>
     </head>
     <body>
         <h1>Hello World!</h1>
@@ -25,5 +27,7 @@
                 </tr>
             </c:forEach>
         </table>
+        <input type="submit" id="customerTableButton" value="Submit" onclick="doSomething()"/>
+        <div id="poopsicle"></div>
     </body>
 </html>
