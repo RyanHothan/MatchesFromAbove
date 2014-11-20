@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author Javier
  */
 @WebServlet(name = "loginhelp", urlPatterns =
-{
-    "/loginhelp"
-})
+        {
+            "/loginhelp"
+        })
 public class loginhelp extends HttpServlet
 {
 
@@ -73,17 +72,16 @@ public class loginhelp extends HttpServlet
                     String query = "SELECT * FROM [MatchesFromAbove].[dbo].[Customer]";
 
                     ResultSet rs = st.executeQuery(query);
-                    
-                    while(rs.next())
+
+                    while (rs.next())
                     {
-                        
                         Customer customer = new Customer();
                         customer.setSsn(rs.getString("SSN"));
                         customer.setPpp(rs.getString("PPP"));
                         customer.setRating(rs.getInt("Rating"));
                         customer.setLastActiveDate(rs.getTimestamp("LastActive"));
                         customers.add(customer);
-                        
+
                     }
                     request.setAttribute("customers", customers);
                 } catch (Exception e)
@@ -92,8 +90,11 @@ public class loginhelp extends HttpServlet
                     return;
                 }
                 url = "employeeHome.jsp";
-            } else
+            } 
+            else
             {
+                ArrayList<Profile> profiles = getProfiles(x);
+                request.setAttribute("profiles", profiles);
                 url = "userHome.jsp";
             }
         }
@@ -150,7 +151,7 @@ public class loginhelp extends HttpServlet
                     + "WHERE SSN = '" + p.getSSN() + "'";
 
             ResultSet rs = st.executeQuery(query);
-            while(rs.next())
+            while (rs.next())
             {
                 return true;
             }
@@ -199,6 +200,60 @@ public class loginhelp extends HttpServlet
         {
             System.out.println(e.getMessage());
             return false;
+        }
+    }
+    
+    //Get a list of profiles that belong to person P
+    protected ArrayList<Profile> getProfiles(Person p)
+    {
+        //our return array
+        ArrayList<Profile> profiles = new ArrayList<Profile>();
+        
+        try
+        {
+            //get DB driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            //create connection to DB
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            //statement to be passed to DB
+            Statement st = con.createStatement();
+            //Query to the DB (Finding all profiles whose ownerSSN is our person's)
+            String query = "SELECT * "
+                    + "FROM [MatchesFromAbove].[dbo].[Profile] "
+                    + "WHERE OwnerSSN = '" + p.getSSN() + "'";
+            //print query for testing
+            System.out.println(query);
+            //REsult set for our results
+            ResultSet rs = st.executeQuery(query);
+            
+            //loop until we have no more results
+            while (rs.next())
+            {
+                //Add each profile to our return array
+                Profile profileToAdd = new Profile(p.getSSN());
+                profileToAdd.setAge(rs.getInt("Age"));
+                profileToAdd.setAgeRangeEnd(rs.getInt("AgeRangeEnd"));
+                profileToAdd.setAgeRangeStart(rs.getInt("AgeRangeStart"));
+                profileToAdd.setGeoRange(rs.getInt("GeoRange"));
+                profileToAdd.setWeight(rs.getInt("Weight"));
+                profileToAdd.setGender(rs.getString("Gender").charAt(0));
+                profileToAdd.setProfileId(rs.getString("ProfileId"));
+                profileToAdd.setHairColor(rs.getString("HairColor"));
+                profileToAdd.setHobbies(rs.getString("Hobbies"));
+                profileToAdd.setHeight(rs.getDouble("Height"));
+                profileToAdd.setProfileCreationDate(rs.getTimestamp("ProfileCreationDate"));
+                profileToAdd.setProfileModDate(rs.getTimestamp("ProfileModDate"));
+                profiles.add(profileToAdd);
+            }
+            //return the array filled with profiles
+            return profiles;
+        }
+        //trying to catch exception for sql errors
+        catch(Exception e)
+        {
+            //print our message
+            System.out.println(e.getMessage());
+            return null;
         }
     }
 
