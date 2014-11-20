@@ -89,13 +89,13 @@ public class loginhelp extends HttpServlet
                     System.out.println(e.getMessage());
                     return;
                 }
-                url = "employeeHome.jsp";
+                url = "/employeeHome.jsp";
             } 
             else
             {
                 ArrayList<Profile> profiles = getProfiles(x);
                 request.setAttribute("profiles", profiles);
-                url = "userHome.jsp";
+                url = "/userHome.jsp";
             }
         }
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);

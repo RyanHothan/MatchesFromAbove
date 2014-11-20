@@ -4,7 +4,7 @@ function readProfile()
     var e = document.getElementById("profileBox");
     var profileId = $("select#profileBox option").filter(":selected").text();
     $.ajax({
-        url:'http://localhost:8080/MatchesFromAbove/ProfileListHelper',
+        url:'/MatchesFromAbove/ProfileListHelper',
         type: 'GET',
         dataType: 'JSON',
         data: 'foo='+profileId,
