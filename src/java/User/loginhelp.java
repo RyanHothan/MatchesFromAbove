@@ -61,35 +61,7 @@ public class loginhelp extends HttpServlet
             request.setAttribute("currentUser", x);
             if (isEmployee(x))
             {
-                try
-                {
-                    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-                    Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
-
-                    Statement st = con.createStatement();
-
-                    String query = "SELECT * FROM [MatchesFromAbove].[dbo].[Customer]";
-
-                    ResultSet rs = st.executeQuery(query);
-
-                    while (rs.next())
-                    {
-                        Customer customer = new Customer();
-                        customer.setSsn(rs.getString("SSN"));
-                        customer.setPpp(rs.getString("PPP"));
-                        customer.setRating(rs.getInt("Rating"));
-                        customer.setLastActiveDate(rs.getTimestamp("LastActive"));
-                        customers.add(customer);
-
-                    }
-                    request.setAttribute("customers", customers);
-                } catch (Exception e)
-                {
-                    System.out.println(e.getMessage());
-                    return;
-                }
-                url = "/employeeHome.jsp";
+                 url = "/employeeHome.jsp";
             } 
             else
             {

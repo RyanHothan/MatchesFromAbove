@@ -14,6 +14,8 @@
         <jsp:useBean id = "currentUser" class="User.Person" scope="request"/>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script src="js/ProfileSelect.js" type="text/javascript"></script>
+        
+         <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
         <title>${currentUser.email}</title>
     </head>
     <body>
@@ -26,7 +28,8 @@
             </c:forEach>
         </select>
         <!--Table for the currently selected profile's data-->
-        <table id="infoTable" border="1" style="display:none">
+        <table id="infoTable"  style="display:none" >
+            <tbody>
             <tr> 
                 <td align="right">Profile Id:</td>
                 <td id="profileId"> </td>
@@ -71,6 +74,7 @@
                 <td align="right">Profile Creation Date:</td>
                 <td id="profileCreationDate"> </td>
             </tr>
+            </tbody>
         </table>
     </body>
 </html>

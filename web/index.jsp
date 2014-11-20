@@ -8,7 +8,7 @@
    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
 </head>
 
-<body>
+<body id="index">
   <div class="login-card">
     <h1>Log-in</h1><br>
   <form  id = "data" action="/MatchesFromAbove/loginhelp" method = "POST">
