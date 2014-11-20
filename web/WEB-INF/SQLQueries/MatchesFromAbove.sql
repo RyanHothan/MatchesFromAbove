@@ -6,47 +6,47 @@ CREATE DATABASE MatchesFromAbove;
 USE MatchesFromAbove;
 
 CREATE TABLE Person (
-SSN CHAR(11),
-Password CHAR(20)NOT NULL,
-FirstName CHAR(50) NOT NULL,
-LastName CHAR(50) NOT NULL,
-Street CHAR(50) NOT NULL,
-City CHAR(50) NOT NULL,
-State CHAR(3) NOT NULL,
+SSN VARCHAR(11),
+Password VARCHAR(20)NOT NULL,
+FirstName VARCHAR(50) NOT NULL,
+LastName VARCHAR(50) NOT NULL,
+Street VARCHAR(50) NOT NULL,
+City VARCHAR(50) NOT NULL,
+State VARCHAR(3) NOT NULL,
 ZipCode INTEGER NOT NULL,
-Email CHAR(50) NOT NULL,
-Telephone CHAR(50),
+Email VARCHAR(50) NOT NULL,
+Telephone VARCHAR(50),
 PRIMARY KEY(SSN),
 CHECK (ZipCode < 100000 AND ZipCode > 9999) );
 
 CREATE TABLE Employee (
-SSN CHAR(11),
-Role CHAR(50) NOT NULL,
+SSN VARCHAR(11),
+Role VARCHAR(50) NOT NULL,
 StartDate DATE NOT NULL,
 Rate INTEGER NOT NULL,
 PRIMARY KEY(SSN));
 
 CREATE TABLE Customer (
-SSN CHAR(11),
-PPP CHAR(10) NOT NULL,
+SSN VARCHAR(11),
+PPP VARCHAR(10) NOT NULL,
 Rating INTEGER,
 LastActive DATETIME NOT NULL,
-active BOOLEAN,
+active BIT,
 PRIMARY KEY(SSN),
 CHECK (Rating < 6 AND Rating > 0) );
 
 CREATE TABLE Profile (
-ProfileId CHAR(24),
-OwnerSSN CHAR(11) NOT NULL,
+ProfileId VARCHAR(24),
+OwnerSSN VARCHAR(11) NOT NULL,
 Age INTEGER NOT NULL,
 AgeRangeStart INTEGER NOT NULL,
 AgeRangeEnd INTEGER NOT NULL,
 GeoRange INTEGER NOT NULL,
-Gender CHAR(1) NOT NULL,
-Hobbies CHAR(50),
+Gender VARCHAR(1) NOT NULL,
+Hobbies VARCHAR(50),
 Height DECIMAL(2,1) NOT NULL,
 Weight INTEGER NOT NULL,
-HairColor CHAR(20),
+HairColor VARCHAR(20),
 ProfileCreationDate DATETIME NOT NULL,
 ProfileModDate DATETIME NOT NULL,
 PRIMARY KEY(ProfileId),
@@ -56,8 +56,8 @@ CHECK(AgeRangeStart >= 17 AND AgeRangeEnd >= AgeRangeStart),
 CHECK(GeoRange > 0 ) );
 
 CREATE TABLE Account (
-OwnerSSN CHAR(11) NOT NULL,
-CreditCardNumber CHAR(16) NOT NULL,
+OwnerSSN VARCHAR(11) NOT NULL,
+CreditCardNumber VARCHAR(16) NOT NULL,
 AccountNumber INTEGER,
 AccountCreationDate DATE NOT NULL,
 PRIMARY KEY(AccountNumber),
@@ -65,8 +65,8 @@ FOREIGN KEY(OwnerSSN) REFERENCES Customer(SSN)
 ON DELETE CASCADE);
 
 CREATE TABLE Likes (
-LikerId CHAR(24),
-LikeeId CHAR(24),
+LikerId VARCHAR(24),
+LikeeId VARCHAR(24),
 Date_Time DATETIME ,
 PRIMARY KEY (LikeeId, LikerId, Date_Time) ,
 FOREIGN KEY(LikerId) REFERENCES Profile(ProfileId),
@@ -74,9 +74,9 @@ FOREIGN KEY(LikeeId) REFERENCES Profile(ProfileId)
 );
 
 CREATE TABLE Referral (
-ProfileIdA CHAR (24),
-ProfileIdB CHAR(24),
-ProfileIdC CHAR (24),
+ProfileIdA VARCHAR(24),
+ProfileIdB VARCHAR(24),
+ProfileIdC VARCHAR(24),
 Date_Time DATETIME NOT NULL,
 PRIMARY KEY (ProfileIdA, ProfileIdB, ProfileIdC, Date_Time),
 FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
@@ -85,11 +85,11 @@ FOREIGN KEY(ProfileIdC) REFERENCES Profile(ProfileId)
  );
 
 CREATE TABLE Date (
-Profile1Id CHAR (24) NOT NULL,
-Profile2Id CHAR (24) NOT NULL,
-CustomerRep CHAR(11) NOT NULL,
+Profile1Id VARCHAR(24) NOT NULL,
+Profile2Id VARCHAR(24) NOT NULL,
+CustomerRep VARCHAR(11) NOT NULL,
 Date_Time DATETIME NOT NULL,
-Location CHAR(50) NOT NULL,
+Location VARCHAR(50) NOT NULL,
 Fee DECIMAL(5,2) NOT NULL,
 Comments VARCHAR (256),
 User1Rating INTEGER,
@@ -103,9 +103,9 @@ FOREIGN Key(CustomerRep) REFERENCES Employee(SSN)
 );
 
 CREATE TABLE BlindDate (
-CustRep CHAR(11),
-ProfileIdA CHAR(24),
-ProfileIdB CHAR(24),
+CustRep VARCHAR(11),
+ProfileIdA VARCHAR(24),
+ProfileIdB VARCHAR(24),
 Date_Time DATETIME NOT NULL,
 PRIMARY KEY (ProfileIdA, ProfileIdB, CustRep, Date_Time),
 FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
