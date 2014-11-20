@@ -7,7 +7,7 @@ function doSomething()
 {
     alert("YOOO");  
    $.ajax({
-       url : 'http://localhost:8080/MatchesFromAbove/getAllCustomers',
+       url : '/MatchesFromAbove/getAllCustomers',
        type : 'GET', 
        dataType : 'JSON',
        success : function(data){
