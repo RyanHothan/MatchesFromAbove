@@ -1,15 +1,19 @@
 function readProfile()
 {
-    
-    var e = document.getElementById("profileBox");
     var profileId = $("select#profileBox option").filter(":selected").text();
+    if(profileId === "No Profile Selected")
+    {
+      $("#infoTable").hide();
+      return;
+    }
     $.ajax({
-        url:'http://localhost:8080/MatchesFromAbove/ProfileListHelper',
+        url:'/MatchesFromAbove/ProfileListHelper',
         type: 'GET',
         dataType: 'JSON',
         data: 'foo='+profileId,
         success: function(data)
         {
+            $("#infoTable").show();
             for(i = 0; i < data.length; i++)
             {
                 $("#profileId").html(data[i].profileId);

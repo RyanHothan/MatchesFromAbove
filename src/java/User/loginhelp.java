@@ -112,7 +112,7 @@ public class loginhelp extends HttpServlet
 
             Statement st = con.createStatement();
 
-            String query = "SELECT FirstName, LastName "
+            String query = "SELECT * "
                     + "FROM [MatchesFromAbove].[dbo].[Person] "
                     + "WHERE Email = '" + p.getEmail() + "' AND Password = '" + p.getPassword() + "'";
 
@@ -245,6 +245,8 @@ public class loginhelp extends HttpServlet
                 profileToAdd.setProfileModDate(rs.getTimestamp("ProfileModDate"));
                 profiles.add(profileToAdd);
             }
+            //close the connection
+            con.close();
             //return the array filled with profiles
             return profiles;
         }

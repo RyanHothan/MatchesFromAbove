@@ -20,6 +20,16 @@ public class Person implements Serializable
     private String lastName = null;
     private String street = null;
     private String city = null;
+
+    public String getSsn()
+    {
+        return ssn;
+    }
+
+    public void setSsn(String ssn)
+    {
+        this.ssn = ssn;
+    }
     private String state = null;
     private String zipcode = null;
     private String telephone = null;

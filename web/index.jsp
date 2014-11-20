@@ -11,14 +11,14 @@
 <body>
   <div class="login-card">
     <h1>Log-in</h1><br>
-  <form  id = "data" action="http://localhost:8080/MatchesFromAbove/loginhelp" method = "POST">
+  <form  id = "data" action="/MatchesFromAbove/loginhelp" method = "POST">
     <input type="text" name="email" placeholder="Email">
     <input type="password" name="password" placeholder="Password">
     <input type="submit" name="login" class="login login-submit" value="login" form ="data">
   </form>
 
   <div class="login-help">
-    <a href="http://localhost:8080/MatchesFromAbove/Register.jsp">Register</a> • <a href="#">Forgot Password</a>
+    <a href="/MatchesFromAbove/Register.jsp">Register</a> • <a href="#">Forgot Password</a>
   </div>
 </div>
 

@@ -20,56 +20,56 @@
         <h1>Hello ${currentUser.firstName} ${currentUser.lastName}</h1>
         <!--Combo Box for profiles of this user-->
         <select id="profileBox" onchange="readProfile()">
-            <option>No Profile Selected</option>
+            <option id="defaultOption">No Profile Selected</option>
             <c:forEach items="${profiles}" var="profile">
                 <option><c:out value="${profile.profileId}" /></option>
             </c:forEach>
         </select>
         <!--Table for the currently selected profile's data-->
-        <table id="infoTable" border="1">
+        <table id="infoTable" border="1" style="display:none">
             <tr> 
                 <td align="right">Profile Id:</td>
-                <td id="profileId"> Hello</td>
+                <td id="profileId"> </td>
             </tr>
             <tr> 
                 <td align="right">Age:</td>
-                <td id="age"> Hello</td>
+                <td id="age"> </td>
             </tr>
             <tr> 
                 <td align="right">Age Range Start:</td>
-                <td id="ageRangeStart"> Hello</td>
+                <td id="ageRangeStart"> </td>
             </tr>
             <tr> 
                 <td align="right">Age Range End:</td>
-                <td id="ageRangeEnd"> Hello</td>
+                <td id="ageRangeEnd"> </td>
             </tr>
             <tr> 
                 <td align="right">Geo-Range:</td>
-                <td id="geoRange"> Hello</td>
+                <td id="geoRange"> </td>
             </tr>
             <tr> 
                 <td align="right">Gender:</td>
-                <td id="gender"> Hello</td>
+                <td id="gender"> </td>
             </tr>
             <tr> 
                 <td align="right">Hobbies:</td>
-                <td id="hobbies"> Hello</td>
+                <td id="hobbies"> </td>
             </tr>
             <tr> 
                 <td align="right">Height:</td>
-                <td id="height"> Hello</td>
+                <td id="height"> </td>
             </tr>
             <tr> 
                 <td align="right">Weight:</td>
-                <td id="weight"> Hello</td>
+                <td id="weight"> </td>
             </tr>
             <tr> 
                 <td align="right">Hair Color:</td>
-                <td id="hairColor"> Hello</td>
+                <td id="hairColor"> </td>
             </tr>
             <tr> 
                 <td align="right">Profile Creation Date:</td>
-                <td id="profileCreationDate"> Hello</td>
+                <td id="profileCreationDate"> </td>
             </tr>
         </table>
     </body>
