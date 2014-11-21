@@ -72,8 +72,6 @@ LikerId VARCHAR(24),
 LikeeId VARCHAR(24),
 Date_Time DATETIME ,
 PRIMARY KEY (LikeeId, LikerId, Date_Time) ,
-FOREIGN KEY(LikerId) REFERENCES Profile(ProfileId),
-FOREIGN KEY(LikeeId) REFERENCES Profile(ProfileId)
 );
 
 CREATE TABLE Referral (
