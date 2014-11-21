@@ -23,7 +23,7 @@ function populateCustomersTable()
                 //populate the data in the table
                 for (i = 0; i < data.length; i++)
                 {
-                    var newRow = $("#customersTable > tbody").append("<tr value=" + data[i].ssn + " id=" + data[i].ssn + "></tr>");
+                    $("#customersTable > tbody").append("<tr value=" + data[i].ssn + " id=" + data[i].ssn + "></tr>");
                     $("#"+data[i].ssn).append("<td value='ssn'>" + data[i].ssn + "</td>");
                     $("#"+data[i].ssn).append("<td value='ppp'>" + data[i].ppp + "</td>");
                     $("#"+data[i].ssn).append("<td value='rating'>" + data[i].rating + "</td>");
@@ -38,7 +38,6 @@ function populateCustomersTable()
             if ($(this).children().length === 0)
             {
                 var innerHTML = $(this).text();
-                var tdValue = $(this).attr('value');
                 
                 $(this).html("");
                 $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit' onclick =changeValue($(this))");
@@ -55,8 +54,7 @@ function populateCustomersTable()
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit : someData, customer: customerToChange},
-                            dataType: 'text',
-                            success: function(data){}
+                            dataType: 'text'
                         });
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
@@ -76,10 +74,7 @@ function deleteCustomer(ssn)
         url: '/MatchesFromAbove/deleteCustomer',
         type: 'POST',
         data: 'ssn=' + ssn,
-        dataType: 'text',
-        success: function(data){
-            
-        }
+        dataType: 'text'
     });
     $("tr[value=" + ssn + "]").empty();
 
