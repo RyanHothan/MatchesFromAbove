@@ -27,7 +27,7 @@ function populateCustomersTable()
                     $("#"+data[i].ssn).append("<td value='ssn'>" + data[i].ssn + "</td>");
                     $("#"+data[i].ssn).append("<td value='ppp'>" + data[i].ppp + "</td>");
                     $("#"+data[i].ssn).append("<td value='rating'>" + data[i].rating + "</td>");
-                    $("#"+data[i].ssn).append("<td>" + data[i].lastActiveDate + "</td>");
+                    $("#"+data[i].ssn).append("<td value='lastActiveDate'>" + data[i].lastActiveDate + "</td>");
                     $("#"+data[i].ssn).append("<td><input type='submit' onclick='deleteCustomer(\"" + data[i].ssn + "\")' value='Delete Customer' /></td>");
                 }
             }
@@ -37,6 +37,8 @@ function populateCustomersTable()
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
+                if($(this).attr('value') != 'lastActiveDate')
+                {
                 var innerHTML = $(this).text();
                 
                 $(this).html("");
@@ -62,6 +64,7 @@ function populateCustomersTable()
                         tdCell.html(newData);
                     }
                 });
+            }  
             }
         });
     }

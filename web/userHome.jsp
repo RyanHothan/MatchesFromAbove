@@ -32,46 +32,46 @@
                 <option><c:out value="${profile.profileId}" /></option>
             </c:forEach>
         </select>
-        <!--Table for the currently selected profile's data-->
+        <!--Table for the currently selected profile's data     typeOfData dataToEdit profileId-->
         <table id="infoTable" style="display:none" >
             <tbody>
-                <tr> 
+                <tr value="profileId"> 
                     <td align="right">Profile Id:</td>
                     <td id="profileId"> </td>
                 </tr>
-                <tr>
-                    <td align="right">Age:</td>
+                <tr value="age">
+                    <td align="right" >Age:</td>
                     <td id="age"> </td>
                 </tr>
-                <tr> 
+                <tr value="ageRangeStart"> 
                     <td align="right">Age Range Start:</td>
                     <td id="ageRangeStart"> </td>
                 </tr>
-                <tr> 
-                    <td align="right">Age Range End:</td>
+                <tr value="ageRangeEnd"> 
+                    <td align="right" >Age Range End:</td>
                     <td id="ageRangeEnd"> </td>
                 </tr>
-                <tr> 
+                <tr value="geoRange"> 
                     <td align="right">Geo-Range:</td>
                     <td id="geoRange"> </td>
                 </tr>
-                <tr> 
+                <tr value="gender"> 
                     <td align="right">Gender:</td>
                     <td id="gender"> </td>
                 </tr>
-                <tr> 
+                <tr value="hobbies"> 
                     <td align="right">Hobbies:</td>
                     <td id="hobbies"> </td>
                 </tr>
-                <tr> 
+                <tr value="height"> 
                     <td align="right">Height:</td>
                     <td id="height"> </td>
                 </tr>
-                <tr> 
+                <tr value="weight"> 
                     <td align="right">Weight:</td>
                     <td id="weight"> </td>
                 </tr>
-                <tr> 
+                <tr value="hairColor"> 
                     <td align="right">Hair Color:</td>
                     <td id="hairColor"> </td>
                 </tr>
