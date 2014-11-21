@@ -6,95 +6,90 @@ CREATE DATABASE MatchesFromAbove;
 USE MatchesFromAbove;
 
 CREATE TABLE Person (
-SSN CHAR(11),
-Password CHAR(20)NOT NULL,
-FirstName CHAR(50) NOT NULL,
-LastName CHAR(50) NOT NULL,
-Street CHAR(50) NOT NULL,
-City CHAR(50) NOT NULL,
-State CHAR(50) NOT NULL,
+SSN VARCHAR(11),
+Password VARCHAR(20)NOT NULL,
+FirstName VARCHAR(50) NOT NULL,
+LastName VARCHAR(50) NOT NULL,
+Street VARCHAR(50) NOT NULL,
+City VARCHAR(50) NOT NULL,
+State VARCHAR(3) NOT NULL,
 ZipCode INTEGER NOT NULL,
-Email CHAR(50) NOT NULL,
-Telephone CHAR(50),
+Email VARCHAR(50) NOT NULL,
+Telephone VARCHAR(50),
 PRIMARY KEY(SSN),
 CHECK (ZipCode < 100000 AND ZipCode > 9999) );
 
 CREATE TABLE Employee (
-SSN CHAR(11),
-Role CHAR(50) NOT NULL,
+SSN VARCHAR(11),
+Role VARCHAR(50) NOT NULL,
 StartDate DATE NOT NULL,
 Rate INTEGER NOT NULL,
 PRIMARY KEY(SSN));
 
 CREATE TABLE Customer (
-SSN CHAR(11),
-PPP CHAR(10) NOT NULL,
+SSN VARCHAR(11),
+PPP VARCHAR(10) NOT NULL,
 Rating INTEGER,
 LastActive DATETIME NOT NULL,
+active BIT,
 PRIMARY KEY(SSN),
 CHECK (Rating < 6 AND Rating > 0) );
 
 CREATE TABLE Profile (
-ProfileId CHAR(24),
-OwnerSSN CHAR(11) NOT NULL,
+ProfileId VARCHAR(24),
+OwnerSSN VARCHAR(11) NOT NULL,
 Age INTEGER NOT NULL,
 AgeRangeStart INTEGER NOT NULL,
 AgeRangeEnd INTEGER NOT NULL,
 GeoRange INTEGER NOT NULL,
-Gender CHAR(1) NOT NULL,
-Hobbies CHAR(50),
+Gender VARCHAR(1) NOT NULL,
+Hobbies VARCHAR(50),
 Height DECIMAL(2,1) NOT NULL,
 Weight INTEGER NOT NULL,
-HairColor CHAR(20),
+HairColor VARCHAR(20),
 ProfileCreationDate DATETIME NOT NULL,
 ProfileModDate DATETIME NOT NULL,
 PRIMARY KEY(ProfileId),
-FOREIGN KEY (OwnerSSN) REFERENCES Customer(SSN) 
-ON DELETE CASCADE,
+FOREIGN KEY (OwnerSSN) REFERENCES Customer(SSN),
 CHECK(Age < 120 AND Age >= 17),
 CHECK(AgeRangeStart >= 17 AND AgeRangeEnd >= AgeRangeStart),
 CHECK(GeoRange > 0 ) );
 
 CREATE TABLE Account (
-OwnerSSN CHAR(11) NOT NULL,
-CreditCardNumber CHAR(16) NOT NULL,
+OwnerSSN VARCHAR(11) NOT NULL,
+CreditCardNumber VARCHAR(16) NOT NULL,
 AccountNumber INTEGER,
 AccountCreationDate DATE NOT NULL,
 PRIMARY KEY(AccountNumber),
 FOREIGN KEY(OwnerSSN) REFERENCES Customer(SSN)
-ON DELETE CASCADE );
+ON DELETE CASCADE);
 
 CREATE TABLE Likes (
-LikerId CHAR(24),
-LikeeId CHAR(24),
+LikerId VARCHAR(24),
+LikeeId VARCHAR(24),
 Date_Time DATETIME ,
 PRIMARY KEY (LikeeId, LikerId, Date_Time) ,
-FOREIGN KEY(LikerId) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
+FOREIGN KEY(LikerId) REFERENCES Profile(ProfileId),
 FOREIGN KEY(LikeeId) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION
 );
 
 CREATE TABLE Referral (
-ProfileIdA CHAR (24),
-ProfileIdB CHAR(24),
-ProfileIdC CHAR (24),
+ProfileIdA VARCHAR(24),
+ProfileIdB VARCHAR(24),
+ProfileIdC VARCHAR(24),
 Date_Time DATETIME NOT NULL,
 PRIMARY KEY (ProfileIdA, ProfileIdB, ProfileIdC, Date_Time),
-FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
-FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
+FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
+FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId),
 FOREIGN KEY(ProfileIdC) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION
  );
 
 CREATE TABLE Date (
-Profile1Id CHAR (24) NOT NULL,
-Profile2Id CHAR (24) NOT NULL,
-CustomerRep CHAR(11) NOT NULL,
+Profile1Id VARCHAR(24) NOT NULL,
+Profile2Id VARCHAR(24) NOT NULL,
+CustomerRep VARCHAR(11) NOT NULL,
 Date_Time DATETIME NOT NULL,
-Location CHAR(50) NOT NULL,
+Location VARCHAR(50) NOT NULL,
 Fee DECIMAL(5,2) NOT NULL,
 Comments VARCHAR (256),
 User1Rating INTEGER,
@@ -102,41 +97,35 @@ User2Rating INTEGER,
 PRIMARY KEY (Profile1Id, Profile2Id, Date_Time),
 CHECK (User1Rating < 6 AND User1Rating > 0),
 CHECK (User2Rating < 6 AND User2Rating > 0),
-FOREIGN KEY(Profile1Id) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
-FOREIGN KEY(Profile2Id) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
+FOREIGN KEY(Profile1Id) REFERENCES Profile(ProfileId),
+FOREIGN KEY(Profile2Id) REFERENCES Profile(ProfileId),
 FOREIGN Key(CustomerRep) REFERENCES Employee(SSN)
-ON DELETE NO ACTION
 );
 
 CREATE TABLE BlindDate (
-CustRep CHAR(11),
-ProfileIdA CHAR(24),
-ProfileIdB CHAR(24),
+CustRep VARCHAR(11),
+ProfileIdA VARCHAR(24),
+ProfileIdB VARCHAR(24),
 Date_Time DATETIME NOT NULL,
 PRIMARY KEY (ProfileIdA, ProfileIdB, CustRep, Date_Time),
-FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
-FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId)
-ON DELETE NO ACTION,
+FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
+FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId),
 FOREIGN KEY(CustRep) REFERENCES Employee(SSN)
-ON DELETE NO ACTION
 );
 
 --*****************************************************************************************************************
 --Our Demo data input statements.  Run these queries to populate the database with demo data
 --*****************************************************************************************************************
 INSERT INTO Person
-VALUES ('111-11-1111', '111@11', 'Veronica', 'Alvarado', '45 Rockefeller Plaza', 'New York', 'New York', '10111', 'Fusce@velitPellentesque.net', '(612) 506-2244'),
-('222-22-2222', '222@22','Bo', 'Osborne', '45 Rockefeller Plaza', 'New York', 'New York', '10111', 'mattis.Integer.eu@elit.org','(592) 765-8277'),
-('333-33-3333', '333@33','Hashim','Ross','350 5th Ave', 'New York', 'New York', '10118', 'vulputate@Curae.co.uk','(276) 634-6949'),
-('444-44-4444', '444@44', 'Shaine', 'Terrell', '350 5th Ave', 'New York', 'New York', '10118', 'tincidunt.nibh@risus.com', '(600) 803-9508'),
-('555-55-5555', '555@55', 'Isabelle', 'Odonnell', 'Schomburg Apartments, 350 Circle Road', 'Stony Brook', 'New York', '11790', 'magna.tellus.faucibus@amet.edu', '(934) 241-3862'),
-('666-66-6666', '666@66', 'Fletcher', 'Trujillo', '700 Health Sciences Dr', 'Stony Brook', 'New York', '11790', 'elementum.dui.quis@utlacus.net', '(990) 760-1480'),
-('777-77-7777', '777@77', 'Malachi', 'Vazquez', '700 Health Sciences Dr', 'Stony Brook', 'New York', '11790', 'tellus.lorem.eu@atlacus.org', '(226) 193-8257'),
-('888-88-8888', '888@88', 'Brenna', 'Cross', 'Schomburg Apartments, 350 Circle Road', 'Stony Brook', 'New York', '11790', 'sed.turpis@vehiculaaliquet.com','(968) 409-7641'),
-('999-99-9999', '999@99', 'Desirae', 'Berg', '116th St & Broadway', 'New York', 'New York', '10027', 'vitae@magnased.com', '(237) 321-3189');
+VALUES ('111-11-1111', '111@11', 'Veronica', 'Alvarado', '45 Rockefeller Plaza', 'New York', 'NY', '10111', 'Fusce@velitPellentesque.net', '(612) 506-2244'),
+('222-22-2222', '222@22','Bo', 'Osborne', '45 Rockefeller Plaza', 'New York', 'NY', '10111', 'mattis.Integer.eu@elit.org','(592) 765-8277'),
+('333-33-3333', '333@33','Hashim','Ross','350 5th Ave', 'New York', 'NY', '10118', 'vulputate@Curae.co.uk','(276) 634-6949'),
+('444-44-4444', '444@44', 'Shaine', 'Terrell', '350 5th Ave', 'New York', 'NY', '10118', 'tincidunt.nibh@risus.com', '(600) 803-9508'),
+('555-55-5555', '555@55', 'Isabelle', 'Odonnell', 'Schomburg Apartments, 350 Circle Road', 'Stony Brook', 'NY', '11790', 'magna.tellus.faucibus@amet.edu', '(934) 241-3862'),
+('666-66-6666', '666@66', 'Fletcher', 'Trujillo', '700 Health Sciences Dr', 'Stony Brook', 'NY', '11790', 'elementum.dui.quis@utlacus.net', '(990) 760-1480'),
+('777-77-7777', '777@77', 'Malachi', 'Vazquez', '700 Health Sciences Dr', 'Stony Brook', 'NY', '11790', 'tellus.lorem.eu@atlacus.org', '(226) 193-8257'),
+('888-88-8888', '888@88', 'Brenna', 'Cross', 'Schomburg Apartments, 350 Circle Road', 'Stony Brook', 'NY', '11790', 'sed.turpis@vehiculaaliquet.com','(968) 409-7641'),
+('999-99-9999', '999@99', 'Desirae', 'Berg', '116th St & Broadway', 'New York', 'NY', '10027', 'vitae@magnased.com', '(237) 321-3189');
 
 INSERT INTO Employee
 VALUES('111-11-1111', 'Manager', '2014-10-04', 250),
@@ -145,11 +134,11 @@ VALUES('111-11-1111', 'Manager', '2014-10-04', 250),
 ('444-44-4444', 'CustRep', '2014-10-04', 75);
 
 INSERT INTO Customer
-VALUES('555-55-5555', 'Super-User', 3, '2014-10-07 05:53:13'),
-('666-66-6666', 'Good-User', 3, '2014-10-05 05:27:28'),
-('777-77-7777', 'Good-User', 4, '2014-10-08 22:37:07'),
-('888-88-8888', 'User-User', 3, '2014-10-04 09:10:12'),
-('999-99-9999', 'User-User', 2, '2014-10-05 18:28:02');
+VALUES('555-55-5555', 'Super-User', 3, '2014-10-07 05:53:13', 1),
+('666-66-6666', 'Good-User', 3, '2014-10-05 05:27:28', 1),
+('777-77-7777', 'Good-User', 4, '2014-10-08 22:37:07', 1),
+('888-88-8888', 'User-User', 3, '2014-10-04 09:10:12', 1),
+('999-99-9999', 'User-User', 2, '2014-10-05 18:28:02', 1);
 
 INSERT INTO Account
 VALUES('555-55-5555', '5186330464994532', '12345', '2013-10-07'),

@@ -55,7 +55,8 @@
             </c:forEach>
         </select>
         <!--Table for the currently selected profile's data-->
-        <table id="infoTable" border="1" style="display:none">
+        <table id="infoTable"  style="display:none" >
+            <tbody>
             <tr> 
                 <td align="right">Profile Id:</td>
                 <td id="profileId"> </td>
@@ -100,6 +101,7 @@
                 <td align="right">Profile Creation Date:</td>
                 <td id="profileCreationDate"> </td>
             </tr>
+            </tbody>
         </table>
         <button id ="createProfileButton" class='basic'>Create New Profile</button>
     </body>
