@@ -44,7 +44,6 @@ public class loginhelp extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
         String url;
-        ArrayList<Customer> customers = new ArrayList<Customer>();
         String email = request.getParameter("email");
         String pw = request.getParameter("password");
         Person x = new Person();
