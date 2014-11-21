@@ -46,11 +46,9 @@ public class deleteCustomer extends HttpServlet
 
             Statement st = con.createStatement();
 
-            String query = "DELETE FROM [MatchesFromAbove].[dbo].[Profile] " +
-                    "WHERE OwnerSSN = '" + ssn + "'";
-            
-            st.executeUpdate(query);
-            query = "DELETE FROM [MatchesFromAbove].[dbo].[Customer] " +
+
+            String query = "UPDATE [MatchesFromAbove].[dbo].[Customer] " +
+                    "SET active = 0 " + 
                     "WHERE SSN = '" + ssn + "'";
             st.executeUpdate(query);
                     
