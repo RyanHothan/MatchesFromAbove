@@ -18,7 +18,7 @@
   </form>
 
   <div class="login-help">
-    <a href="/MatchesFromAbove/Register.jsp">Register</a> • <a href="#">Forgot Password</a>
+    <a href="/MatchesFromAbove/Register.jsp">Register</a>
   </div>
 </div>
 
