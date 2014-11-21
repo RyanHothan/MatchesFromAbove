@@ -1,10 +1,10 @@
-package User;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -16,18 +16,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  *
  * @author Ryan Hothan
  */
-@WebServlet(urlPatterns =
+@WebServlet(name = "ProfileDeleteHelper", urlPatterns =
 {
-    "/ProfileListHelper"
+    "/ProfileDeleteHelper"
 })
-public class ProfileListHelper extends HttpServlet
+public class ProfileDeleteHelper extends HttpServlet
 {
 
     /**
@@ -44,55 +42,30 @@ public class ProfileListHelper extends HttpServlet
     {
         response.setContentType("text/html;charset=UTF-8");
         
-        JSONArray jsons = new JSONArray();
-        
+        deleteProfile(request.getParameter("profileId"));
+    }
+    
+    protected void deleteProfile(String profileId)
+    {
         try
         {
-            String profileId = request.getParameter("foo");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
             Statement st = con.createStatement();
 
-            String query = "SELECT * "
-                    + "FROM [MatchesFromAbove].[dbo].[Profile] "
+            String query = "UPDATE [MatchesFromAbove].[dbo].[Profile] "
+                    + "SET Active = 0 "
                     + "WHERE ProfileId = '" + profileId + "'";
-
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next())
-            {
-                if(!rs.getBoolean("Active"))
-                {
-                    continue;
-                }
-                JSONObject profileToAdd = new JSONObject();
-                profileToAdd.put("profileId", rs.getString("ProfileId"));
-                profileToAdd.put("age", rs.getString("Age"));
-                profileToAdd.put("ageRangeStart", rs.getString("AgeRangeStart"));
-                profileToAdd.put("ageRangeEnd", rs.getString("AgeRangeEnd"));
-                profileToAdd.put("geoRange", rs.getString("GeoRange"));
-                profileToAdd.put("gender", rs.getString("Gender"));
-                profileToAdd.put("hobbies", rs.getString("Hobbies"));
-                profileToAdd.put("height", rs.getString("Height"));
-                profileToAdd.put("weight", rs.getString("Weight"));
-                profileToAdd.put("hairColor", rs.getString("HairColor"));
-                profileToAdd.put("profileCreationDate", rs.getString("ProfileCreationDate"));
-                jsons.add(profileToAdd);
-            }
-            response.setContentType("application/json");
-            PrintWriter printout = response.getWriter();
-            printout.print(jsons);
-            printout.flush();
-        } 
-        catch (Exception e)
+            System.out.println(query);
+            st.executeUpdate(query);
+        }
+        catch(Exception e)
         {
             System.out.println(e.getMessage());
-            return;
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

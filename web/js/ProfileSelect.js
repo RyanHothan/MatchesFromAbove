@@ -4,6 +4,7 @@ function readProfile()
     if(profileId === "No Profile Selected")
     {
       $("#infoTable").hide();
+      $("#deleteProfileButton").hide();
       return;
     }
     $.ajax({
@@ -14,6 +15,7 @@ function readProfile()
         success: function(data)
         {
             $("#infoTable").show();
+            $("#deleteProfileButton").show();
             for(i = 0; i < data.length; i++)
             {
                 $("#profileId").html(data[i].profileId);

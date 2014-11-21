@@ -43,7 +43,9 @@ function populateCustomersTable()
                 $(this).html("");
                 $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit' onclick =changeValue($(this))");
                 $("#changing").on('keyup', function(e){
+                    //some data is what is inside the text box
                     var someData = $(this).attr('value');
+                    //this is the value of the table cell
                     var infoType = $(this).parent().attr('value');
                     var customerToChange = $(this).parent().parent().attr('value');
                     //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
@@ -56,6 +58,10 @@ function populateCustomersTable()
                             dataType: 'text',
                             success: function(data){}
                         });
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
+                        $(this).remove();
+                        tdCell.html(newData);
                     }
                 });
             }

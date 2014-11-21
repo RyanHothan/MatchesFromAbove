@@ -200,6 +200,10 @@ public class loginhelp extends HttpServlet
             //loop until we have no more results
             while (rs.next())
             {
+                if(!rs.getBoolean("Active"))
+                {
+                    continue;
+                }
                 //Add each profile to our return array
                 Profile profileToAdd = new Profile(p.getSsn());
                 profileToAdd.setAge(rs.getInt("Age"));

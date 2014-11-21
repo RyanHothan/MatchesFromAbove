@@ -10,6 +10,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <script type='text/javascript' src='js/basic.js'></script>
 <script type='text/javascript' src='js/jquery.simplemodal.js'></script>
+<script type='text/javascript' src='js/deleteProfile.js'></script>
 
 <!DOCTYPE html>
 <html>
@@ -81,6 +82,7 @@
             </tbody>
         </table>
         <button id ="createProfileButton" class='basic'>Create New Profile</button>
+        <button id ="deleteProfileButton" style="display:none" onclick="deleteProfile()">Delete Profile</button>
         <!-- this is the modal -->
         <div id="basic-modal-content">
             <h1>Please enter your profile information below</h1>

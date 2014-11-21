@@ -24,15 +24,20 @@ SSN VARCHAR(11),
 Role VARCHAR(50) NOT NULL,
 StartDate DATE NOT NULL,
 Rate INTEGER NOT NULL,
-PRIMARY KEY(SSN));
+Active BIT NOT NULL,
+PRIMARY KEY(SSN),
+FOREIGN KEY (SSN) REFERENCES Person(SSN)
+ON UPDATE CASCADE);
 
 CREATE TABLE Customer (
 SSN VARCHAR(11),
 PPP VARCHAR(10) NOT NULL,
 Rating INTEGER,
 LastActive DATETIME NOT NULL,
-active BIT,
+Active BIT NOT NULL,
 PRIMARY KEY(SSN),
+FOREIGN KEY (SSN) REFERENCES Person(SSN)
+ON UPDATE CASCADE,
 CHECK (Rating < 6 AND Rating > 0) );
 
 CREATE TABLE Profile (
@@ -49,8 +54,10 @@ Weight INTEGER NOT NULL,
 HairColor VARCHAR(20),
 ProfileCreationDate DATETIME NOT NULL,
 ProfileModDate DATETIME NOT NULL,
+Active BIT NOT NULL,
 PRIMARY KEY(ProfileId),
-FOREIGN KEY (OwnerSSN) REFERENCES Customer(SSN),
+FOREIGN KEY (OwnerSSN) REFERENCES Customer(SSN)
+ON UPDATE CASCADE,
 CHECK(Age < 120 AND Age >= 17),
 CHECK(AgeRangeStart >= 17 AND AgeRangeEnd >= AgeRangeStart),
 CHECK(GeoRange > 0 ) );
@@ -60,17 +67,17 @@ OwnerSSN VARCHAR(11) NOT NULL,
 CreditCardNumber VARCHAR(16) NOT NULL,
 AccountNumber INTEGER,
 AccountCreationDate DATE NOT NULL,
+Active BIT NOT NULL,
 PRIMARY KEY(AccountNumber),
 FOREIGN KEY(OwnerSSN) REFERENCES Customer(SSN)
+ON UPDATE CASCADE
 ON DELETE CASCADE);
 
 CREATE TABLE Likes (
 LikerId VARCHAR(24),
 LikeeId VARCHAR(24),
 Date_Time DATETIME ,
-PRIMARY KEY (LikeeId, LikerId, Date_Time) ,
-FOREIGN KEY(LikerId) REFERENCES Profile(ProfileId),
-FOREIGN KEY(LikeeId) REFERENCES Profile(ProfileId)
+PRIMARY KEY (LikeeId, LikerId, Date_Time)
 );
 
 CREATE TABLE Referral (
@@ -78,11 +85,7 @@ ProfileIdA VARCHAR(24),
 ProfileIdB VARCHAR(24),
 ProfileIdC VARCHAR(24),
 Date_Time DATETIME NOT NULL,
-PRIMARY KEY (ProfileIdA, ProfileIdB, ProfileIdC, Date_Time),
-FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
-FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId),
-FOREIGN KEY(ProfileIdC) REFERENCES Profile(ProfileId)
- );
+PRIMARY KEY (ProfileIdA, ProfileIdB, ProfileIdC, Date_Time));
 
 CREATE TABLE Date (
 Profile1Id VARCHAR(24) NOT NULL,
@@ -97,9 +100,8 @@ User2Rating INTEGER,
 PRIMARY KEY (Profile1Id, Profile2Id, Date_Time),
 CHECK (User1Rating < 6 AND User1Rating > 0),
 CHECK (User2Rating < 6 AND User2Rating > 0),
-FOREIGN KEY(Profile1Id) REFERENCES Profile(ProfileId),
-FOREIGN KEY(Profile2Id) REFERENCES Profile(ProfileId),
 FOREIGN Key(CustomerRep) REFERENCES Employee(SSN)
+ON UPDATE CASCADE
 );
 
 CREATE TABLE BlindDate (
@@ -108,14 +110,15 @@ ProfileIdA VARCHAR(24),
 ProfileIdB VARCHAR(24),
 Date_Time DATETIME NOT NULL,
 PRIMARY KEY (ProfileIdA, ProfileIdB, CustRep, Date_Time),
-FOREIGN KEY(ProfileIdA) REFERENCES Profile(ProfileId),
-FOREIGN KEY(ProfileIdB) REFERENCES Profile(ProfileId),
 FOREIGN KEY(CustRep) REFERENCES Employee(SSN)
+ON UPDATE CASCADE
 );
+
 
 --*****************************************************************************************************************
 --Our Demo data input statements.  Run these queries to populate the database with demo data
 --*****************************************************************************************************************
+
 INSERT INTO Person
 VALUES ('111-11-1111', '111@11', 'Veronica', 'Alvarado', '45 Rockefeller Plaza', 'New York', 'NY', '10111', 'Fusce@velitPellentesque.net', '(612) 506-2244'),
 ('222-22-2222', '222@22','Bo', 'Osborne', '45 Rockefeller Plaza', 'New York', 'NY', '10111', 'mattis.Integer.eu@elit.org','(592) 765-8277'),
@@ -128,10 +131,10 @@ VALUES ('111-11-1111', '111@11', 'Veronica', 'Alvarado', '45 Rockefeller Plaza',
 ('999-99-9999', '999@99', 'Desirae', 'Berg', '116th St & Broadway', 'New York', 'NY', '10027', 'vitae@magnased.com', '(237) 321-3189');
 
 INSERT INTO Employee
-VALUES('111-11-1111', 'Manager', '2014-10-04', 250),
-('222-22-2222', 'CustRep', '2014-10-04', 150),
-('333-33-3333', 'CustRep', '2014-10-04', 100),
-('444-44-4444', 'CustRep', '2014-10-04', 75);
+VALUES('111-11-1111', 'Manager', '2014-10-04', 250, 1),
+('222-22-2222', 'CustRep', '2014-10-04', 150, 1),
+('333-33-3333', 'CustRep', '2014-10-04', 100, 1),
+('444-44-4444', 'CustRep', '2014-10-04', 75, 1);
 
 INSERT INTO Customer
 VALUES('555-55-5555', 'Super-User', 3, '2014-10-07 05:53:13', 1),
@@ -141,22 +144,22 @@ VALUES('555-55-5555', 'Super-User', 3, '2014-10-07 05:53:13', 1),
 ('999-99-9999', 'User-User', 2, '2014-10-05 18:28:02', 1);
 
 INSERT INTO Account
-VALUES('555-55-5555', '5186330464994532', '12345', '2013-10-07'),
-('555-55-5555', '349454276731232', '23456', '2012-09-07'),
-('666-66-6666', '5192383525185287', '34567', '2013-09-23'),
-('777-77-7777', '5144751168293870', '45678', '2014-05-28'),
-('888-88-8888', '5167593514262698', '56789', '2014-04-22'),
-('999-99-9999', '4482704287348312', '67891', '2011-10-07');
+VALUES('555-55-5555', '5186330464994532', '12345', '2013-10-07', 1),
+('555-55-5555', '349454276731232', '23456', '2012-09-07', 1),
+('666-66-6666', '5192383525185287', '34567', '2013-09-23', 1),
+('777-77-7777', '5144751168293870', '45678', '2014-05-28', 1),
+('888-88-8888', '5167593514262698', '56789', '2014-04-22', 1),
+('999-99-9999', '4482704287348312', '67891', '2011-10-07', 1);
 
 INSERT INTO Profile 
 VALUES 
-('Isabelle2014',	'555-55-5555',	'22',	'20',	'25',	'5',	'F',	'Shopping, Cooking',	'5.7',	'110',	'Black',	'2014-10-04 22:43:25',	'2014-10-09 11:51:19'),
-('Isabelle2013',	'555-55-5555',	'22',	'20',	'22',	'29',	'F',	'Shopping, Dance, Mountain Claiming',	'5.7',	'120',	'Black',	'2014-10-04 00:37:12',	'2014-10-04 17:08:38'),
-('Fletcher2013',	'666-66-6666',	'25',	'20',	'28',	'18',	'F',	'Reading, Basketball',	'5.6',	'150',	'Brown',	'2014-10-04 19:21:37',	'2014-10-07 01:25:55'),
-('Fletcher_Trujillo',	'666-66-6666',	'23',	'19',	'30',	'8',	'F','	Shopping, Volleyball',	'5.6',	'150',	'Brown',	'2014-10-04 18:26:49',	'2014-10-05 00:42:03'),
-('VazquezFromAlajuela','777-77-7777',	'26',	'20',	'28',	'15',	'M',	'Hunting, Running',	'5.7',	'170',	'Black',	'2014-10-04 17:13:30',	'2014-10-07 04:16:43'),
-('Brenna_Berlin',	'888-88-8888',	'18',	'19',	'21',	'8',	'F','	Dance, Acting',	'6',	'180',	'Blonde',	'2014-10-04 20:20:55',	'2014-10-07 12:21:58'),
-('DesiraeBerg',	'999-99-9999',	'20',	'17',	'25',	'5',	'M',	'Water sports, Football',	'5.6',	'200',	'Red',	'2014-10-04 19:13:18',	'2014-10-04 15:54:48');
+('Isabelle2014',	'555-55-5555',	'22',	'20',	'25',	'5',	'F',	'Shopping, Cooking',	'5.7',	'110',	'Black',	'2014-10-04 22:43:25',	'2014-10-09 11:51:19', 1),
+('Isabelle2013',	'555-55-5555',	'22',	'20',	'22',	'29',	'F',	'Shopping, Dance, Mountain Claiming',	'5.7',	'120',	'Black',	'2014-10-04 00:37:12',	'2014-10-04 17:08:38', 1),
+('Fletcher2013',	'666-66-6666',	'25',	'20',	'28',	'18',	'F',	'Reading, Basketball',	'5.6',	'150',	'Brown',	'2014-10-04 19:21:37',	'2014-10-07 01:25:55', 1),
+('Fletcher_Trujillo',	'666-66-6666',	'23',	'19',	'30',	'8',	'F','	Shopping, Volleyball',	'5.6',	'150',	'Brown',	'2014-10-04 18:26:49',	'2014-10-05 00:42:03', 1),
+('VazquezFromAlajuela','777-77-7777',	'26',	'20',	'28',	'15',	'M',	'Hunting, Running',	'5.7',	'170',	'Black',	'2014-10-04 17:13:30',	'2014-10-07 04:16:43', 1),
+('Brenna_Berlin',	'888-88-8888',	'18',	'19',	'21',	'8',	'F','	Dance, Acting',	'6',	'180',	'Blonde',	'2014-10-04 20:20:55',	'2014-10-07 12:21:58', 1),
+('DesiraeBerg',	'999-99-9999',	'20',	'17',	'25',	'5',	'M',	'Water sports, Football',	'5.6',	'200',	'Red',	'2014-10-04 19:13:18',	'2014-10-04 15:54:48', 1);
 
 INSERT INTO Referral
 VALUES('Isabelle2014', 'Fletcher2013', 'VazquezFromAlajuela' ,'2014-10-07 09:56:08'),
@@ -182,6 +185,92 @@ VALUES ('Isabelle2014', 'VazquezFromAlajuela', '2014-10-06 05:28:39'),
 ('Brenna_Berlin', 'DesiraeBerg', '2014-10-05 05:05:08'),
 ('VazquezFromAlajuela', 'Brenna_Berlin', '2014-10-06 21:13:02'),
 ('Brenna_Berlin', 'DesiraeBerg', '2014-10-05 11:02:05');
+
+--*****************************************************************************************************************
+--OUR FUCKING TRIGGERS
+--*****************************************************************************************************************
+GO
+CREATE TRIGGER [dbo].[tr_UpdateLiker]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE Likes
+SET LikerId = (SELECT ProfileId FROM INSERTED)
+WHERE LikerId = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateLikee]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE Likes
+SET LikeeId = (SELECT ProfileId FROM INSERTED)
+WHERE LikeeId = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateProfile1Id]
+ON [dbo].[Profile] FOR UPDATE
+AS
+BEGIN 
+UPDATE Date
+SET Profile1Id = (SELECT ProfileId FROM INSERTED)
+WHERE Profile1Id = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateProfile2Id]
+ON [dbo].[Profile] FOR UPDATE
+AS
+BEGIN 
+UPDATE Date
+SET Profile2Id = (SELECT ProfileId FROM INSERTED)
+WHERE Profile2Id = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateProfileIdA]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE Referral
+SET ProfileIdA = (SELECT ProfileId FROM INSERTED)
+WHERE ProfileIdA = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateProfileIdB]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE Referral
+SET ProfileIdB = (SELECT ProfileId FROM INSERTED)
+WHERE ProfileIdB = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateProfileIdC]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE Referral
+SET ProfileIdC = (SELECT ProfileId FROM INSERTED)
+WHERE ProfileIdC = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateBlindDateIdA]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE BlindDate
+SET ProfileIdA = (SELECT ProfileId FROM INSERTED)
+WHERE ProfileIdA = (SELECT ProfileId FROM DELETED)
+END;
+GO
+CREATE TRIGGER [dbo].[tr_UpdateBlindDateIdB]
+ON [dbo].[Profile] FOR UPDATE
+AS 
+BEGIN
+UPDATE BlindDate
+SET ProfileIdB = (SELECT ProfileId FROM INSERTED)
+WHERE ProfileIdB = (SELECT ProfileId FROM DELETED)
+END;
+
 
 --*****************************************************************************************************************
 --When a query is looking for a customer we are expecting a SSN as a String parameter.
