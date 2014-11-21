@@ -44,7 +44,6 @@ public class loginhelp extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
         String url;
-        ArrayList<Customer> customers = new ArrayList<Customer>();
         String email = request.getParameter("email");
         String pw = request.getParameter("password");
         Person x = new Person();
@@ -120,7 +119,7 @@ public class loginhelp extends HttpServlet
 
             String query = "SELECT SSN "
                     + "FROM [MatchesFromAbove].[dbo].[Employee] "
-                    + "WHERE SSN = '" + p.getSSN() + "'";
+                    + "WHERE SSN = '" + p.getSsn() + "'";
 
             ResultSet rs = st.executeQuery(query);
             while (rs.next())
@@ -136,7 +135,7 @@ public class loginhelp extends HttpServlet
 
     }
 
-    protected boolean getPersonInformation(Person p)
+    protected static boolean getPersonInformation(Person p)
     {
 
         ArrayList returnString = new ArrayList<String>();
@@ -158,7 +157,7 @@ public class loginhelp extends HttpServlet
             {
                 p.setFirstName(rs.getString("FirstName"));
                 p.setLastName(rs.getString("LastName"));
-                p.setSSN(rs.getString("SSN"));
+                p.setSsn(rs.getString("SSN"));
                 p.setStreet(rs.getString("Street"));
                 p.setCity(rs.getString("City"));
                 p.setState(rs.getString("State"));
@@ -176,7 +175,7 @@ public class loginhelp extends HttpServlet
     }
     
     //Get a list of profiles that belong to person P
-    protected ArrayList<Profile> getProfiles(Person p)
+    protected static ArrayList<Profile> getProfiles(Person p)
     {
         //our return array
         ArrayList<Profile> profiles = new ArrayList<Profile>();
@@ -192,7 +191,7 @@ public class loginhelp extends HttpServlet
             //Query to the DB (Finding all profiles whose ownerSSN is our person's)
             String query = "SELECT * "
                     + "FROM [MatchesFromAbove].[dbo].[Profile] "
-                    + "WHERE OwnerSSN = '" + p.getSSN() + "'";
+                    + "WHERE OwnerSSN = '" + p.getSsn() + "'";
             //print query for testing
             System.out.println(query);
             //REsult set for our results
@@ -202,7 +201,7 @@ public class loginhelp extends HttpServlet
             while (rs.next())
             {
                 //Add each profile to our return array
-                Profile profileToAdd = new Profile(p.getSSN());
+                Profile profileToAdd = new Profile(p.getSsn());
                 profileToAdd.setAge(rs.getInt("Age"));
                 profileToAdd.setAgeRangeEnd(rs.getInt("AgeRangeEnd"));
                 profileToAdd.setAgeRangeStart(rs.getInt("AgeRangeStart"));
