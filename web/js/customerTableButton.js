@@ -37,7 +37,7 @@ function populateCustomersTable()
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
-                if($(this).attr('value') != 'lastActiveDate')
+                if($(this).attr('value') !== 'lastActiveDate')
                 {
                 var innerHTML = $(this).text();
                 
