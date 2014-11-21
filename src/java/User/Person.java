@@ -20,6 +20,9 @@ public class Person implements Serializable
     private String lastName = null;
     private String street = null;
     private String city = null;
+    private String state = null;
+    private String zipcode = null;
+    private String telephone = null;
 
     public String getSsn()
     {
@@ -30,23 +33,10 @@ public class Person implements Serializable
     {
         this.ssn = ssn;
     }
-    private String state = null;
-    private String zipcode = null;
-    private String telephone = null;
 
     public Person()
     {
 
-    }
-
-    public String getSSN()
-    {
-        return ssn;
-    }
-
-    public void setSSN(String ssn)
-    {
-        this.ssn = ssn;
     }
 
     public String getStreet()

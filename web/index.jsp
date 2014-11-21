@@ -10,11 +10,11 @@
 
 <body>
   <div class="login-card">
-    <h1>Log-in</h1><br>
-  <form  id = "data" action="/MatchesFromAbove/loginhelp" method = "POST">
+  <h1>Log-in</h1><br>
+  <form  id = "loginForm" action="/MatchesFromAbove/loginhelp" method = "POST">
     <input type="text" name="email" placeholder="Email">
     <input type="password" name="password" placeholder="Password">
-    <input type="submit" name="login" class="login login-submit" value="login" form ="data">
+    <input type="submit" name="login" class="login login-submit" value="login" form ="loginForm">
   </form>
 
   <div class="login-help">
