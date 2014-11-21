@@ -15,13 +15,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONObject;
 
 /**
  *
  * @author Javier
  */
-public class deleteCustomer extends HttpServlet
+public class EditCustomer extends HttpServlet
 {
 
     /**
@@ -36,29 +35,61 @@ public class deleteCustomer extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        try
+
+        String dataType = request.getParameter("typeOfData");
+        String data = request.getParameter("thingToEdit");
+
+        String customerSSN = request.getParameter("customer");
+        if (dataType.equals("ssn"))
         {
-            String ssn = request.getParameter("ssn");
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String ssn;
+            if (data.charAt(3) != '-' || data.charAt(6) != '-')
+            {
+                ssn = data.substring(0, 3) + "-" + data.substring(3, 5)
+                        + "-" + data.substring(5);
+            } else
+            {
+                ssn = data;
+            }
+            try
+            {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
-            Statement st = con.createStatement();
+                Statement st = con.createStatement();
 
+                String query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
+                        + "SET SSN = '" + ssn + "' " 
+                        + "WHERE SSN = '" + customerSSN + "'";
 
-            String query = "UPDATE [MatchesFromAbove].[dbo].[Customer] " +
-                    "SET Active = 0 " + 
-                    "WHERE SSN = '" + ssn + "'";
-            st.executeUpdate(query);
-                    
-            //loop through result set and create the json objects
-
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            return;
+                st.executeUpdate(query);
+            } catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
         }
+        if (dataType.equals("rating"))
+        {
+            try
+            {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+
+                Statement st = con.createStatement();
+
+                String query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
+                        + "SET Rating = '" + data + "' " 
+                        + "WHERE SSN = '" + customerSSN + "'";
+
+                st.executeUpdate(query);
+            } catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

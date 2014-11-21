@@ -18,7 +18,9 @@ function populateCustomersTable()
             type: 'GET',
             dataType: 'JSON',
             success: function (data) {
+                //pop up the table
                 $("#customersTable").show();
+                //populate the data in the table
                 for (i = 0; i < data.length; i++)
                 {
                     var newRow = $("#customersTable > tbody").append("<tr value=" + data[i].ssn + " id=" + data[i].ssn + "></tr>");
@@ -30,14 +32,38 @@ function populateCustomersTable()
                 }
             }
         });
+        //bind on click function for editing purposes
         $("#customersTable").on('click', 'td', function (event) {
+            //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
                 var innerHTML = $(this).text();
+                var tdValue = $(this).attr('value');
+                
                 $(this).html("");
-                $(this).append("<input type='text' value='" + innerHTML + "' /> <input type='submit' onclick =changeValue($(this))");
-
-
+                $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit' onclick =changeValue($(this))");
+                $("#changing").on('keyup', function(e){
+                    //some data is what is inside the text box
+                    var someData = $(this).attr('value');
+                    //this is the value of the table cell
+                    var infoType = $(this).parent().attr('value');
+                    var customerToChange = $(this).parent().parent().attr('value');
+                    //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                    if(e.keyCode === 13)
+                    {
+                        $.ajax({
+                            url: '/MatchesFromAbove/EditCustomer',
+                            type: 'POST',
+                            data: {typeOfData: infoType, thingToEdit : someData, customer: customerToChange},
+                            dataType: 'text',
+                            success: function(data){}
+                        });
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
+                        $(this).remove();
+                        tdCell.html(newData);
+                    }
+                });
             }
         });
     }
@@ -51,7 +77,7 @@ function deleteCustomer(ssn)
         type: 'POST',
         data: 'ssn=' + ssn,
         dataType: 'text',
-        success: function (data) {
+        success: function(data){
             
         }
     });
