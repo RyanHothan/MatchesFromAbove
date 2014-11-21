@@ -23,11 +23,11 @@ function populateCustomersTable()
                 //populate the data in the table
                 for (i = 0; i < data.length; i++)
                 {
-                    var newRow = $("#customersTable > tbody").append("<tr value=" + data[i].ssn + " id=" + data[i].ssn + "></tr>");
+                    $("#customersTable > tbody").append("<tr value=" + data[i].ssn + " id=" + data[i].ssn + "></tr>");
                     $("#"+data[i].ssn).append("<td value='ssn'>" + data[i].ssn + "</td>");
                     $("#"+data[i].ssn).append("<td value='ppp'>" + data[i].ppp + "</td>");
                     $("#"+data[i].ssn).append("<td value='rating'>" + data[i].rating + "</td>");
-                    $("#"+data[i].ssn).append("<td>" + data[i].lastActiveDate + "</td>");
+                    $("#"+data[i].ssn).append("<td value='lastActiveDate'>" + data[i].lastActiveDate + "</td>");
                     $("#"+data[i].ssn).append("<td><input type='submit' onclick='deleteCustomer(\"" + data[i].ssn + "\")' value='Delete Customer' /></td>");
                 }
             }
@@ -37,9 +37,9 @@ function populateCustomersTable()
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
+                if($(this).attr('value') != 'lastActiveDate')
+                {
                 var innerHTML = $(this).text();
-                var tdValue = $(this).attr('value');
-                
                 $(this).html("");
                 $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit' onclick =changeValue($(this))");
                 $("#changing").on('keyup', function(e){
@@ -55,8 +55,7 @@ function populateCustomersTable()
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit : someData, customer: customerToChange},
-                            dataType: 'text',
-                            success: function(data){}
+                            dataType: 'text'
                         });
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
@@ -64,6 +63,7 @@ function populateCustomersTable()
                         tdCell.html(newData);
                     }
                 });
+            }  
             }
         });
     }
@@ -76,10 +76,7 @@ function deleteCustomer(ssn)
         url: '/MatchesFromAbove/deleteCustomer',
         type: 'POST',
         data: 'ssn=' + ssn,
-        dataType: 'text',
-        success: function(data){
-            
-        }
+        dataType: 'text'
     });
     $("tr[value=" + ssn + "]").empty();
 
