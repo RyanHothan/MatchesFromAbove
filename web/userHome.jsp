@@ -28,7 +28,7 @@
             </c:forEach>
         </select>
         <!--Table for the currently selected profile's data-->
-        <table id="infoTable"  style="display:none" >
+        <table id="infoTable"  style="display:none">
             <tbody>
             <tr> 
                 <td align="right">Profile Id:</td>

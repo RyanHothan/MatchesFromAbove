@@ -4,9 +4,17 @@
         <servlet-name>deleteCustomer</servlet-name>
         <servlet-class>Employee.deleteCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EditCustomer</servlet-name>
+        <servlet-class>Employee.EditCustomer</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>deleteCustomer</servlet-name>
         <url-pattern>/deleteCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditCustomer</servlet-name>
+        <url-pattern>/EditCustomer</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
