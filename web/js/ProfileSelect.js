@@ -1,6 +1,6 @@
 function readProfile()
 {
-    var profileId = $("select#profileBox option").filter(":selected").text();
+    var profileId = $("#profileBox option:selected").text();
     if(profileId === "No Profile Selected")
     {
       $("#infoTable").hide();
