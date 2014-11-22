@@ -11,6 +11,7 @@
 <script type='text/javascript' src='js/basic.js'></script>
 <script type='text/javascript' src='js/jquery.simplemodal.js'></script>
 <script type='text/javascript' src='js/deleteProfile.js'></script>
+<script type='text/javascript' src='js/updateProfile.js'></script>
 
 <!DOCTYPE html>
 <html>
