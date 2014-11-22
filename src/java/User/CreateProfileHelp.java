@@ -6,6 +6,7 @@ package User;
  * and open the template in the editor.
  */
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -46,7 +47,8 @@ public class CreateProfileHelp extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
 
         //url to redirect us
-        String url;
+        String url = "/userHome.jsp";
+        PrintWriter printout = response.getWriter();
         //create and initialize our profile object with passed in parameters
         Profile p = new Profile();
         p.setSsn(request.getParameter("ssn"));
@@ -64,12 +66,12 @@ public class CreateProfileHelp extends HttpServlet
         if (!checkProfileInfo(p))
         {
             //bad info redirect to error page
-            url = "/profileCreationFailed.jsp";
+            printout.print("<script> alert(\"Profile Creation Failed\");</script>");
+            printout.flush();
         } else
         {
             //good info create new profile and add to data base
             createProfile(p);
-            url = "/userHome.jsp";
         }
         //SUPER CHEESE FIX IF POSSIBLE
         Person x = new Person();

@@ -94,7 +94,7 @@ public class EditProfileHelper extends HttpServlet
         {
             query = "UPDATE [MatchesFromAbove].[dbo].[Profile] "
                         + "SET Age = " + data + " " 
-                        + "WHERE GeoRange = '" + profileId + "'";
+                        + "WHERE ProfileId = '" + profileId + "'";
         }
         else if(dataType.equals("hobbies"))
         {
