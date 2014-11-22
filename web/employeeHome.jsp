@@ -12,7 +12,6 @@
         
         
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-        <script type="text/javascript" src="js/customerChange.js"></script>
         <script type="text/javascript" src="js/customerTableButton.js"></script>
         <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
         <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />

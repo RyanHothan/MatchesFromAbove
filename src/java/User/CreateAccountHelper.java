@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Javier
  */
-public class AddAccountHelper extends HttpServlet
+public class CreateAccountHelper extends HttpServlet
 {
 
     /**

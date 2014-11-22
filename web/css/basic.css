@@ -9,8 +9,10 @@
  */
 
 #basic-modal-content {display:none;}
+#basic-modal-content-account {display:none;}
 
 #basic-modal-content-return {display:none;}
+#basic-modal-content-return-account {display:none;}
 #change-password-modal{display:none;}
 #change-email-modal{display:none;}
 /* Overlay */
@@ -23,10 +25,3 @@
 #simplemodal-container a {color:#ddd;}
 #simplemodal-container a.modalCloseImg {background:url(../img/basic/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
 #simplemodal-container h3 {color:#84b8d9;}
-
-#simplemodal-container2 {height:400px; width:600px; color:#bbb; background-color:#333; border:2px solid #444; padding:8px;}
-#simplemodal-container2 .simplemodal-data {padding:8px;}
-#simplemodal-container2 code {background:#141414; border-left:3px solid #65B43D; color:#bbb; display:block; font-size:12px; margin-bottom:12px; padding:4px 6px 6px;}
-#simplemodal-container2 a {color:#ddd;}
-#simplemodal-container2 a.modalCloseImg {background:url(../img/basic/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
-#simplemodal-container2 h3 {color:#84b8d9;}

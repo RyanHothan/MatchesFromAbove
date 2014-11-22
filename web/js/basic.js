@@ -21,7 +21,17 @@ jQuery(function ($) {
 	
 	$('.basic').click(function (e) {
 		$('#basic-modal-content-return').modal({overlayClose:true});
+		return false;
+	});
+        
+        $('.createAccount').click(function (e) {
+		$('#basic-modal-content-account').modal({overlayClose:true});
 
+		return false;
+	});
+        
+        $('.createAccount').click(function (e) {
+		$('#basic-modal-content-return-account').modal({overlayClose:true});
 		return false;
 	});
 });

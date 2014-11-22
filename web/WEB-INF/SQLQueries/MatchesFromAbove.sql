@@ -193,6 +193,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateLiker]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE Likes
 SET LikerId = (SELECT ProfileId FROM INSERTED)
@@ -202,6 +203,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateLikee]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE Likes
 SET LikeeId = (SELECT ProfileId FROM INSERTED)
@@ -211,6 +213,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateProfile1Id]
 ON [dbo].[Profile] FOR UPDATE
 AS
+IF NOT UPDATE(OwnerSSN)
 BEGIN 
 UPDATE Date
 SET Profile1Id = (SELECT ProfileId FROM INSERTED)
@@ -220,6 +223,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateProfile2Id]
 ON [dbo].[Profile] FOR UPDATE
 AS
+IF NOT UPDATE(OwnerSSN)
 BEGIN 
 UPDATE Date
 SET Profile2Id = (SELECT ProfileId FROM INSERTED)
@@ -229,6 +233,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateProfileIdA]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE Referral
 SET ProfileIdA = (SELECT ProfileId FROM INSERTED)
@@ -238,6 +243,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateProfileIdB]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE Referral
 SET ProfileIdB = (SELECT ProfileId FROM INSERTED)
@@ -247,6 +253,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateProfileIdC]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE Referral
 SET ProfileIdC = (SELECT ProfileId FROM INSERTED)
@@ -256,6 +263,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateBlindDateIdA]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE BlindDate
 SET ProfileIdA = (SELECT ProfileId FROM INSERTED)
@@ -265,6 +273,7 @@ GO
 CREATE TRIGGER [dbo].[tr_UpdateBlindDateIdB]
 ON [dbo].[Profile] FOR UPDATE
 AS 
+IF NOT UPDATE(OwnerSSN)
 BEGIN
 UPDATE BlindDate
 SET ProfileIdB = (SELECT ProfileId FROM INSERTED)

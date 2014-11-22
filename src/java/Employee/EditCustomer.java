@@ -63,8 +63,8 @@ public class EditCustomer extends HttpServlet
             }
                 query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
                         + "SET SSN = '" + ssn + "' " 
-                        + "WHERE SSN = '" + customerSSN + "'";
-
+                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + customerSSN + "')";
+                System.out.println(query);
                 st.executeUpdate(query); 
         }
         if(dataType.equals("rating"))
@@ -87,7 +87,7 @@ public class EditCustomer extends HttpServlet
     }
     catch(Exception e)
     {
-
+        System.out.println(e.getMessage());
     }
     }
 

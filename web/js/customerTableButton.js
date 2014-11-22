@@ -66,6 +66,10 @@ function populateCustomersTable()
                             $(this).remove();
                             tdCell.html(newData);
                         }
+                        if(infoType === "ssn")
+                        {
+                            $(this).parent().parent().attr('value', someData);
+                        }
                     });
                     $("#changing").on("focusout", function () {
                         var someData = $(this).attr('value');
@@ -83,6 +87,10 @@ function populateCustomersTable()
                         var tdCell = $(this).parent();
                         $(this).remove();
                         tdCell.html(newData);
+                        if(infoType === "ssn")
+                        {
+                            $(this).parent().parent().attr('value', someData);
+                        }
                     });
                 }
             }
