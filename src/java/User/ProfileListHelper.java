@@ -89,7 +89,6 @@ public class ProfileListHelper extends HttpServlet
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            return;
         }
     }
 

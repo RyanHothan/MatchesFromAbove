@@ -66,6 +66,8 @@ public class loginhelp extends HttpServlet
             {
                 ArrayList<Profile> profiles = getProfiles(x);
                 request.setAttribute("profiles", profiles);
+                ArrayList<Account> accounts = getAccounts(x);
+                request.setAttribute("accounts", accounts);
                 url = "/userHome.jsp";
             }
         }
@@ -137,8 +139,6 @@ public class loginhelp extends HttpServlet
 
     protected static boolean getPersonInformation(Person p)
     {
-
-        ArrayList returnString = new ArrayList<String>();
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -178,7 +178,7 @@ public class loginhelp extends HttpServlet
     protected static ArrayList<Profile> getProfiles(Person p)
     {
         //our return array
-        ArrayList<Profile> profiles = new ArrayList<Profile>();
+        ArrayList<Profile> profiles = new ArrayList();
         
         try
         {
@@ -205,7 +205,8 @@ public class loginhelp extends HttpServlet
                     continue;
                 }
                 //Add each profile to our return array
-                Profile profileToAdd = new Profile(p.getSsn());
+                Profile profileToAdd = new Profile();
+                profileToAdd.setSsn(p.getSsn());
                 profileToAdd.setAge(rs.getInt("Age"));
                 profileToAdd.setAgeRangeEnd(rs.getInt("AgeRangeEnd"));
                 profileToAdd.setAgeRangeStart(rs.getInt("AgeRangeStart"));
@@ -224,6 +225,57 @@ public class loginhelp extends HttpServlet
             con.close();
             //return the array filled with profiles
             return profiles;
+        }
+        //trying to catch exception for sql errors
+        catch(Exception e)
+        {
+            //print our message
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
+    protected static ArrayList<Account> getAccounts(Person p)
+    {
+        //our return array
+        ArrayList<Account> accounts = new ArrayList();
+        
+        try
+        {
+            //get DB driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            //create connection to DB
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            //statement to be passed to DB
+            Statement st = con.createStatement();
+            //Query to the DB (Finding all profiles whose ownerSSN is our person's)
+            String query = "SELECT * "
+                    + "FROM [MatchesFromAbove].[dbo].[Account] "
+                    + "WHERE OwnerSSN = '" + p.getSsn() + "'";
+            //print query for testing
+            System.out.println(query);
+            //Result set for our results
+            ResultSet rs = st.executeQuery(query);
+            
+            //loop until we have no more results
+            while (rs.next())
+            {
+                if(!rs.getBoolean("Active"))
+                {
+                    continue;
+                }
+                //Add each profile to our return array
+                Account accountToAdd = new Account();
+                accountToAdd.setSsn(p.getSsn());
+                accountToAdd.setAccountNumber(rs.getInt("AccountNumber"));
+                accountToAdd.setCreditCardNumber(rs.getString("CreditCardNumber"));
+                accountToAdd.setAccountCreationDate(rs.getDate("AccountCreationDate"));
+                accounts.add(accountToAdd);
+            }
+            //close the connection
+            con.close();
+            //return the array filled with profiles
+            return accounts;
         }
         //trying to catch exception for sql errors
         catch(Exception e)

@@ -25,65 +25,75 @@
         <title>${currentUser.email}</title>
     </head>
     <body>
-        <h1>Hello ${currentUser.firstName} ${currentUser.lastName}</h1>
-        <!--Combo Box for profiles of this user-->
-        <select id="profileBox" onchange="readProfile()">
-            <option id="defaultOption">No Profile Selected</option>   
-            <c:forEach items="${profiles}" var="profile">
-                <option><c:out value="${profile.profileId}" /></option>
-            </c:forEach>
-        </select>
-        <!--Table for the currently selected profile's data     typeOfData dataToEdit profileId-->
-        <table id="infoTable" style="display:none" >
-            <tbody>
-                <tr value="profileId"> 
-                    <td align="right" value="unchangeable">Profile Id:</td>
-                    <td id="profileId"> </td>
-                </tr>
-                <tr value="age">
-                    <td align="right" value="unchangeable">Age:</td>
-                    <td id="age"> </td>
-                </tr>
-                <tr value="ageRangeStart"> 
-                    <td align="right" value="unchangeable">Age Range Start:</td>
-                    <td id="ageRangeStart"> </td>
-                </tr>
-                <tr value="ageRangeEnd"> 
-                    <td align="right" value="unchangeable">Age Range End:</td>
-                    <td id="ageRangeEnd"> </td>
-                </tr>
-                <tr value="geoRange"> 
-                    <td align="right" value="unchangeable">Geo-Range:</td>
-                    <td id="geoRange"> </td>
-                </tr>
-                <tr value="gender"> 
-                    <td align="right" value="unchangeable">Gender:</td>
-                    <td id="gender"> </td>
-                </tr>
-                <tr value="hobbies"> 
-                    <td align="right" value="unchangeable">Hobbies:</td>
-                    <td id="hobbies"> </td>
-                </tr>
-                <tr value="height"> 
-                    <td align="right" value="unchangeable">Height:</td>
-                    <td id="height"> </td>
-                </tr>
-                <tr value="weight"> 
-                    <td align="right" value="unchangeable">Weight:</td>
-                    <td id="weight"> </td>
-                </tr>
-                <tr value="hairColor"> 
-                    <td align="right" value="unchangeable">Hair Color:</td>
-                    <td id="hairColor"> </td>
-                </tr>
-                <tr> 
-                    <td align="right" value="unchangeable">Profile Creation Date:</td>
-                    <td id="profileCreationDate"> </td>
-                </tr>
-            </tbody>
-        </table>
-        <button id ="createProfileButton" class='basic'>Create New Profile</button>
-        <button id ="deleteProfileButton" style="display:none" onclick="deleteProfile()">Delete Profile</button>
+        <div style="max-width: 100%">
+            <h1>Hello ${currentUser.firstName} ${currentUser.lastName}</h1>
+            <!--Combo Box for profiles of this user-->
+            <select id="profileBox" onchange="readProfile()">
+                <option id="defaultOption">No Profile Selected</option>   
+                <c:forEach items="${profiles}" var="profile">
+                    <option><c:out value="${profile.profileId}" /></option>
+                </c:forEach>
+            </select>
+            <!--Combo Box for accounts of this user-->
+            <select style="float:right" id="accountBox" onchange="readAccount()">
+                <option id="defaultOption">No Account Selected</option>   
+                <c:forEach items="${accounts}" var="account">
+                    <option><c:out value="${account.accountNumber}" /></option>
+                </c:forEach>
+            </select>
+            <!--Table for the currently selected profile's data     typeOfData dataToEdit profileId-->
+            <table id="infoTable" style="display:none" >
+                <tbody>
+                    <tr value="profileId"> 
+                        <td align="right" value="unchangeable">Profile Id:</td>
+                        <td id="profileId"> </td>
+                    </tr>
+                    <tr value="age">
+                        <td align="right" value="unchangeable">Age:</td>
+                        <td id="age"> </td>
+                    </tr>
+                    <tr value="ageRangeStart"> 
+                        <td align="right" value="unchangeable">Age Range Start:</td>
+                        <td id="ageRangeStart"> </td>
+                    </tr>
+                    <tr value="ageRangeEnd"> 
+                        <td align="right" value="unchangeable">Age Range End:</td>
+                        <td id="ageRangeEnd"> </td>
+                    </tr>
+                    <tr value="geoRange"> 
+                        <td align="right" value="unchangeable">Geo-Range:</td>
+                        <td id="geoRange"> </td>
+                    </tr>
+                    <tr value="gender"> 
+                        <td align="right" value="unchangeable">Gender:</td>
+                        <td id="gender"> </td>
+                    </tr>
+                    <tr value="hobbies"> 
+                        <td align="right" value="unchangeable">Hobbies:</td>
+                        <td id="hobbies"> </td>
+                    </tr>
+                    <tr value="height"> 
+                        <td align="right" value="unchangeable">Height:</td>
+                        <td id="height"> </td>
+                    </tr>
+                    <tr value="weight"> 
+                        <td align="right" value="unchangeable">Weight:</td>
+                        <td id="weight"> </td>
+                    </tr>
+                    <tr value="hairColor"> 
+                        <td align="right" value="unchangeable">Hair Color:</td>
+                        <td id="hairColor"> </td>
+                    </tr>
+                    <tr> 
+                        <td align="right" value="unchangeable">Profile Creation Date:</td>
+                        <td id="profileCreationDate"> </td>
+                    </tr>
+                </tbody>
+            </table>
+            <button id ="createProfileButton" class='basic'>Create New Profile</button>
+            <button id ="deleteProfileButton" style="display:none" onclick="deleteProfile()">Delete Profile</button>
+        </div>
+
         <!-- this is the modal -->
         <div id="basic-modal-content">
             <h1>Please enter your profile information below</h1>

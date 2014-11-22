@@ -4,34 +4,19 @@
  * and open the template in the editor.
  */
 package User;
-import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  *
  * @author Javier
  */
-public class Customer implements Serializable
+public class Customer extends Person
 {
-    private String ssn;
     private String ppp;
     private int rating;
     private Timestamp lastActiveDate;
 
-    public Customer()
-    {
-
-    }
-
-    public String getSsn()
-    {
-        return ssn;
-    }
-
-    public void setSsn(String ssn)
-    {
-        this.ssn = ssn;
-    }
+    public Customer(){}
 
     public String getPpp()
     {

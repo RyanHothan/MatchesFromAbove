@@ -6,7 +6,6 @@ package User;
  * and open the template in the editor.
  */
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -49,7 +48,8 @@ public class CreateProfileHelp extends HttpServlet
         //url to redirect us
         String url;
         //create and initialize our profile object with passed in parameters
-        Profile p = new Profile(request.getParameter("ssn"));
+        Profile p = new Profile();
+        p.setSsn(request.getParameter("ssn"));
         p.setAge(Integer.parseInt(request.getParameter("age")));
         p.setAgeRangeEnd(Integer.parseInt(request.getParameter("ageRangeEnd")));
         p.setAgeRangeStart(Integer.parseInt(request.getParameter("ageRangeStart")));
@@ -99,7 +99,7 @@ public class CreateProfileHelp extends HttpServlet
             
             //add the profile to DB
             String query = "INSERT INTO [MatchesFromAbove].[dbo].[Profile] "
-                    + "VALUES('" + p.getProfileId() + "', '" + p.getOwnerSSN() + "', "
+                    + "VALUES('" + p.getProfileId() + "', '" + p.getSsn() + "', "
                     + p.getAge() + ", " + p.getAgeRangeStart() + ", " + p.getAgeRangeEnd()
                     + ", " + p.getGeoRange() + ", '" + p.getGender() + "', '" + p.getHobbies()
                     + "', " + p.getHeight() + ", " + p.getWeight() + ", '" + p.getHairColor()
@@ -120,7 +120,7 @@ public class CreateProfileHelp extends HttpServlet
                 || (p.getGender() != 'M' && p.getGender() != 'F') || p.getHairColor().isEmpty()
                 || p.getHeight() <= 3 || p.getHeight() >= 8.5 || p.getHobbies().isEmpty()
                 || p.getWeight() <= 80 || p.getWeight() >= 500 || p.getProfileId().isEmpty()
-                || p.getOwnerSSN().isEmpty() || p.getOwnerSSN().length() != 11)
+                || p.getSsn().isEmpty() || p.getSsn().length() != 11)
         {
             //bad info
             return false;
