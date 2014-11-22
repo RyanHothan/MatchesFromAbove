@@ -10,7 +10,7 @@
     </servlet>
     <servlet>
         <servlet-name>AddAccountHelper</servlet-name>
-        <servlet-class>User.AddAccountHelper</servlet-class>
+        <servlet-class>User.CreateAccountHelper</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>deleteCustomer</servlet-name>
