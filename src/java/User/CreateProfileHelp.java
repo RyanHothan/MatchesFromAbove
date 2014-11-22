@@ -69,7 +69,7 @@ public class CreateProfileHelp extends HttpServlet
         {
             //good info create new profile and add to data base
             createProfile(p);
-            url = "userHome.jsp";
+            url = "/userHome.jsp";
         }
         //SUPER CHEESE FIX IF POSSIBLE
         Person x = new Person();
@@ -79,6 +79,8 @@ public class CreateProfileHelp extends HttpServlet
         request.setAttribute("currentUser", x);
         ArrayList<Profile> profiles = loginhelp.getProfiles(x);
         request.setAttribute("profiles", profiles);
+        ArrayList<Account> accounts = loginhelp.getAccounts(x);
+        request.setAttribute("accounts", accounts);
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }

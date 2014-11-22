@@ -1,6 +1,6 @@
 <%-- 
-    Document   : CreateProfile
-    Created on : Nov 20, 2014, 3:55:50 PM
+    Document   : profileCreationFailed
+    Created on : Nov 22, 2014, 2:22:55 PM
     Author     : Ryan Hothan
 --%>
 
@@ -9,9 +9,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Create Profile</title>
+        <title>Profile Creation Failed</title>
     </head>
     <body>
-        
+        <script>alert("Profile Creation Failed")</script>
     </body>
 </html>
