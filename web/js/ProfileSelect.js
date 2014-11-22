@@ -33,7 +33,7 @@ function readProfile()
         }
     });
 
-    $("#infoTable").on('click', 'td', function (event) {
+    $("#infoTable").on('click', 'td', function () {
         if ($(this).children().length === 0)
         {
             if ($(this).attr('id') !== 'profileCreationDate' && $(this).attr('value') !== 'unchangeable')
@@ -68,7 +68,7 @@ function readProfile()
                         tdCell.html(newData);
                     }
                 });
-                $("#changing").on("focusout", function(e){
+                $("#changing").on("focusout", function(){
                     
                      var dataType = $(this).parent().parent().attr('value');
                     var dataToEdit = $(this).attr('value');

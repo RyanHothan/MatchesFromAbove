@@ -33,7 +33,7 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-        $("#customersTable").on('click', 'td', function (event) {
+        $("#customersTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -67,7 +67,7 @@ function populateCustomersTable()
                             tdCell.html(newData);
                         }
                     });
-                    $("#changing").on("focusout", function (e) {
+                    $("#changing").on("focusout", function () {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
