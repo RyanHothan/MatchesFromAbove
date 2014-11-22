@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 
-function updateProfileData()
-{
-    
-    }
+$(document).ready(
+        
+        $("#infoTable").on('click', 'td', function (event){
+            var id = $(this).attr('id');
+        })
+);
