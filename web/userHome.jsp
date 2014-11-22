@@ -41,7 +41,7 @@
                     <option><c:out value="${account.accountNumber}" /></option>
                 </c:forEach>
             </select>
-            <!--Table for the currently selected profile's data     typeOfData dataToEdit profileId-->
+            <!--Table for the currently selected profile's data-->
             <table id="infoTable" style="display:none" >
                 <tbody>
                     <tr value="profileId"> 
