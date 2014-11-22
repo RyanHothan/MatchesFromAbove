@@ -8,6 +8,10 @@
         <servlet-name>EditCustomer</servlet-name>
         <servlet-class>Employee.EditCustomer</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddAccountHelper</servlet-name>
+        <servlet-class>User.AddAccountHelper</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>deleteCustomer</servlet-name>
         <url-pattern>/deleteCustomer</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>EditCustomer</servlet-name>
         <url-pattern>/EditCustomer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAccountHelper</servlet-name>
+        <url-pattern>/AddAccountHelper</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
