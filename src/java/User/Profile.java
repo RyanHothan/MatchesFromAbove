@@ -11,11 +11,10 @@ import java.sql.Timestamp;
  *
  * @author Ryan Hothan
  */
-public class Profile
+public class Profile extends Customer
 {
 
     private String profileId;
-    private String ownerSSN;
     private int age;
     private int ageRangeStart;
     private int ageRangeEnd;
@@ -28,20 +27,7 @@ public class Profile
     private Timestamp profileCreationDate;
     private Timestamp profileModDate;
     
-    public Profile(String ownerSSN)
-    {
-        this.ownerSSN = ownerSSN;
-    }
-    
-    public String getOwnerSSN()
-    {
-        return ownerSSN;
-    }
-
-    public void setOwnerSSN(String ownerSSN)
-    {
-        this.ownerSSN = ownerSSN;
-    }
+    public Profile(){}
 
     public String getProfileId()
     {

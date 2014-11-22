@@ -1,33 +1,32 @@
-package User;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package User;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  *
  * @author Ryan Hothan
  */
-@WebServlet(urlPatterns =
+@WebServlet(name = "EditAccountHelper", urlPatterns =
 {
-    "/ProfileListHelper"
+    "/EditAccountHelper"
 })
-public class ProfileListHelper extends HttpServlet
+public class EditAccountHelper extends HttpServlet
 {
 
     /**
@@ -43,55 +42,33 @@ public class ProfileListHelper extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
+        String data = request.getParameter("dataToEdit");
+        String accountNumber = request.getParameter("accountNumber");
         
-        JSONArray jsons = new JSONArray();
-        
+        processData(data,accountNumber);
+    }
+    
+    protected void processData(String data, String accountNumber)
+    {
         try
         {
-            String profileId = request.getParameter("profileId");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
             Statement st = con.createStatement();
 
-            String query = "SELECT * "
-                    + "FROM [MatchesFromAbove].[dbo].[Profile] "
-                    + "WHERE ProfileId = '" + profileId + "'";
+            String query = "UPDATE [MatchesFromAbove].[dbo].[Account] "
+                        + "SET CreditCardNumber = " + data + " " 
+                        + "WHERE AccountNumber = '" + accountNumber + "'";
 
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next())
-            {
-                if(!rs.getBoolean("Active"))
-                {
-                    continue;
-                }
-                JSONObject profileToAdd = new JSONObject();
-                profileToAdd.put("profileId", rs.getString("ProfileId"));
-                profileToAdd.put("age", rs.getString("Age"));
-                profileToAdd.put("ageRangeStart", rs.getString("AgeRangeStart"));
-                profileToAdd.put("ageRangeEnd", rs.getString("AgeRangeEnd"));
-                profileToAdd.put("geoRange", rs.getString("GeoRange"));
-                profileToAdd.put("gender", rs.getString("Gender"));
-                profileToAdd.put("hobbies", rs.getString("Hobbies"));
-                profileToAdd.put("height", rs.getString("Height"));
-                profileToAdd.put("weight", rs.getString("Weight"));
-                profileToAdd.put("hairColor", rs.getString("HairColor"));
-                profileToAdd.put("profileCreationDate", rs.getString("ProfileCreationDate"));
-                jsons.add(profileToAdd);
-            }
-            response.setContentType("application/json");
-            PrintWriter printout = response.getWriter();
-            printout.print(jsons);
-            printout.flush();
-        } 
-        catch (Exception e)
+            st.executeUpdate(query);
+        }
+        catch(Exception e)
         {
             System.out.println(e.getMessage());
         }
     }
-
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

@@ -1,6 +1,6 @@
 function deleteProfile()
 {
-    var profileId = $("select#profileBox option").filter(":selected").text();
+    var profileId = $("#profileBox option:selected").text();
     
     $.ajax(
     {
@@ -8,11 +8,8 @@ function deleteProfile()
         type: 'POST',
         dataType: 'JSON',
         data: 'profileId='+profileId,
-        success: function()
-        {
-            $("#infoTable").hide();
-            $("#deleteProfileButton").hide();
-            $("select#profileBox option:selected").remove();
-        }
     });
+    $("#profileInfoTable").hide();
+    $("#deleteProfileButton").hide();
+    $("select#profileBox option:selected").remove();
 }
