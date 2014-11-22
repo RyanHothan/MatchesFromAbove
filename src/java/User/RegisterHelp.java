@@ -6,6 +6,7 @@
 package User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -43,8 +44,7 @@ public class RegisterHelp extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String url;
+        PrintWriter printout = response.getWriter();
         Person x = new Person();
         x.setEmail(request.getParameter("email"));
         x.setPassword(request.getParameter("password"));
@@ -59,16 +59,15 @@ public class RegisterHelp extends HttpServlet
         
         if(!checkRegistrationCredentials(x))
         {
-            url = "RegistrationFailed.jsp";
+            printout.print("<script> alert(\"Registration Failed\");\nwindow.location='Register.jsp';</script>");
+            printout.flush();
         }
         else
         {
-            url = "successfulRegistration.jsp";
             createNewUser(x);
+            printout.print("<script> alert(\"Registration Successfull\");\nwindow.location='index.jsp';</script>");
+            printout.flush();
         }
-        
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
     
     protected void createNewUser(Person p)

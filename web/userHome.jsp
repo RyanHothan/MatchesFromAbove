@@ -79,7 +79,7 @@
                         <td align="right" value="unchangeable">Hair Color:</td>
                         <td id="hairColor"> </td>
                     </tr>
-                    <tr> 
+                    <tr>
                         <td align="right" value="unchangeable">Profile Creation Date:</td>
                         <td id="profileCreationDate"> </td>
                     </tr>
@@ -88,6 +88,18 @@
             <button id ="createProfileButton" class='basic'>Create New Profile</button>
             <button id ="deleteProfileButton" style="display:none" onclick="deleteProfile()">Delete Profile</button>
         </div>
+            
+        <!--Div for profile viewers-->
+        <div style="max-width:50%">
+            <table>
+                <tr id="header">
+                    <th>
+                        
+                    </th>
+                </tr>
+            </table>
+        </div>
+        
         <!--Div for Accounts-->
         <div style="max-width: 25%; float:right">
             <!--Combo Box for accounts of this user-->

@@ -6,6 +6,7 @@ package User;
  * and open the template in the editor.
  */
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -44,6 +45,7 @@ public class loginhelp extends HttpServlet
         response.setContentType("text/html;charset=UTF-8");
         /* TODO output your page here. You may use following sample code. */
         String url;
+        PrintWriter printout = response.getWriter();
         String email = request.getParameter("email");
         String pw = request.getParameter("password");
         Person x = new Person();
@@ -51,8 +53,8 @@ public class loginhelp extends HttpServlet
         x.setPassword(pw);
         if (!checkLoginCredentials(x))
         {
-            url = "loginFailed.jsp";
-
+            printout.print("<script> alert(\"Login Failed\");\nwindow.location='index.jsp';</script>");
+            printout.flush();
         } else
         {
             getPersonInformation(x);
@@ -70,9 +72,9 @@ public class loginhelp extends HttpServlet
                 request.setAttribute("accounts", accounts);
                 url = "/userHome.jsp";
             }
+            RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
 
     protected boolean checkLoginCredentials(Person p)

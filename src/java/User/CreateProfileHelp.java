@@ -79,6 +79,8 @@ public class CreateProfileHelp extends HttpServlet
         request.setAttribute("currentUser", x);
         ArrayList<Profile> profiles = loginhelp.getProfiles(x);
         request.setAttribute("profiles", profiles);
+        ArrayList<Account> accounts = loginhelp.getAccounts(x);
+        request.setAttribute("accounts", accounts);
         RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }
