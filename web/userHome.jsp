@@ -11,6 +11,7 @@
 <script type='text/javascript' src='js/basic.js'></script>
 <script type='text/javascript' src='js/jquery.simplemodal.js'></script>
 <script type='text/javascript' src='js/deleteProfile.js'></script>
+<script type='text/javascript' src='js/updateProfile.js'></script>
 
 <!DOCTYPE html>
 <html>
@@ -36,47 +37,47 @@
         <table id="infoTable" style="display:none" >
             <tbody>
                 <tr value="profileId"> 
-                    <td align="right">Profile Id:</td>
+                    <td align="right" value="unchangeable">Profile Id:</td>
                     <td id="profileId"> </td>
                 </tr>
                 <tr value="age">
-                    <td align="right" >Age:</td>
+                    <td align="right" value="unchangeable">Age:</td>
                     <td id="age"> </td>
                 </tr>
                 <tr value="ageRangeStart"> 
-                    <td align="right">Age Range Start:</td>
+                    <td align="right" value="unchangeable">Age Range Start:</td>
                     <td id="ageRangeStart"> </td>
                 </tr>
                 <tr value="ageRangeEnd"> 
-                    <td align="right" >Age Range End:</td>
+                    <td align="right" value="unchangeable">Age Range End:</td>
                     <td id="ageRangeEnd"> </td>
                 </tr>
                 <tr value="geoRange"> 
-                    <td align="right">Geo-Range:</td>
+                    <td align="right" value="unchangeable">Geo-Range:</td>
                     <td id="geoRange"> </td>
                 </tr>
                 <tr value="gender"> 
-                    <td align="right">Gender:</td>
+                    <td align="right" value="unchangeable">Gender:</td>
                     <td id="gender"> </td>
                 </tr>
                 <tr value="hobbies"> 
-                    <td align="right">Hobbies:</td>
+                    <td align="right" value="unchangeable">Hobbies:</td>
                     <td id="hobbies"> </td>
                 </tr>
                 <tr value="height"> 
-                    <td align="right">Height:</td>
+                    <td align="right" value="unchangeable">Height:</td>
                     <td id="height"> </td>
                 </tr>
                 <tr value="weight"> 
-                    <td align="right">Weight:</td>
+                    <td align="right" value="unchangeable">Weight:</td>
                     <td id="weight"> </td>
                 </tr>
                 <tr value="hairColor"> 
-                    <td align="right">Hair Color:</td>
+                    <td align="right" value="unchangeable">Hair Color:</td>
                     <td id="hairColor"> </td>
                 </tr>
                 <tr> 
-                    <td align="right">Profile Creation Date:</td>
+                    <td align="right" value="unchangeable">Profile Creation Date:</td>
                     <td id="profileCreationDate"> </td>
                 </tr>
             </tbody>
