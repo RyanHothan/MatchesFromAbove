@@ -3,6 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+jQuery(function($){
+$('title').html('Employee Home');
+});
 function populateCustomersTable()
 {
     var displayValue = $("#customersTable").css('display');
