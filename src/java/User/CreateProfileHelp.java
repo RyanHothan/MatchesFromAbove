@@ -46,45 +46,31 @@ public class CreateProfileHelp extends HttpServlet
     {
         response.setContentType("text/html;charset=UTF-8");
 
-        //url to redirect us
-        String url = "/userHome.jsp";
         PrintWriter printout = response.getWriter();
         //create and initialize our profile object with passed in parameters
         Profile p = new Profile();
         p.setSsn(request.getParameter("ssn"));
-        p.setAge(Integer.parseInt(request.getParameter("age")));
-        p.setAgeRangeEnd(Integer.parseInt(request.getParameter("ageRangeEnd")));
-        p.setAgeRangeStart(Integer.parseInt(request.getParameter("ageRangeStart")));
-        p.setGender(request.getParameter("gender").toUpperCase().charAt(0));
-        p.setGeoRange(Integer.parseInt(request.getParameter("geoRange")));
-        p.setHairColor(request.getParameter("hairColor").substring(0, 1).toUpperCase() + request.getParameter("hairColor").substring(1));
-        p.setHeight(Double.parseDouble(request.getParameter("height")));
-        p.setWeight(Integer.parseInt(request.getParameter("weight")));
-        p.setHobbies(request.getParameter("hobbies"));
-        p.setProfileId(request.getParameter("profileId"));
-        //Check the data inputed
-        if (!checkProfileInfo(p))
-        {
-            //bad info redirect to error page
-            printout.print("<script> alert(\"Profile Creation Failed\");</script>");
-            printout.flush();
-        } else
-        {
-            //good info create new profile and add to data base
-            createProfile(p);
-        }
-        //SUPER CHEESE FIX IF POSSIBLE
-        Person x = new Person();
-        x.setEmail(request.getParameter("email"));
-        x.setPassword(request.getParameter("password"));
-        loginhelp.getPersonInformation(x);
-        request.setAttribute("currentUser", x);
-        ArrayList<Profile> profiles = loginhelp.getProfiles(x);
-        request.setAttribute("profiles", profiles);
-        ArrayList<Account> accounts = loginhelp.getAccounts(x);
-        request.setAttribute("accounts", accounts);
-        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-        dispatcher.forward(request, response);
+            p.setAge(Integer.parseInt(request.getParameter("age")));
+            p.setAgeRangeEnd(Integer.parseInt(request.getParameter("ageRangeEnd")));
+            p.setAgeRangeStart(Integer.parseInt(request.getParameter("ageRangeStart")));
+            p.setGender(request.getParameter("gender").toUpperCase().charAt(0));
+            p.setGeoRange(Integer.parseInt(request.getParameter("geoRange")));
+            p.setHairColor(request.getParameter("hairColor").substring(0, 1).toUpperCase() + request.getParameter("hairColor").substring(1));
+            p.setHeight(Double.parseDouble(request.getParameter("height")));
+            p.setWeight(Integer.parseInt(request.getParameter("weight")));
+            p.setHobbies(request.getParameter("hobbies"));
+            p.setProfileId(request.getParameter("profileId"));
+            //Check the data inputed
+            if (!checkProfileInfo(p))
+            {
+                //bad info redirect to error page
+                printout.print("False");
+            } else
+            {
+                //good info create new profile and add to data base
+                createProfile(p);
+                printout.print("True");
+            }
     }
 
     protected void createProfile(Profile p)
@@ -100,14 +86,14 @@ public class CreateProfileHelp extends HttpServlet
             //timeofcreation
             Date currTime = new Date();
             Timestamp creationDate = new Timestamp(currTime.getTime());
-            
+
             //add the profile to DB
             String query = "INSERT INTO [MatchesFromAbove].[dbo].[Profile] "
                     + "VALUES('" + p.getProfileId() + "', '" + p.getSsn() + "', "
                     + p.getAge() + ", " + p.getAgeRangeStart() + ", " + p.getAgeRangeEnd()
                     + ", " + p.getGeoRange() + ", '" + p.getGender() + "', '" + p.getHobbies()
                     + "', " + p.getHeight() + ", " + p.getWeight() + ", '" + p.getHairColor()
-                    + "', '" + creationDate + "', '" + creationDate +"', "+ "1); ";
+                    + "', '" + creationDate + "', '" + creationDate + "', " + "1); ";
             System.out.println(query);
             st.executeUpdate(query);
         } catch (Exception e)
@@ -163,7 +149,6 @@ public class CreateProfileHelp extends HttpServlet
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     /**
      * Handles the HTTP <code>GET</code> method.
      *
