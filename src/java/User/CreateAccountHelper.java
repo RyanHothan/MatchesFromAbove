@@ -39,21 +39,19 @@ public class CreateAccountHelper extends HttpServlet
         java.sql.Date currentDate = new java.sql.Date(time);
         try
         {
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
-                Statement st = con.createStatement();
-                
-                String query;
-                query = "INSERT INTO Account + " +
-                        "VALUES(" + ssn + "," + ccn + "," + currentDate + ")";
-                        
-                        
-        }
-        catch(Exception e)
+            Statement st = con.createStatement();
+
+            String query;
+            query = "INSERT INTO Account + "
+                    + "VALUES(" + ssn + "," + ccn + "," + currentDate + ")";
+
+        } catch (Exception e)
         {
-            
+
         }
     }
 

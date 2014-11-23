@@ -156,20 +156,9 @@
 
         <div id="basic-modal-content-account">
             <h1>Please enter your profile information below</h1>
-            <form  id = "createProfileForm" action="/MatchesFromAbove/CreateProfileHelp" method = "POST">
-                <input type="text" name="profileId" placeholder="Profile Name">
-                <input type="text" name="age" placeholder="Age">
-                <input type="text" name="ageRangeStart" placeholder="Age Range Minimum">
-                <input type="text" name="ageRangeEnd" placeholder="Age Range Maximum">
-                <input type="text" name="geoRange" placeholder="Maximum Distance From You">
-                <input type="text" name="gender" placeholder="Gender">
-                <input type="text" name="hobbies" placeholder="Hobbies (Seperate with commas)">
-                <input type="text" name="height" placeholder="Height">
-                <input type="text" name="weight" placeholder="Weight">
-                <input type="text" name="hairColor" placeholder="Haircolor">
+            <form  id = "createProfileForm" action="/MatchesFromAbove/CreateAccountHelper" method = "POST">
+                <input type="text" name="ccn" placeholder="Profile Name">
                 <input type="text" name="ssn" style="display:none" value=${currentUser.ssn}>
-                <input type="text" name="email" style="display:none" value=${currentUser.email}>
-                <input type="text" name="password" style="display:none" value=${currentUser.password}>
                 <input type="submit" name="createProfile" class="createProfile-submit" value="Create Profile" form ="createProfileForm">
             </form>
         </div>
