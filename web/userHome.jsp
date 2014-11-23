@@ -5,10 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="js/profileSelect.js" type="text/javascript"></script>
+
 <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script type='text/javascript' src='js/basic.js'></script>
 <script type='text/javascript' src='js/jquery.simplemodal.js'></script>
 <script type='text/javascript' src='js/deleteProfile.js'></script>
 <script type='text/javascript' src='js/deleteAccount.js'></script>
@@ -16,7 +15,8 @@
 <script type='text/javascript' src='js/accountSelect.js'></script>
 <script type='text/javascript' src='js/createProfile.js'></script>
 <script type='text/javascript' src='js/createAccount.js'></script>
-
+<script type='text/javascript' src='js/basic.js'></script>
+<script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,7 +25,7 @@
         <jsp:useBean id = "currentUser" class="User.Person" scope="request"/>
         <link type='text/css' href='css/basic.css' rel='stylesheet' media='screen' />
         <link type='text/css' href='css/style.css' rel='stylesheet' media='screen' />
-        <title>${currentUser.email}</title>
+        <title>User Home</title>
     </head>
     <body>
         <div>
