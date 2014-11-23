@@ -59,12 +59,12 @@ public class loginhelp extends HttpServlet
         {
             getPersonInformation(x);
 
-            request.setAttribute("currentUser", x);
-            if (isEmployee(x))
+            if (isManager(x)){
+                url = "/managerHome.jsp";
+            } else if (isEmployee(x))
             {
                  url = "/employeeHome.jsp";
-            } 
-            else
+            } else
             {
                 ArrayList<Profile> profiles = getProfiles(x);
                 request.setAttribute("profiles", profiles);
@@ -72,6 +72,8 @@ public class loginhelp extends HttpServlet
                 request.setAttribute("accounts", accounts);
                 url = "/userHome.jsp";
             }
+            
+            request.setAttribute("currentUser", x);
             RequestDispatcher dispatcher = request.getRequestDispatcher(url);
             dispatcher.forward(request, response);
         }
@@ -124,6 +126,34 @@ public class loginhelp extends HttpServlet
             String query = "SELECT SSN "
                     + "FROM [MatchesFromAbove].[dbo].[Employee] "
                     + "WHERE SSN = '" + p.getSsn() + "'";
+
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next())
+            {
+                return true;
+            }
+            return false;
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+    }
+    
+    protected boolean isManager(Person p)
+    {
+        try
+        {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+
+            Statement st = con.createStatement();
+
+            String query = "SELECT SSN "
+                    + "FROM [MatchesFromAbove].[dbo].[Employee] "
+                    + "WHERE SSN = '" + p.getSsn() +"' AND Role = 'Manager'";
 
             ResultSet rs = st.executeQuery(query);
             while (rs.next())
