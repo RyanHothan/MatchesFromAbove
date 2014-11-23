@@ -6,18 +6,27 @@
 package User;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Javier
  */
+@WebServlet(urlPatterns =
+{
+    "/CreateAccountHelper"
+})
 public class CreateAccountHelper extends HttpServlet
 {
 
@@ -33,10 +42,25 @@ public class CreateAccountHelper extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String ccn = request.getParameter("newCCN");
-        String ssn = request.getParameter("ssn");
+        JSONArray jsons = new JSONArray();
+        JSONObject json = new JSONObject();
+        String ccn = request.getParameter("ccn");
+        String ssn = request.getParameter("ssn"); 
         long time = System.currentTimeMillis();
+        int newAccountNum = 0;
+        boolean accountNumInDatabase = true;
+        //this loop creates a random number and makes sure its not used in our database
+        while(accountNumInDatabase)
+        {
+            newAccountNum = (int)(Math.random()*99999)+10000;
+            if(checkAccountNumberAvailability(newAccountNum))
+                accountNumInDatabase = false;
+
+        }
+        json.put("accountNumber", newAccountNum);
+        jsons.add(json);
         java.sql.Date currentDate = new java.sql.Date(time);
+        
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -44,14 +68,57 @@ public class CreateAccountHelper extends HttpServlet
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
             Statement st = con.createStatement();
+            
+            String query = "INSERT INTO [MatchesFromAbove].[dbo].[Account]  "
+                    + "VALUES('" + ssn + "', '" + ccn + "', '" + newAccountNum 
+                    + "', '" + currentDate + "', 1)";
+            st.executeUpdate(query);
+            
 
-            String query;
-            query = "INSERT INTO Account + "
-                    + "VALUES(" + ssn + "," + ccn + "," + currentDate + ")";
 
         } catch (Exception e)
         {
+            System.out.println(e.getMessage());
+        }
+        
+        PrintWriter printout = response.getWriter();
+            printout.print(jsons);
+            printout.flush();
+    }
+    
+    protected boolean checkAccountNumberAvailability(int number)
+    {
+        try
+        {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+
+            Statement st = con.createStatement();
+            
+            String query;
+            query = "SELECT * " +
+                    "FROM [MatchesFromAbove].[dbo].[Account] " + 
+                    "WHERE AccountNumber = " + number;
+            
+            ResultSet rs = st.executeQuery(query);
+            if(rs.next())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+            
+                    
+            
+            
+
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return false;
         }
     }
 

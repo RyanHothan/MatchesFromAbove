@@ -15,6 +15,7 @@
 <script type='text/javascript' src='js/updateProfile.js'></script>
 <script type='text/javascript' src='js/accountSelect.js'></script>
 <script type='text/javascript' src='js/createProfile.js'></script>
+<script type='text/javascript' src='js/createAccount.js'></script>
 
 <!DOCTYPE html>
 <html>
@@ -151,6 +152,13 @@
             <input type="text" name="email" style="display:none" value=${currentUser.email}>
             <input type="text" name="password" style="display:none" value=${currentUser.password}>
             <input type="submit" name="createProfile" class="createProfile-submit" value="Create Profile" onclick="checkProfile()">
+        </div>
+            
+            <div id="basic-modal-content-account">
+            <h1>Please enter your profile information below</h1>
+            <input type="text" name="ccn" placeholder="Credit Card Number" />
+            <input type="text" name="ssn" style="display:none" value=${currentUser.ssn} />
+            <input type="submit" name="createProfile" class="createProfile-submit" value="Create Account" onclick="createAccount()" />
         </div>
     </body>
 </html>
