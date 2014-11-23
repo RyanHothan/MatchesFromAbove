@@ -504,7 +504,7 @@ FROM Profile P,
 		WHERE D.Profile2Id = '?' AND D.Profile1Id = P.ProfileId) profilesDated
 		GROUP BY (Gender)
 		ORDER BY COUNT(*) DESC
-		LIMIT    1) topGender,
+		LIMIT 1) topGender,
 		
 	(SELECT AVG(Height) AS Height, AVG(Weight) AS Weight
 	FROM

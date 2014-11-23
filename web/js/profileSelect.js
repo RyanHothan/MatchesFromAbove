@@ -7,6 +7,7 @@ function readProfile()
         $("#deleteProfileButton").hide();
         return;
     }
+    $("#recProfileTable").children().remove();
     $.ajax({
         url: '/MatchesFromAbove/ProfileListHelper',
         type: 'GET',
@@ -16,22 +17,41 @@ function readProfile()
         {
             $("#profileInfoTable").show();
             $("#deleteProfileButton").show();
-            for (i = 0; i < data.length; i++)
+            $("#profileId").html(data[0].profileId);
+            $("#age").html(data[0].age);
+            $("#gender").html(data[0].gender);
+            $("#ageRangeStart").html(data[0].ageRangeStart);
+            $("#ageRangeEnd").html(data[0].ageRangeEnd);
+            $("#geoRange").html(data[0].geoRange);
+            $("#hobbies").html(data[0].hobbies);
+            $("#height").html(data[0].height);
+            $("#weight").html(data[0].weight);
+            $("#hairColor").html(data[0].hairColor);
+            $("#profileCreationDate").html(data[0].profileCreationDate);
+
+            for(i = 1; i < data.length ;i++)
             {
-                $("#profileId").html(data[i].profileId);
-                $("#age").html(data[i].age);
-                $("#gender").html(data[i].gender);
-                $("#ageRangeStart").html(data[i].ageRangeStart);
-                $("#ageRangeEnd").html(data[i].ageRangeEnd);
-                $("#geoRange").html(data[i].geoRange);
-                $("#hobbies").html(data[i].hobbies);
-                $("#height").html(data[i].height);
-                $("#weight").html(data[i].weight);
-                $("#hairColor").html(data[i].hairColor);
-                $("#profileCreationDate").html(data[i].profileCreationDate);
+                $("#recProfileTable").append("<tr id = 'recProfile" + i + "'></tr>");
+                $("#recProfile"+i).append("<td id = 'profileId" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'age" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'gender" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'hobbies" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'height" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'weight" + i +"'></td>");
+                $("#recProfile"+i).append("<td id = 'hairColor" + i +"'></td>");
+                $("#profileId"+i).html(data[i].profileId);
+                $("#age"+i).html(data[i].age);
+                $("#gender"+i).html(data[i].gender);
+                $("#hobbies"+i).html(data[i].hobbies);
+                $("#height"+i).html(data[i].height);
+                $("#weight"+i).html(data[i].weight);
+                $("#hairColor"+i).html(data[i].hairColor);
             }
+            
         }
     });
+
+    
 
     $("#profileInfoTable").on('click', 'td', function () {
         if ($(this).children().length === 0)
@@ -61,7 +81,7 @@ function readProfile()
                         var tdCell = $(this).parent();
                         if($(this).parent().parent().attr('value') === 'profileId')
                         {
-                            $("#profileBox option:selected").html(newData)
+                            $("#profileBox option:selected").html(newData);
                             $("#profileBox option:selected").attr('value', newData);
                         }
                         $(this).remove();
@@ -92,7 +112,7 @@ function readProfile()
             }
         }
 
-    })
+    });
 
-
+    
 }
