@@ -33,7 +33,7 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-        $("#customersTable").on('click', 'td', function() {
+        $("#customersTable").on('click', 'td', function () {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -59,17 +59,20 @@ function populateCustomersTable()
                                 url: '/MatchesFromAbove/EditCustomer',
                                 type: 'POST',
                                 data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
-                                dataType: 'text'
+                                dataType: 'text',
+                                success: function (e) {
+                                    if (infoType === "ssn")
+                                    {
+                                        $(this).parent().parent().attr('value', someData);
+                                    }
+                                }
                             });
                             var newData = $(this).val();
                             var tdCell = $(this).parent();
                             $(this).remove();
                             tdCell.html(newData);
                         }
-                        if(infoType === "ssn")
-                        {
-                            $(this).parent().parent().attr('value', someData);
-                        }
+
                     });
                     $("#changing").on("focusout", function () {
                         var someData = $(this).attr('value');
@@ -81,16 +84,20 @@ function populateCustomersTable()
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
-                            dataType: 'text'
+                            dataType: 'text',
+                            success: function (e) {
+                                if (infoType === "ssn")
+                                {
+                                    $(this).parent().parent().attr('value', someData);
+                                }
+
+                            }
                         });
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
                         $(this).remove();
                         tdCell.html(newData);
-                        if(infoType === "ssn")
-                        {
-                            $(this).parent().parent().attr('value', someData);
-                        }
+
                     });
                 }
             }
