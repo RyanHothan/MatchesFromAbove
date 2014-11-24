@@ -8,6 +8,9 @@ package Manager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,18 +36,62 @@ public class EditEmployee extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet EditEmployee</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet EditEmployee at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = response.getWriter();
+        
+        String dataType = request.getParameter("typeOfData");
+        String data = request.getParameter("thingToEdit"); 
+        String employeeSSN = request.getParameter("employee");
+        try
+        {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+
+                Statement st = con.createStatement();
+                
+                String query;
+            
+        
+        if(dataType.equals("ssn"))
+        {
+            String ssn;
+            if (data.charAt(3) != '-' || data.charAt(6) != '-')
+            {
+                ssn = data.substring(0, 3) + "-" + data.substring(3, 5)
+                        + "-" + data.substring(5);
+            } else
+            {
+                ssn = data;
+            }
+                query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
+                        + "SET SSN = '" + ssn + "' " 
+                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + employeeSSN + "')";
+                System.out.println(query);                
+                st.executeUpdate(query);
         }
+        if(dataType.equals("role"))
+        {
+                query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
+                        + "SET Role = '" + data + "' " 
+                        + "WHERE SSN = '" + employeeSSN + "'";
+
+                st.executeUpdate(query);  
+        }
+        if(dataType.equals("rate"))
+        {
+            query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
+                    + "SET Rate = '" + data + "' " 
+                    + "WHERE SSN = '" + employeeSSN + "'";
+
+            st.executeUpdate(query);
+        }
+
+    }
+    catch(Exception e)
+    {
+        out.print("F"); 
+        
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

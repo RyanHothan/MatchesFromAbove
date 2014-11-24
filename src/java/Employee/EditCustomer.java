@@ -89,7 +89,6 @@ public class EditCustomer extends HttpServlet
     }
     catch(Exception e)
     {
-        System.out.println(e.getMessage()+" -------not ight here");
         out.print("F"); 
         
     }
