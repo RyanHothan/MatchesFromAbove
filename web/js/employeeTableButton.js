@@ -54,29 +54,31 @@ function populateEmployeesTable()
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
-                        var customerToChange = $(this).parent().parent().attr('value');
-                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        var employeeToChange = $(this).parent().parent().attr('value');
+                            var newData = $(this).val();
+                            var tdCell = $(this).parent();                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
                         if (e.keyCode === 13)
                         { 
                             
                             $.ajax({
                                 url: '/MatchesFromAbove/EditEmployee',
                                 type: 'POST',
-                                data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
+                                data: {typeOfData: infoType, thingToEdit: someData, employee: employeeToChange},
                                 dataType: 'text',
                                 success: function (e) {
-                                   
+                                    if (!(e === "F")) {
+                                        alert("enter and success"); 
+
+                                        $(this).remove();
+                                        tdCell.html(newData);
+
+                                    }
                                     if (infoType === "ssn")
                                     {
                                         $(this).parent().parent().attr('value', someData);
-                                        
                                     }
                                 }
                             });
-                            var newData = $(this).val();
-                            var tdCell = $(this).parent();
-                            $(this).remove();
-                            tdCell.html(newData);
                         }
 
                     });
@@ -84,26 +86,29 @@ function populateEmployeesTable()
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
-                        var customerToChange = $(this).parent().parent().attr('value');
+                        var employeeToChange = $(this).parent().parent().attr('value');
+                        
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
                         $.ajax({
-                            url: '/MatchesFromAbove/EditCustomer',
+                            url: '/MatchesFromAbove/EditEmployee',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
+                            data: {typeOfData: infoType, thingToEdit: someData, employee: employeeToChange},
                             dataType: 'text',
                             success: function (e) {
-                                if (infoType === "ssn")
-                                {
-                                    $(this).parent().parent().attr('value', someData);
-                                }
+                                if (!(e === "F")) {
+                                        $(this).remove();
+                                        tdCell.html(newData);
+
+                                    }
+                                    if (infoType === "ssn")
+                                    {
+                                        $(this).parent().parent().attr('value', someData);
+                                    }
 
                             }
                         });
-                        var newData = $(this).val();
-                        var tdCell = $(this).parent();
-                        $(this).remove();
-                        tdCell.html(newData);
-
                     });
                 }
             }
