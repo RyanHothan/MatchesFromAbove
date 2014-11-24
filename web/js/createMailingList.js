@@ -3,8 +3,8 @@ function createMailingList()
     var displayValue = $("#mailingList").css('display');
     if (displayValue !== 'none')
     {
-        $('#customersTable').hide();
-        $('#customersTable > tbody').html("");
+        $('#mailingList').hide();
+        $('#mailingList > tbody').html("");
     }
     else
     {
