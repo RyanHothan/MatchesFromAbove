@@ -34,4 +34,14 @@ jQuery(function ($) {
 		$('#basic-modal-content-return-account').modal({overlayClose:true});
 		return false;
 	});
+        $('.viewProfile').click(function (e) {
+		$('#basic-modal-content-viewProfile').modal({overlayClose:true});
+
+		return false;
+	});
+	
+	$('.viewProfile').click(function (e) {
+		$('#basic-modal-content-return-viewProfile').modal({overlayClose:true});
+		return false;
+	});
 });

@@ -36,7 +36,7 @@ function readProfile()
             for(i = 1; i < data.length ;i++)
             {
                 $("#recProfileTable").append("<tr id = 'recProfile" + i + "'></tr>");
-                $("#recProfile"+i).append("<td id = 'profileId" + i +"'></td>");
+                $("#recProfile"+i).append("<td class = 'viewProfile' id = 'profileId" + i +"'></td>");
                 $("#recProfile"+i).append("<td id = 'age" + i +"'></td>");
                 $("#recProfile"+i).append("<td id = 'gender" + i +"'></td>");
                 $("#recProfile"+i).append("<td id = 'hobbies" + i +"'></td>");

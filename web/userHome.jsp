@@ -169,12 +169,32 @@
             <input type="text" name="password" style="display:none" value=${currentUser.password}>
             <input type="submit" name="createProfile" class="createProfile-submit" value="Create Profile" onclick="checkProfile()">
         </div>
-            
-            <div id="basic-modal-content-account">
-            <h1>Please enter your profile information below</h1>
+
+        <div id="basic-modal-content-account">
+            <h1>Please enter your account information below</h1>
             <input type="text" name="ccn" placeholder="Credit Card Number" />
             <input type="text" name="ssn" style="display:none" value=${currentUser.ssn} />
             <input type="submit" name="createProfile" class="createProfile-submit" value="Create Account" onclick="createAccount()" />
+        </div>
+
+        <div id="basic-modal-content-viewProfile">
+            <table style="width: 250px;">
+                <thead>
+                <th>Profile Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Hobbies</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Hair Color</th>
+                </thead>
+                <tbody id="viewProfileTable">
+                    
+                </tbody>
+            </table>
+            <button id="makeDateButton">Make Date</button>
+            <button id="likeButton">Like</button>
+            <button id="referralButton">Refer</button>
         </div>
     </body>
 </html>

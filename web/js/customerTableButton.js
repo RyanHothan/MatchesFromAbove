@@ -64,7 +64,7 @@ function populateCustomersTable()
                                 type: 'POST',
                                 data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                                 dataType: 'text',
-                                success: function (e) {
+                                success: function () {
                                     if (infoType === "ssn")
                                     {
                                         $(this).parent().parent().attr('value', someData);
@@ -89,7 +89,7 @@ function populateCustomersTable()
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                             dataType: 'text',
-                            success: function (e) {
+                            success: function () {
                                 if (infoType === "ssn")
                                 {
                                     $(this).parent().parent().attr('value', someData);
