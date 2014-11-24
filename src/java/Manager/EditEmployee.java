@@ -3,25 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Employee;
+
+package Manager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Javier
+ * @author Acer
  */
-public class EditCustomer extends HttpServlet
-{
+@WebServlet(name = "EditEmployee", urlPatterns = {"/EditEmployee"})
+public class EditEmployee extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,14 +34,13 @@ public class EditCustomer extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         
         String dataType = request.getParameter("typeOfData");
         String data = request.getParameter("thingToEdit"); 
-        String customerSSN = request.getParameter("customer");
+        String employeeSSN = request.getParameter("employee");
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -63,25 +63,25 @@ public class EditCustomer extends HttpServlet
             {
                 ssn = data;
             }
-                query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
+                query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
                         + "SET SSN = '" + ssn + "' " 
-                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + customerSSN + "')";
+                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + employeeSSN + "')";
                 System.out.println(query);                
                 st.executeUpdate(query);
         }
-        if(dataType.equals("rating"))
+        if(dataType.equals("role"))
         {
-                query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                        + "SET Rating = '" + data + "' " 
-                        + "WHERE SSN = '" + customerSSN + "'";
+                query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
+                        + "SET Role = '" + data + "' " 
+                        + "WHERE SSN = '" + employeeSSN + "'";
 
                 st.executeUpdate(query);  
         }
-        if(dataType.equals("ppp"))
+        if(dataType.equals("rate"))
         {
-            query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                    + "SET PPP = '" + data + "' " 
-                    + "WHERE SSN = '" + customerSSN + "'";
+            query = "UPDATE [MatchesFromAbove].[dbo].[Employee] "
+                    + "SET Rate = '" + data + "' " 
+                    + "WHERE SSN = '" + employeeSSN + "'";
 
             st.executeUpdate(query);
         }
@@ -105,8 +105,7 @@ public class EditCustomer extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -120,8 +119,7 @@ public class EditCustomer extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -131,8 +129,7 @@ public class EditCustomer extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

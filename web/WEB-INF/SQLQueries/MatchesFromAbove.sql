@@ -687,32 +687,3 @@ WHERE P.Gender = '?' AND (P.Height > '?') AND (P.Height < '?') AND
 (P.Weight > '?') AND (P.Weight < '?') AND (P.Age >= ageRange.AgeRangeStart) AND (P.Age <= ageRange.AgeRangeEnd) AND
 (profilesStates.State = '?' AND P.ProfileId = profilesStates.ProfileId)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Employee;
+
+package Manager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,16 +13,19 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
- * @author Javier
+ * @author Acer
  */
-public class EditCustomer extends HttpServlet
-{
+@WebServlet(name = "getAllEmployees", urlPatterns = {"/getAllEmployees"})
+public class getAllEmployees extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,65 +37,42 @@ public class EditCustomer extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        String dataType = request.getParameter("typeOfData");
-        String data = request.getParameter("thingToEdit"); 
-        String customerSSN = request.getParameter("customer");
-        try
+            throws ServletException, IOException {
+        //json to pass back to our ajax request
+        JSONArray jsonArray = new JSONArray();
+        PrintWriter printout = response.getWriter();
+        try 
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
-                Statement st = con.createStatement();
-                
-                String query;
-            
-        
-        if(dataType.equals("ssn"))
-        {
-            String ssn;
-            if (data.charAt(3) != '-' || data.charAt(6) != '-')
+            Statement st = con.createStatement();
+
+            String query = "SELECT * FROM [MatchesFromAbove].[dbo].[Employee] WHERE active=1";
+
+            ResultSet rs = st.executeQuery(query);
+            while (rs.next())
             {
-                ssn = data.substring(0, 3) + "-" + data.substring(3, 5)
-                        + "-" + data.substring(5);
-            } else
-            {
-                ssn = data;
+                   
+                JSONObject employeeToAdd = new JSONObject();
+                employeeToAdd.put("ssn", rs.getString("SSN"));
+                employeeToAdd.put("role", rs.getString("Role"));
+                employeeToAdd.put("rate", rs.getInt("Rate"));
+                employeeToAdd.put("startdate", rs.getDate("StartDate").toString());
+                jsonArray.add(employeeToAdd); 
             }
-                query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
-                        + "SET SSN = '" + ssn + "' " 
-                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + customerSSN + "')";
-                System.out.println(query);                
-                st.executeUpdate(query);
-        }
-        if(dataType.equals("rating"))
+            //set the content type of our response
+            response.setContentType("application/json");
+            //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+            
+            printout.print(jsonArray);
+            printout.flush();
+        } catch (Exception e)
         {
-                query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                        + "SET Rating = '" + data + "' " 
-                        + "WHERE SSN = '" + customerSSN + "'";
-
-                st.executeUpdate(query);  
+            printout.println("NO IDEA");
+            return;
         }
-        if(dataType.equals("ppp"))
-        {
-            query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                    + "SET PPP = '" + data + "' " 
-                    + "WHERE SSN = '" + customerSSN + "'";
-
-            st.executeUpdate(query);
-        }
-
-    }
-    catch(Exception e)
-    {
-        out.print("F"); 
-        
-    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -105,8 +86,7 @@ public class EditCustomer extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -120,8 +100,7 @@ public class EditCustomer extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -131,8 +110,7 @@ public class EditCustomer extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
