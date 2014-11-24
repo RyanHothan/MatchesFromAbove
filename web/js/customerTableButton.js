@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+jQuery(function($){
+$('title').html('Employee Home');
+});
+
 function populateCustomersTable()
 {
     var displayValue = $("#customersTable").css('display');
@@ -40,7 +45,6 @@ function populateCustomersTable()
                 if ($(this).attr('value') !== 'lastActiveDate')
                 {
                     var innerHTML = $(this).text();
-
                     $(this).html("");
                     $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
                     //change focus to the input box
@@ -53,6 +57,8 @@ function populateCustomersTable()
                         var infoType = $(this).parent().attr('value');
                         var customerToChange = $(this).parent().parent().attr('value');
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
                         if (e.keyCode === 13)
                         {
                             $.ajax({
@@ -61,16 +67,19 @@ function populateCustomersTable()
                                 data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                                 dataType: 'text',
                                 success: function (e) {
-                                    if (infoType === "ssn")
-                                    {
-                                        $(this).parent().parent().attr('value', someData);
+                                    
+                                    if (!(e === "F")){
+                                        $(this).remove();
+                                        tdCell.html(newData);
+                                        
                                     }
+                                    if (infoType === "ssn")
+                                {   
+                                    $(this).parent().parent().attr('value', someData);
+                                }
                                 }
                             });
-                            var newData = $(this).val();
-                            var tdCell = $(this).parent();
-                            $(this).remove();
-                            tdCell.html(newData);
+                            
                         }
 
                     });
@@ -79,6 +88,8 @@ function populateCustomersTable()
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
                         var customerToChange = $(this).parent().parent().attr('value');
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
                         $.ajax({
                             url: '/MatchesFromAbove/EditCustomer',
@@ -86,26 +97,25 @@ function populateCustomersTable()
                             data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                             dataType: 'text',
                             success: function (e) {
+                                
+                                if (!(e === "F")){
+                                    $(this).remove();
+                                    tdCell.html(newData);
+                                }
+                                
                                 if (infoType === "ssn")
-                                {
+                                {   
                                     $(this).parent().parent().attr('value', someData);
                                 }
-
                             }
                         });
-                        var newData = $(this).val();
-                        var tdCell = $(this).parent();
-                        $(this).remove();
-                        tdCell.html(newData);
-
                     });
                 }
             }
         });
 
     }
-}
-;
+};
 
 function deleteCustomer(ssn)
 {
@@ -116,7 +126,6 @@ function deleteCustomer(ssn)
         dataType: 'text'
     });
     $("tr[value=" + ssn + "]").empty();
-
     $("tr[value=" + ssn + "]").remove();
 }
 

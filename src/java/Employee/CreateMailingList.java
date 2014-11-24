@@ -12,20 +12,26 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
  * @author Javier
  */
-public class EditCustomer extends HttpServlet
+@WebServlet(name = "CreateMailingList", urlPatterns =
+{
+    "/CreateMailingList"
+})
+public class CreateMailingList extends HttpServlet
 {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -36,63 +42,42 @@ public class EditCustomer extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        String dataType = request.getParameter("typeOfData");
-        String data = request.getParameter("thingToEdit"); 
-        String customerSSN = request.getParameter("customer");
+        JSONArray jsonArray = new JSONArray();
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
-                Statement st = con.createStatement();
-                
-                String query;
-            
-        
-        if(dataType.equals("ssn"))
-        {
-            String ssn;
-            if (data.charAt(3) != '-' || data.charAt(6) != '-')
+            Statement st = con.createStatement();
+
+            String query = "SELECT P.SSN, P.FirstName, P.LastName, P.Email " 
+                    + "FROM [MatchesFromAbove].[dbo].[Person] P, [MatchesFromAbove].[dbo].[Customer] C"
+                    + " WHERE C.Active = 'true' AND P.SSN = C.SSN";
+
+            ResultSet rs = st.executeQuery(query);
+            //loop through result set and create the json objects
+            while (rs.next())
             {
-                ssn = data.substring(0, 3) + "-" + data.substring(3, 5)
-                        + "-" + data.substring(5);
-            } else
-            {
-                ssn = data;
+                JSONObject emailToAdd = new JSONObject();
+                emailToAdd.put("ssn", rs.getString("SSN"));
+                emailToAdd.put("firstName", rs.getString("FirstName"));
+                emailToAdd.put("lastName", rs.getString("LastName"));
+                emailToAdd.put("email", rs.getString("Email"));
+                //add the json object that we're passing into the json array
+                jsonArray.add(emailToAdd); 
             }
-                query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
-                        + "SET SSN = '" + ssn + "' " 
-                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + customerSSN + "')";
-                System.out.println(query);                
-                st.executeUpdate(query);
-        }
-        if(dataType.equals("rating"))
+            //set the content type of our response
+            response.setContentType("application/json");
+            //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+            PrintWriter printout = response.getWriter();
+            printout.print(jsonArray);
+            printout.flush();
+        } catch (Exception e)
         {
-                query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                        + "SET Rating = '" + data + "' " 
-                        + "WHERE SSN = '" + customerSSN + "'";
-
-                st.executeUpdate(query);  
+            System.out.println(e.getMessage());
+            return;
         }
-        if(dataType.equals("ppp"))
-        {
-            query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                    + "SET PPP = '" + data + "' " 
-                    + "WHERE SSN = '" + customerSSN + "'";
-
-            st.executeUpdate(query);
-        }
-
-    }
-    catch(Exception e)
-    {
-        System.out.println(e.getMessage()+" -------not ight here");
-        out.print("F"); 
-        
-    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

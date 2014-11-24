@@ -1,3 +1,7 @@
+jQuery(function($){
+$('title').html('User Home');
+});
+
 function readProfile()
 {
     var profileId = $("#profileBox option:selected").text();

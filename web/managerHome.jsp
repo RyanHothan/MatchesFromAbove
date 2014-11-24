@@ -19,6 +19,7 @@
     </head>
     
     <body>
+        
         <div>
         <h1 id="abc">Hi! ${currentUser.firstName} ${currentUser.lastName}</h1>
             <input type="submit" id="customerTableButton" value="Show All Customers" onclick="populateCustomersTable()"/>

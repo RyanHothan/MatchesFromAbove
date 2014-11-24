@@ -9,8 +9,8 @@ function populateEmployeesTable()
     var displayValue = $("#employeesTable").css('display');
     if (displayValue !== 'none')
     {
-        $('#employeeTable').hide();
-        $('#employeeTable > tbody').html("");
+        $('#employeesTable').hide();
+        $('#employeesTable > tbody').html("");
     }
     else
     {

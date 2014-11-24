@@ -9,10 +9,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
-        
+
+
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/customerTableButton.js"></script>
+        <script type="text/javascript" src="js/createMailingList.js"></script>
         <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
         <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,18 +22,35 @@
     </head>
     <body>
         <h1 id="abc">Hello World!</h1>
-        <input type="submit" id="customerTableButton" value="Show All Customers" onclick="populateCustomersTable()"/>
-       
-    <table id="customersTable" style="display:none">
-         <thead>
-            <th>Social Security Number</th>
-            <th>PPP</th>
-            <th>Your Rating</th>
-            <th>Your Last Active Date</th>
-            <thead>
-        <tbody>
+        <div>
+            <div style="width:50%; display:inline-block">
+                <input type="submit" id="customerTableButton" value="Show All Customers" onclick="populateCustomersTable()"/>
 
-        </tbody>
-    </table>
-</body>
+                <table id="customersTable" style="display:none">
+                    <thead>
+                    <th>Social Security Number</th>
+                    <th>PPP</th>
+                    <th>Your Rating</th>
+                    <th>Your Last Active Date</th>
+                    <thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:50%;">
+                <input type="submit" value="Create Mailing List" onclick="createMailingList()"/>
+                <table id="mailingList" style="display:none;">
+                    <thead>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email Name</th>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
 </html>
