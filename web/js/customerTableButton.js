@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-jQuery(function($){
-$('title').html('Employee Home');
+jQuery(function($) {
+    $('title').html('Employee Home');
 });
 
 function populateCustomersTable()
@@ -22,7 +22,7 @@ function populateCustomersTable()
             url: '/MatchesFromAbove/getAllCustomers',
             type: 'GET',
             dataType: 'JSON',
-            success: function (data) {
+            success: function(data) {
                 //pop up the table
                 $("#customersTable").show();
                 //populate the data in the table
@@ -38,11 +38,11 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-        $("#customersTable").on('click', 'td', function () {
+        $("#customersTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
-                if ($(this).attr('value') !== 'lastActiveDate')
+                if ($(this).attr('value') !== '')
                 {
                     var innerHTML = $(this).text();
                     $(this).html("");
@@ -50,7 +50,7 @@ function populateCustomersTable()
                     //change focus to the input box
                     $("#changing").focus();
                     //check to see if user has clicked 'Enter'
-                    $("#changing").on('keyup', function (e) {
+                    $("#changing").on('keyup', function(e) {
                         //some data is what is inside the text box
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
@@ -66,24 +66,24 @@ function populateCustomersTable()
                                 type: 'POST',
                                 data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                                 dataType: 'text',
-                                success: function (e) {
-                                    
-                                    if (!(e === "F")){
+                                success: function(e) {
+
+                                    if (!(e === "F")) {
                                         $(this).remove();
                                         tdCell.html(newData);
-                                        
+
                                     }
                                     if (infoType === "ssn")
-                                {   
-                                    $(this).parent().parent().attr('value', someData);
-                                }
+                                    {
+                                        $(this).parent().parent().attr('value', someData);
+                                    }
                                 }
                             });
-                            
+
                         }
 
                     });
-                    $("#changing").on("focusout", function () {
+                    $("#changing").on("focusout", function() {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
@@ -96,15 +96,15 @@ function populateCustomersTable()
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
                             dataType: 'text',
-                            success: function (e) {
-                                
-                                if (!(e === "F")){
+                            success: function(e) {
+
+                                if (!(e === "F")) {
                                     $(this).remove();
                                     tdCell.html(newData);
                                 }
-                                
+
                                 if (infoType === "ssn")
-                                {   
+                                {
                                     $(this).parent().parent().attr('value', someData);
                                 }
                             }
@@ -115,7 +115,8 @@ function populateCustomersTable()
         });
 
     }
-};
+}
+;
 
 function deleteCustomer(ssn)
 {
