@@ -50,6 +50,17 @@ function readProfile()
                 $("#height"+i).html(data[i].height);
                 $("#weight"+i).html(data[i].weight);
                 $("#hairColor"+i).html(data[i].hairColor);
+                
+                        $('.viewProfile').click(function (e) {
+		$('#basic-modal-content-viewProfile').modal({overlayClose:true});
+
+		return false;
+	});
+	
+	$('.viewProfile').click(function (e) {
+		$('#basic-modal-content-return-viewProfile').modal({overlayClose:true});
+		return false;
+	});
             }
             
         }
