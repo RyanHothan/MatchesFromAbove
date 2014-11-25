@@ -192,9 +192,9 @@
                     
                 </tbody>
             </table>
-            <button id="makeDateButton">Make Date</button>
-            <button id="likeButton">Like</button>
-            <button id="referralButton">Refer</button>
+            <button id="makeDateButton" onclick="makeDate()">Make Date</button>
+            <button id="likeButton" onclick="makeLike()">Like</button>
+            <button id="referralButton" onclick="makeReferral()">Refer</button>
         </div>
     </body>
 </html>
