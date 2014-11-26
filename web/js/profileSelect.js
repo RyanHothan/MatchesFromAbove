@@ -1,11 +1,11 @@
-jQuery(function($){
-$('title').html('User Home');
+jQuery(function ($) {
+    $('title').html('User Home');
 });
 
 function readProfile()
 {
     var profileId = $("#profileBox option:selected").text();
-    if(profileId === "No Profile Selected")
+    if (profileId === "No Profile Selected")
     {
         $("#profileInfoTable").hide();
         $("#deleteProfileButton").hide();
@@ -33,35 +33,51 @@ function readProfile()
             $("#hairColor").html(data[0].hairColor);
             $("#profileCreationDate").html(data[0].profileCreationDate);
 
-            for(i = 1; i < data.length ;i++)
+            for (i = 1; i < data.length; i++)
             {
                 $("#recProfileTable").append("<tr id = 'recProfile" + i + "'></tr>");
-                $("#recProfile"+i).append("<td id = 'profileId" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'age" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'gender" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'hobbies" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'height" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'weight" + i +"'></td>");
-                $("#recProfile"+i).append("<td id = 'hairColor" + i +"'></td>");
-                $("#profileId"+i).html(data[i].profileId);
-                $("#age"+i).html(data[i].age);
-                $("#gender"+i).html(data[i].gender);
-                $("#hobbies"+i).html(data[i].hobbies);
-                $("#height"+i).html(data[i].height);
-                $("#weight"+i).html(data[i].weight);
-                $("#hairColor"+i).html(data[i].hairColor);
+                $("#recProfile" + i).append("<td class = 'viewProfile' id = 'profileId" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'age" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'gender" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'hobbies" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'height" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'weight" + i + "'></td>");
+                $("#recProfile" + i).append("<td id = 'hairColor" + i + "'></td>");
+                $("#profileId" + i).html(data[i].profileId);
+                $("#age" + i).html(data[i].age);
+                $("#gender" + i).html(data[i].gender);
+                $("#hobbies" + i).html(data[i].hobbies);
+                $("#height" + i).html(data[i].height);
+                $("#weight" + i).html(data[i].weight);
+                $("#hairColor" + i).html(data[i].hairColor);
+
+                $('.viewProfile').click(function () {
+                    $('#basic-modal-content-viewProfile').modal({overlayClose: true});
+
+                    return false;
+                });
+
             }
-            
+            $('.viewProfile').click(function ()
+            {
+                var temp = $(this).parent().clone();
+                var temp2 = $(this).text();
+                $("#viewProfileTable").append(temp);
+                $("#viewProfileTable").attr("name", temp2);
+                $('#basic-modal-content-return-viewProfile').modal({overlayClose: true});
+
+                return false;
+            });
         }
     });
 
-    
+
 
     $("#profileInfoTable").on('click', 'td', function () {
         if ($(this).children().length === 0)
         {
             if ($(this).attr('id') !== 'profileCreationDate' && $(this).attr('value') !== 'unchangeable')
-            { 
+            {
                 var innerHTML = $(this).text();
                 $(this).html("");
                 $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
@@ -69,7 +85,7 @@ function readProfile()
                 $("#changing").focus();
                 $("#changing").on("keyup", function (e)
                 {
-                    
+
                     var dataType = $(this).parent().parent().attr('value');
                     var dataToEdit = $(this).attr('value');
                     var profileId = $('#profileBox option:selected').attr('value');
@@ -83,7 +99,7 @@ function readProfile()
                         });
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
-                        if($(this).parent().parent().attr('value') === 'profileId')
+                        if ($(this).parent().parent().attr('value') === 'profileId')
                         {
                             $("#profileBox option:selected").html(newData);
                             $("#profileBox option:selected").attr('value', newData);
@@ -92,31 +108,31 @@ function readProfile()
                         tdCell.html(newData);
                     }
                 });
-                $("#changing").on("focusout", function(){
-                    
-                     var dataType = $(this).parent().parent().attr('value');
+                $("#changing").on("focusout", function () {
+
+                    var dataType = $(this).parent().parent().attr('value');
                     var dataToEdit = $(this).attr('value');
                     var profileId = $('#profileBox option:selected').attr('value');
                     $.ajax({
-                            url: '/MatchesFromAbove/EditProfileHelper',
-                            type: 'POST',
-                            data: {typeOfData: dataType, dataToEdit: dataToEdit, profileId: profileId},
-                            dataType: 'text'
-                        });
-                        var newData = $(this).val();
-                        var tdCell = $(this).parent();
-                        if($(this).parent().parent().attr('value') === 'profileId')
-                        {
-                            $("#profileBox option:selected").html(newData);
-                            $("#profileBox option:selected").attr('value', newData);
-                        }
-                        $(this).remove();
-                        tdCell.html(newData);
+                        url: '/MatchesFromAbove/EditProfileHelper',
+                        type: 'POST',
+                        data: {typeOfData: dataType, dataToEdit: dataToEdit, profileId: profileId},
+                        dataType: 'text'
+                    });
+                    var newData = $(this).val();
+                    var tdCell = $(this).parent();
+                    if ($(this).parent().parent().attr('value') === 'profileId')
+                    {
+                        $("#profileBox option:selected").html(newData);
+                        $("#profileBox option:selected").attr('value', newData);
+                    }
+                    $(this).remove();
+                    tdCell.html(newData);
                 });
             }
         }
 
     });
 
-    
+
 }

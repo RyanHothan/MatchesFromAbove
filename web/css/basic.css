@@ -10,9 +10,12 @@
 
 #basic-modal-content {display:none;}
 #basic-modal-content-account {display:none;}
+#basic-modal-content-viewProfile {display:none;}
 
 #basic-modal-content-return {display:none;}
 #basic-modal-content-return-account {display:none;}
+
+#basic-modal-content-return-viewProfile {display:none;}
 #change-password-modal{display:none;}
 #change-email-modal{display:none;}
 /* Overlay */

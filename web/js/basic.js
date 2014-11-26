@@ -34,4 +34,5 @@ jQuery(function ($) {
 		$('#basic-modal-content-return-account').modal({overlayClose:true});
 		return false;
 	});
+
 });
