@@ -16,6 +16,7 @@
 <script type='text/javascript' src='js/createProfile.js'></script>
 <script type='text/javascript' src='js/createAccount.js'></script>
 <script type='text/javascript' src='js/basic.js'></script>
+<script type='text/javascript' src='js/like.js'></script>
 <script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>

@@ -6,7 +6,6 @@
 package User;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -20,14 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Ryan Hothan
+ * @author Ryan
  */
-@WebServlet(name = "LikeHelper", urlPatterns =
-{
-    "/LikeHelper"
-})
-public class LikeHelper extends HttpServlet
-{
+@WebServlet(name = "DateHelper", urlPatterns = {"/DateHelper"})
+public class DateHelper extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,17 +34,16 @@ public class LikeHelper extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String likee = request.getParameter("likee");
-        String liker = request.getParameter("liker");
+        String profileA = request.getParameter("profileA");
+        String profileB = request.getParameter("profileB");
         
-        addLike(likee, liker);
+        addDate(profileA, profileB);
     }
 
-    protected void addLike(String likee, String liker)
+    protected void addDate(String profileA, String profileB)
     {
         try
         {
@@ -65,7 +59,7 @@ public class LikeHelper extends HttpServlet
 
             //add the profile to DB
             String query = "INSERT INTO [MatchesFromAbove].[dbo].[Likes] "
-                    + "VALUES('" + liker + "', '" + likee + "', '"
+                    + "VALUES('" + profileA + "', '" + profileB + "', '"
                     + creationDate+ "'); ";
             System.out.println(query);
             st.executeUpdate(query);
@@ -86,8 +80,7 @@ public class LikeHelper extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -101,8 +94,7 @@ public class LikeHelper extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -112,8 +104,7 @@ public class LikeHelper extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -94,7 +94,7 @@ public class CreateProfileHelp extends HttpServlet
                     + ", " + p.getGeoRange() + ", '" + p.getGender() + "', '" + p.getHobbies()
                     + "', " + p.getHeight() + ", " + p.getWeight() + ", '" + p.getHairColor()
                     + "', '" + creationDate + "', '" + creationDate + "', " + "1); ";
-            System.out.println(query);
+
             st.executeUpdate(query);
         } catch (Exception e)
         {
