@@ -32,6 +32,7 @@ function readProfile()
             $("#weight").html(data[0].weight);
             $("#hairColor").html(data[0].hairColor);
             $("#profileCreationDate").html(data[0].profileCreationDate);
+            $("#profilePicture").attr('src', data[0].profilePicture);
 
             for(i = 1; i < data.length ;i++)
             {

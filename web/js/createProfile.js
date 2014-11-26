@@ -1,6 +1,7 @@
 function checkProfile()
 {
     var age = $("input[name=age]").val();
+    var profilePicture = $("input[name=profilePicture]").val();
     var ageRangeStart = $("input[name=ageRangeStart]").val();
     var ageRangeEnd = $("input[name=ageRangeEnd]").val();
     var geoRange = $("input[name=geoRange]").val();
@@ -24,7 +25,7 @@ function checkProfile()
         $.ajax({
             url: '/MatchesFromAbove/CreateProfileHelp',
             type: 'GET',
-            data: {profileId: profileId, age: age, ageRangeStart: ageRangeStart,
+            data: {profilePicture : profilePicture, profileId: profileId, age: age, ageRangeStart: ageRangeStart,
                 ageRangeEnd: ageRangeEnd, geoRange: geoRange, height: height, weight: weight,
                 gender: gender, hobbies: hobbies, email: email, ssn: ssn, hairColor: hairColor,
                 password: password},

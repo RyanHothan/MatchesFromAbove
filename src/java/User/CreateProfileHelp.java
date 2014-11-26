@@ -60,6 +60,7 @@ public class CreateProfileHelp extends HttpServlet
             p.setWeight(Integer.parseInt(request.getParameter("weight")));
             p.setHobbies(request.getParameter("hobbies"));
             p.setProfileId(request.getParameter("profileId"));
+            p.setProfilePicture(request.getParameter("profilePicture"));
             //Check the data inputed
             if (!checkProfileInfo(p))
             {
@@ -93,10 +94,11 @@ public class CreateProfileHelp extends HttpServlet
                     + p.getAge() + ", " + p.getAgeRangeStart() + ", " + p.getAgeRangeEnd()
                     + ", " + p.getGeoRange() + ", '" + p.getGender() + "', '" + p.getHobbies()
                     + "', " + p.getHeight() + ", " + p.getWeight() + ", '" + p.getHairColor()
-                    + "', '" + creationDate + "', '" + creationDate + "', " + "1); ";
+                    + "', '" + creationDate + "', '" + creationDate + "', " 
+                    + "1, '" + p.getProfilePicture() + "')";
             System.out.println(query);
             st.executeUpdate(query);
-        } catch (Exception e)
+        }catch (Exception e)
         {
             System.out.println(e.getMessage());
 

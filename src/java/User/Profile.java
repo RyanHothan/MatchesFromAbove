@@ -26,6 +26,17 @@ public class Profile extends Customer
     private String hairColor;
     private Timestamp profileCreationDate;
     private Timestamp profileModDate;
+    private String profilePicture;
+
+    public String getProfilePicture()
+    {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture)
+    {
+        this.profilePicture = profilePicture;
+    }
     
     public Profile(){}
 

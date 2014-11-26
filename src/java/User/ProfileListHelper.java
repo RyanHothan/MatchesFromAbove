@@ -101,6 +101,8 @@ public class ProfileListHelper extends HttpServlet
                 p.setHairColor(rs.getString("HairColor"));
                 p.setSsn(rs.getString("OwnerSSN"));
                 profileToAdd.put("profileCreationDate", rs.getString("ProfileCreationDate"));
+                p.setProfilePicture(rs.getString("Picture"));
+                profileToAdd.put("profilePicture", rs.getString("Picture"));
                 jsons.add(profileToAdd);
                 return p;
             }

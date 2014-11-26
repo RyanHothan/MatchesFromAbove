@@ -43,6 +43,10 @@
                 <!--Table for the currently selected profile's data-->
                 <table id="profileInfoTable" style="display:none;" >
                     <tbody>
+                        <tr>
+                            <th align="right" value="unchangeable">Picture: </th>
+                            <td><img src="" id="profilePicture" style="max-width:200px; max-height: 200px;"/></td>
+                        </tr>
                         <tr value="profileId"> 
                             <th align="right" value="unchangeable">Profile Id:</td>
                             <td id="profileId"> </td>
@@ -154,20 +158,21 @@
         <!-- this is the modal for profile-->
         <div id="basic-modal-content">
             <h1>Please enter your profile information below</h1>
-            <input type="text" name="profileId" placeholder="Profile Name">
-            <input type="text" name="age" placeholder="Age">
-            <input type="text" name="ageRangeStart" placeholder="Age Range Minimum">
-            <input type="text" name="ageRangeEnd" placeholder="Age Range Maximum">
-            <input type="text" name="geoRange" placeholder="Maximum Distance From You">
-            <input type="text" name="gender" placeholder="Gender">
-            <input type="text" name="hobbies" placeholder="Hobbies (Seperate with commas)">
-            <input type="text" name="height" placeholder="Height">
-            <input type="text" name="weight" placeholder="Weight">
-            <input type="text" name="hairColor" placeholder="Haircolor">
-            <input type="text" name="ssn" style="display:none" value=${currentUser.ssn}>
-            <input type="text" name="email" style="display:none" value=${currentUser.email}>
-            <input type="text" name="password" style="display:none" value=${currentUser.password}>
-            <input type="submit" name="createProfile" class="createProfile-submit" value="Create Profile" onclick="checkProfile()">
+            <input type="text" name="profilePicture" placeholder="Insert Profile Picture URL" />
+            <input type="text" name="profileId" placeholder="Profile Name" />
+            <input type="text" name="age" placeholder="Age" />
+            <input type="text" name="ageRangeStart" placeholder="Age Range Minimum" />
+            <input type="text" name="ageRangeEnd" placeholder="Age Range Maximum" />
+            <input type="text" name="geoRange" placeholder="Maximum Distance From You" />
+            <input type="text" name="gender" placeholder="Gender" />
+            <input type="text" name="hobbies" placeholder="Hobbies (Seperate with commas)" />
+            <input type="text" name="height" placeholder="Height" />
+            <input type="text" name="weight" placeholder="Weight" />
+            <input type="text" name="hairColor" placeholder="Haircolor" />
+            <input type="text" name="ssn" style="display:none" value=${currentUser.ssn} />
+            <input type="text" name="email" style="display:none" value=${currentUser.email} />
+            <input type="text" name="password" style="display:none" value=${currentUser.password} />
+            <input type="submit" name="createProfile" class="createProfile-submit" value="Create Profile" onclick="checkProfile()" />
         </div>
 
         <div id="basic-modal-content-account">
