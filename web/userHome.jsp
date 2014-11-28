@@ -16,6 +16,7 @@
 <script type='text/javascript' src='js/createProfile.js'></script>
 <script type='text/javascript' src='js/createAccount.js'></script>
 <script type='text/javascript' src='js/basic.js'></script>
+<script type='text/javascript' src='js/like.js'></script>
 <script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>
@@ -197,9 +198,9 @@
                     
                 </tbody>
             </table>
-            <button id="makeDateButton">Make Date</button>
-            <button id="likeButton">Like</button>
-            <button id="referralButton">Refer</button>
+            <button id="makeDateButton" onclick="makeDate()">Make Date</button>
+            <button id="likeButton" onclick="makeLike()">Like</button>
+            <button id="referralButton" onclick="makeReferral()">Refer</button>
         </div>
     </body>
 </html>
