@@ -42,7 +42,7 @@ public class DateGetter extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
 
         PrintWriter printout = response.getWriter();
         //create and initialize our profile object with passed in parameters
@@ -51,7 +51,6 @@ public class DateGetter extends HttpServlet
         getDates(ssn, jsons);
 
         printout.print(jsons);
-        printout.flush();
     }
 
     protected void getDates(String employeeSSN, JSONArray jsons)
@@ -87,6 +86,7 @@ public class DateGetter extends HttpServlet
                 dateToAdd.put("user2Rating", rs.getInt("User2Rating"));
                 jsons.add(dateToAdd);
             }
+            con.close();
         } catch (Exception e)
         {
             System.out.println(e.getMessage());

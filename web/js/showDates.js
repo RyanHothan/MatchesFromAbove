@@ -3,11 +3,11 @@ function showDates()
     var empSSN = $("input[name=ssn]").val();
     
     $.ajax({
-        url: '/MatchesFromAbove/DateGetter',
+        url: '/MatchesFromAbove/DateGetting',
         type: 'GET',
         dataType: 'JSON',
-        data: 'SSN=' + empSSN,
-        success: function(data)
+        data: {SSN: empSSN},
+        success: function (data)
         {
             for (i = 0; i < data.length; i++)
             {
@@ -32,6 +32,7 @@ function showDates()
             }
         }
         });
+        alert("omfg");
 }
 
 
