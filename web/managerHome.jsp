@@ -31,7 +31,7 @@
             
             <div style="float:left; width:100%; min-height: 100px"> 
 
-                <table id="customersTable" style="display:none">
+                <table id="customersTable">
                     <thead>
                     <tr colspan="5"><h3>Customers</h3></tr>
                     <th>Social Security Number</th>
@@ -45,7 +45,7 @@
                 </table>
             </div>
             <div style="float:left; width:100%; min-height: 100px">
-                <table id="employeesTable" style="display:none">
+                <table id="employeesTable">
                     <thead>
                     <tr colspan="5"><h3>Employee</h3></tr>
                     <th>Social Security Number</th>
@@ -78,12 +78,7 @@
                         <option value = "11">NOV</option>
                         <option value = "12">DEC</option>                    
                 </select> 
-            <select style="display:inline-block" id="salesReportYear" >
-                <option>2011</option>
-                <option>2012</option>
-                <option>2013</option>
-                <option>2014</option>                  
-            </select>
+            <input type="text" style="display:inline-block" id="salesReportYear" value ="Year" />
             <button onclick="getRev()">Get Report</button>
                 
             </div >
@@ -98,6 +93,8 @@
                         </tbody>
                     </table>
                 </div>
+            
+            Show dates by name or by day:  
         </div> 
 
 
