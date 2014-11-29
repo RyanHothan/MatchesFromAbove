@@ -31,7 +31,7 @@
             
             <div style="float:left; width:100%; min-height: 100px"> 
 
-                <table id="customersTable">
+                <table id="customersTable" style="display:none">
                     <thead>
                     <tr colspan="5"><h3>Customers</h3></tr>
                     <th>Social Security Number</th>
@@ -45,7 +45,7 @@
                 </table>
             </div>
             <div style="float:left; width:100%; min-height: 100px">
-                <table id="employeesTable">
+                <table id="employeesTable" style="display:none">
                     <thead>
                     <tr colspan="5"><h3>Employee</h3></tr>
                     <th>Social Security Number</th>
