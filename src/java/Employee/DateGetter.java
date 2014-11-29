@@ -44,12 +44,11 @@ public class DateGetter extends HttpServlet
     {
         response.setContentType("text/html;charset=UTF-8");
 
-        PrintWriter printout = response.getWriter();
         //create and initialize our profile object with passed in parameters
         String ssn = request.getParameter("SSN");
         JSONArray jsons = new JSONArray();
         getDates(ssn, jsons);
-
+        PrintWriter printout = response.getWriter();
         printout.print(jsons);
         printout.flush();
     }
@@ -79,14 +78,15 @@ public class DateGetter extends HttpServlet
                 JSONObject dateToAdd = new JSONObject();
                 dateToAdd.put("profile1Id", rs.getString("Profile1Id"));
                 dateToAdd.put("profile2Id", rs.getString("Profile2Id"));
-                dateToAdd.put("dateTime", rs.getDate("Date_Time"));
+                dateToAdd.put("dateTime", rs.getString("Date_Time"));
                 dateToAdd.put("location", rs.getString("Location"));
-                dateToAdd.put("fee", rs.getDouble("Fee"));
+                dateToAdd.put("fee", rs.getString("Fee"));
                 dateToAdd.put("comments", rs.getString("Comments"));
-                dateToAdd.put("user1Rating", rs.getInt("User1Rating"));
-                dateToAdd.put("user2Rating", rs.getInt("User2Rating"));
+                dateToAdd.put("user1Rating", rs.getString("User1Rating"));
+                dateToAdd.put("user2Rating", rs.getString("User2Rating"));
                 jsons.add(dateToAdd);
             }
+            con.close();
         } catch (Exception e)
         {
             System.out.println(e.getMessage());

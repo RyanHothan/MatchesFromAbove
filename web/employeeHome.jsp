@@ -40,7 +40,7 @@
                 </table>
             </div>
             <div style = "width:50%; display:inline-block; float:right">
-                <input type="submit" value="Show Dates" onclick="showDates()"/>
+                <button onclick="showDates()">Show Dates</button>
                 <table>
                     <thead>
                     <th>Profile 1</th>
