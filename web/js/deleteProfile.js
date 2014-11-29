@@ -12,4 +12,5 @@ function deleteProfile()
     $("#profileInfoTable").hide();
     $("#deleteProfileButton").hide();
     $("select#profileBox option:selected").remove();
+    $("#recProfileTable").empty();
 }

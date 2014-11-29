@@ -12,9 +12,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -97,6 +95,8 @@ public class CreateProfileHelp extends HttpServlet
                     + "', '" + creationDate + "', '" + creationDate + "', " 
                     + "1, '" + p.getProfilePicture() + "')";
             System.out.println(query);
+
+
             st.executeUpdate(query);
         }catch (Exception e)
         {
@@ -143,7 +143,7 @@ public class CreateProfileHelp extends HttpServlet
                 return true;
             }
 
-        } catch (Exception e)
+        }catch (Exception e)
         {
             System.out.println(e.getMessage());
         }
