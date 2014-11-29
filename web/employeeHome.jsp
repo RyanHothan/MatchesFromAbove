@@ -14,11 +14,12 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/customerTableButton.js"></script>
         <script type="text/javascript" src="js/createMailingList.js"></script>
+        <script type="text/javascript" src="js/showDates.js"></script>
         <link rel='stylesheet' href='http://codepen.io/assets/libs/fullpage/jquery-ui.css'>
         <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:useBean id = "currentUser" class="User.Person" scope="request"/>
-        <title>Employee Home</title>
+        <title>Customer Representative Home</title>
     </head>
     <body>
         <h1 id="abc">Hello World!</h1>
@@ -38,6 +39,25 @@
                     </tbody>
                 </table>
             </div>
+            <div style = "width:50%; display:inline-block; float:right">
+                <input type="submit" value="Show Dates" onclick="showDates()"/>
+                <table>
+                    <thead>
+                    <th>Profile 1</th>
+                    <th>Profile 2</th>
+                    <th>Date and Time</th>
+                    <th>Location</th>
+                    <th>Fee</th>
+                    <th>Comments</th>
+                    <th>User 1 Rating</th>
+                    <th>User 2 Rating</th>
+                    </thead>
+                    <tbody id="empDatesTable">
+                        
+                    </tbody>
+                    <input type="text" name="ssn" style="display:none" value="${currentUser.ssn}"/>
+                </table>
+            </div>
             <div style="width:50%;">
                 <input type="submit" value="Create Mailing List" onclick="createMailingList()"/>
                 <table id="mailingList" style="display:none;">
@@ -47,7 +67,7 @@
                     <th>Email Name</th>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>

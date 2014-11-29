@@ -9,17 +9,25 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  *
- * @author Javier
+ * @author Ryan Hothan
  */
-public class EditCustomer extends HttpServlet
+@WebServlet(name = "DateGetter", urlPatterns =
+{
+    "/DateGetter"
+})
+public class DateGetter extends HttpServlet
 {
 
     /**
@@ -35,65 +43,59 @@ public class EditCustomer extends HttpServlet
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        
-        String dataType = request.getParameter("typeOfData");
-        String data = request.getParameter("thingToEdit"); 
-        String customerSSN = request.getParameter("customer");
+
+        PrintWriter printout = response.getWriter();
+        //create and initialize our profile object with passed in parameters
+        String ssn = request.getParameter("SSN");
+        JSONArray jsons = new JSONArray();
+        getDates(ssn, jsons);
+
+        printout.print(jsons);
+        printout.flush();
+    }
+
+    protected void getDates(String employeeSSN, JSONArray jsons)
+    {
+ 
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-                Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
-
-                Statement st = con.createStatement();
-                
-                String query;
             
-        
-        if(dataType.equals("ssn"))
-        {
-            String ssn;
-            if (data.charAt(3) != '-' || data.charAt(6) != '-')
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+
+            Statement st = con.createStatement();
+
+            //add the profile to DB
+            String query = "SELECT * "
+                    + "FROM [MatchesFromAbove].[dbo].[Date]"
+                    + "WHERE CustomerRep = '" + employeeSSN + "'";
+            
+            System.out.println(query);
+
+            ResultSet rs = st.executeQuery(query);
+            
+            while(rs.next())
             {
-                ssn = data.substring(0, 3) + "-" + data.substring(3, 5)
-                        + "-" + data.substring(5);
-            } else
-            {
-                ssn = data;
+                JSONObject dateToAdd = new JSONObject();
+                dateToAdd.put("profile1Id", rs.getString("Profile1Id"));
+                dateToAdd.put("profile2Id", rs.getString("Profile2Id"));
+                dateToAdd.put("dateTime", rs.getDate("Date_Time"));
+                dateToAdd.put("location", rs.getString("Location"));
+                dateToAdd.put("fee", rs.getDouble("Fee"));
+                dateToAdd.put("comments", rs.getString("Comments"));
+                dateToAdd.put("user1Rating", rs.getInt("User1Rating"));
+                dateToAdd.put("user2Rating", rs.getInt("User2Rating"));
+                jsons.add(dateToAdd);
             }
-                query = "UPDATE [MatchesFromAbove].[dbo].[Person] "
-                        + "SET SSN = '" + ssn + "' " 
-                        + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + customerSSN + "')";
-                System.out.println(query);                
-                st.executeUpdate(query);
-        }
-        if(dataType.equals("rating"))
+        } catch (Exception e)
         {
-                query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                        + "SET Rating = '" + data + "' " 
-                        + "WHERE SSN = '" + customerSSN + "'";
+            System.out.println(e.getMessage());
 
-                st.executeUpdate(query);  
         }
-        if(dataType.equals("ppp"))
-        {
-            query = "UPDATE [MatchesFromAbove].[dbo].[Customer] "
-                    + "SET PPP = '" + data + "' " 
-                    + "WHERE SSN = '" + customerSSN + "'";
-
-            st.executeUpdate(query);
-        }
-
-    }
-    catch(Exception e)
-    {
-        out.print("F"); 
-        
-    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *
