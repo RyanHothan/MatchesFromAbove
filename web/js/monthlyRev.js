@@ -8,7 +8,8 @@
 function getRev()
 {
     var monthToGet = $("#salesReport option:selected").val();
-    var yearToGet = $("#salesReportYear option:selected").text();
+    var yearToGet = $("#salesReportYear").val();
+    $("#revPlace > tbody").empty();
     $("#revPlace").show();
     $.ajax({
             url: '/MatchesFromAbove/managerFunctions',
@@ -18,7 +19,7 @@ function getRev()
             success: function(data) {
                 
                 for (i = 0; i < data.length; i++)
-                {   $("#revPlace > tbody").html();
+                {   
                     $("#revPlace > tbody").append("<tr id = monthRev"+i+"></tr>");
                     $("#monthRev"+i).append("<td value='fee'>" + data[i].fee + "</td>");
                     $("#monthRev"+i).append("<td value='time'>" + data[i].time + "</td>");
