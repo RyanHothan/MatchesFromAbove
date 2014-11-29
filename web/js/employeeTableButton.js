@@ -28,7 +28,7 @@ function populateEmployeesTable()
                     $("#" + data[i].ssn).append("<td value='role'>" + data[i].role + "</td>");
                     $("#" + data[i].ssn).append("<td value='startdate'>" + data[i].startdate + "</td>");
                     $("#" + data[i].ssn).append("<td value='rate'>" + data[i].rate + "</td>");
-                    $("#" + data[i].ssn).append("<td><input type='submit' onclick='deleteEmployee(\"" + data[i].ssn + "\")' value='Delete Eployee' /></td>");
+                    $("#" + data[i].ssn).append("<td><input type='submit' onclick='deleteEmployee(\"" + data[i].ssn + "\")' value='Delete Employee' /></td>");
                 }
             }
         });

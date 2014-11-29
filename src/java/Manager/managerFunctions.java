@@ -3,7 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Employee;
+
+package Manager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,14 +22,10 @@ import org.json.simple.JSONObject;
 
 /**
  *
- * @author Javier
+ * @author Acer
  */
-@WebServlet(name = "getAllCustomers", urlPatterns =
-{
-    "/getAllCustomers"
-})
-public class getAllCustomers extends HttpServlet
-{
+@WebServlet(name = "managerFunctions", urlPatterns = {"/managerFunctions"})
+public class managerFunctions extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,29 +48,29 @@ public class getAllCustomers extends HttpServlet
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
             Statement st = con.createStatement();
+                if (request.getParameter("func").equals("getRev")){
+                String query = "SELECT * FROM [MatchesFromAbove].[dbo].[DATE] WHERE DATEPART(month, DATE_TIME) = "+request.getParameter("month") + " AND DATEPART(year, DATE_TIME) = "+request.getParameter("year");
 
-            String query = "SELECT * FROM [MatchesFromAbove].[dbo].[Customer] WHERE active=1";
+                ResultSet rs = st.executeQuery(query);
 
-            ResultSet rs = st.executeQuery(query);
-            
-            //loop through result set and create the json objects
-            while (rs.next())
-            {
-                JSONObject customerToAdd = new JSONObject();
-                customerToAdd.put("ssn", rs.getString("SSN"));
-                customerToAdd.put("ppp", rs.getString("PPP"));
-                customerToAdd.put("rating", rs.getInt("Rating"));
-                customerToAdd.put("lastActiveDate", rs.getTimestamp("LastActive").toString());
-                //add the json object that we're passing into the json array
-                jsonArray.add(customerToAdd); 
+                //loop through result set and create the json objects
+                while (rs.next())
+                {
+                    JSONObject dateToAdd = new JSONObject();
+                    dateToAdd.put("fee", rs.getString("Fee"));
+                    dateToAdd.put("time", rs.getDate("Date_Time").toString());
+                    //add the json object that we're passing into the json array
+                    jsonArray.add(dateToAdd); 
+                }
+                //set the content type of our response
+                response.setContentType("application/json");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                printout.print(jsonArray);
+                printout.flush();
             }
-            //set the content type of our response
-            response.setContentType("application/json");
-            //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
-            PrintWriter printout = response.getWriter();
-            printout.print(jsonArray);
-            printout.flush();
             con.close();
+            
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
@@ -81,20 +78,18 @@ public class getAllCustomers extends HttpServlet
         }
     }
 
-
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -107,9 +102,8 @@ public class getAllCustomers extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -119,8 +113,7 @@ public class getAllCustomers extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
