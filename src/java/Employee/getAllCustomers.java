@@ -55,6 +55,7 @@ public class getAllCustomers extends HttpServlet
             String query = "SELECT * FROM [MatchesFromAbove].[dbo].[Customer] WHERE active=1";
 
             ResultSet rs = st.executeQuery(query);
+            
             //loop through result set and create the json objects
             while (rs.next())
             {
@@ -72,6 +73,7 @@ public class getAllCustomers extends HttpServlet
             PrintWriter printout = response.getWriter();
             printout.print(jsonArray);
             printout.flush();
+            con.close();
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
