@@ -8,9 +8,10 @@ package User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,10 +41,10 @@ public class DateHelper extends HttpServlet {
         String profileA = request.getParameter("profileA");
         String profileB = request.getParameter("profileB");
         
-        addDate(profileA, profileB);
+        addDate(profileA, profileB, request);
     }
 
-    protected void addDate(String profileA, String profileB)
+    protected void addDate(String profileA, String profileB, HttpServletRequest request)
     {
         try
         {
@@ -51,16 +52,29 @@ public class DateHelper extends HttpServlet {
 
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
 
-            Statement st = con.createStatement();
-
+            Statement st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, 
+    ResultSet.CONCUR_READ_ONLY);
+            
+            String firstQuery = "SELECT SSN FROM [MatchesFromAbove].[dbo].[Employee]";
+            ResultSet rs = st.executeQuery(firstQuery);
+            rs.last();
+            int setLength = rs.getRow();
+            int randomEmployee = (int)(Math.random()*setLength);
+            rs.absolute(randomEmployee);
+            String randomEmployeeSSN = rs.getString("SSN");
             //timeofcreation
-            Date currTime = new Date();
-            Timestamp creationDate = new Timestamp(currTime.getTime());
-
+            Calendar someDate = Calendar.getInstance();
+            int year = Integer.parseInt(request.getParameter("year"));
+            int month = Integer.parseInt(request.getParameter("month"));
+            int day = Integer.parseInt(request.getParameter("day"));
+            int hour = Integer.parseInt(request.getParameter("hour"));
+            int minute = Integer.parseInt(request.getParameter("minute"));
+            someDate.set(year, month , day, hour, minute);
+            Timestamp stamp = new Timestamp(someDate.getTimeInMillis());
             //add the profile to DB
-            String query = "INSERT INTO [MatchesFromAbove].[dbo].[Likes] "
-                    + "VALUES('" + profileA + "', '" + profileB + "', '"
-                    + creationDate+ "'); ";
+            String query = "INSERT INTO [MatchesFromAbove].[dbo].[Date] " 
+                    + "VALUES('"  + profileA + "', '" + profileB +  "', '" + randomEmployeeSSN + "', '" + stamp + "','" + request.getParameter("location") 
+                    + "', 25.50, '" + request.getParameter("comments") + "', 5, 5 )" ;
             System.out.println(query);
             st.executeUpdate(query);
         }
