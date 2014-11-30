@@ -46,7 +46,7 @@ public class managerFunctions extends HttpServlet {
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw;allowMultiQueries=true");
 
             Statement st = con.createStatement();
                 if (request.getParameter("func").equals("getRev")){
@@ -129,6 +129,33 @@ public class managerFunctions extends HttpServlet {
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
                 PrintWriter printout = response.getWriter();
                 printout.print(jsonArray);
+                printout.flush();
+            }
+                
+                if (request.getParameter("func").equals("getBestRep")){
+                double totalRev = 0;     
+                String query = "SELECT CustomerRep, MAX(sumFee) AS maxFee " +
+"FROM (" +
+"SELECT [MatchesFromAbove].[dbo].[DATE].CustomerRep, SUM([MatchesFromAbove].[dbo].[DATE].Fee) AS sumFee" +
+"FROM [MatchesFromAbove].[dbo].[DATE]" +
+"GROUP BY [MatchesFromAbove].[dbo].[DATE].CustomerRep" +
+") first_group";
+                        ResultSet rs = st.executeQuery(query);
+
+                //loop through result set and create the json objects
+                
+                while (rs.next())
+                {   
+                   
+                }
+                JSONObject dateToAdd = new JSONObject();
+                dateToAdd.put("total", totalRev);
+                jsonArray.add(dateToAdd); 
+                //set the content type of our response
+                response.setContentType("text/html");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                printout.print("boys");
                 printout.flush();
             }
             con.close();
