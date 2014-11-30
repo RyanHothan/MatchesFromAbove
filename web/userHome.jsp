@@ -33,7 +33,7 @@
         <div>
             <!--Div for Profiles-->
             <div style="width: 25%; float:left; display:inline-block">
-                <p style="display:inline-block;">Profile Name:</p>
+                <p style="display:inline-block; color:white;">Profile Name:</p>
                 <!--Combo Box for profiles of this user-->
                 <select style="display:inline-block" id="profileBox" onchange="readProfile()">
                     <option id="defaultOption">No Profile Selected</option>   
@@ -101,7 +101,7 @@
 
             <!--Div for profile viewers-->
             <div style="width:50%; display:inline-block">
-                <h1 align="center">Hello ${currentUser.firstName} ${currentUser.lastName}!</h1>
+                <h1 align="center" style="color:white;">Hello ${currentUser.firstName} ${currentUser.lastName}!</h1>
                 <table style="width: 800px;">
                     <thead>
                     <th>Profile Name</th>
@@ -124,7 +124,7 @@
                     <button style="display:inline-block" id="logoutButton" onclick="window.location = 'index.jsp'">Log Out</button>
                     <p style="width:26%; display:inline-block"></p>
                     <div style="display:inline-block;">
-                        <p style="display:inline-block;">Account Number:</p>
+                        <p style="display:inline-block; color:white;">Account Number:</p>
                         <!--Combo Box for accounts of this user-->
                         <select style="display:inline-block" id="accountBox" onchange="readAccount()">
                             <option id="defaultOption">No Account Selected</option>   
