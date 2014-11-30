@@ -57,16 +57,14 @@ function getRevByDate()
 
 function getRevBySSN()
 {
-    var ssn = $("#custName").val();
+    var ssn = $("#custName").val().trim();
     $("#nameGenRev > tbody").empty();
-    alert(ssn)
     $.ajax({
             url: '/MatchesFromAbove/managerFunctions',
             type: 'GET',
             data: {func: "getRevBySSN", SSN: ssn},
             dataType: 'JSON',
             success: function(data) {
-                alert("jacksauce")
                  for (i = 0; i < data.length-1; i++)
                 {   
                     $("#nameGenRev > tbody").append("<tr id = nameGenRev"+i+"></tr>");
@@ -85,9 +83,6 @@ function getRevBySSN()
 ;
 
 function getBestRep(){
-    var text = $("#bestRep").text();
-   
-    alert(text);
     $.ajax({
             url: '/MatchesFromAbove/managerFunctions',
             type: 'GET',
@@ -95,7 +90,7 @@ function getBestRep(){
             dataType: 'text',
             success: function(data) {
                  $("#bestRep").empty();
-                 $("#bestRep").html(text +" "+ data)
+                 $("#bestRep").html(data)
             }
         });
 };
