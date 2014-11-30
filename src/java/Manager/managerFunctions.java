@@ -164,7 +164,7 @@ public class managerFunctions extends HttpServlet {
                 response.setContentType("text/html");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
                 PrintWriter printout = response.getWriter();
-                printout.print("NAME: "+name+"        Revenue Generated: $" +max);
+                printout.print("NAME: "+name+"        Revenue Generated: $" +(long) (max * 100 + 0.5) / 100.0);
                 printout.flush();
             }
             con.close();

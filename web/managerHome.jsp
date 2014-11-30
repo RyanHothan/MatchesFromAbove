@@ -133,9 +133,9 @@
                 </tbody>
         </table>
     </div>
-    <p onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </p>
+    <hi style="color:yellow" onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </p>
 
-    <h1 id = "bestRep"></h1>
+    <p style="color:yellow" id = "bestRep"></p>
     
 
 </div> 
