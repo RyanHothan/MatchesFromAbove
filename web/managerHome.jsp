@@ -133,7 +133,9 @@
                 </tbody>
         </table>
     </div>
-    <p onclick="getBestRep()" id = "bestRep">Customer Rep. With Most Revenue: ~~Star Employee~~ <p>
+    <p onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </p>
+
+    <h1 id = "bestRep"></h1>
     
 
 </div> 
