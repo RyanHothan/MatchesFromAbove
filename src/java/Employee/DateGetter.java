@@ -44,16 +44,15 @@ public class DateGetter extends HttpServlet
     {
         response.setContentType("application/json");
 
-        PrintWriter printout = response.getWriter();
         //create and initialize our profile object with passed in parameters
         String ssn = request.getParameter("SSN");
         JSONArray jsons = new JSONArray();
         getDates(ssn, jsons);
-
+        PrintWriter printout = response.getWriter();
         printout.print(jsons);
     }
 
-    protected void getDates(String employeeSSN, JSONArray jsons)
+    protected void getDates(String SSN, JSONArray jsons)
     {
  
         try
@@ -65,25 +64,43 @@ public class DateGetter extends HttpServlet
             Statement st = con.createStatement();
 
             //add the profile to DB
-            String query = "SELECT * "
-                    + "FROM [MatchesFromAbove].[dbo].[Date]"
-                    + "WHERE CustomerRep = '" + employeeSSN + "'";
+            
+            String checkUserQuery = "SELECT SSN FROM [MatchesFromAbove].[dbo].[Employee] " 
+                    + "WHERE SSN = " + SSN;
+            
+            ResultSet rs = st.executeQuery(checkUserQuery);
+            String query;
+            if(rs.next())
+            {
+                query = "SELECT * "
+                    + "FROM [MatchesFromAbove].[dbo].[Date] "
+                    + "WHERE CustomerRep = '" + SSN + "'";
+            }
+            else
+            {
+                query = "SELECT * "
+                        + "FROM [MatchesFromAbove].[dbo].[Date] "
+                        + "WHERE Profile1Id = '" + SSN + "' OR Profile2Id = '" + SSN + "'";
+            }
+                    
+            
+            
             
             System.out.println(query);
 
-            ResultSet rs = st.executeQuery(query);
+            rs = st.executeQuery(query);
             
             while(rs.next())
             {
                 JSONObject dateToAdd = new JSONObject();
                 dateToAdd.put("profile1Id", rs.getString("Profile1Id"));
                 dateToAdd.put("profile2Id", rs.getString("Profile2Id"));
-                dateToAdd.put("dateTime", rs.getDate("Date_Time"));
+                dateToAdd.put("dateTime", rs.getString("Date_Time"));
                 dateToAdd.put("location", rs.getString("Location"));
-                dateToAdd.put("fee", rs.getDouble("Fee"));
+                dateToAdd.put("fee", rs.getString("Fee"));
                 dateToAdd.put("comments", rs.getString("Comments"));
-                dateToAdd.put("user1Rating", rs.getInt("User1Rating"));
-                dateToAdd.put("user2Rating", rs.getInt("User2Rating"));
+                dateToAdd.put("user1Rating", rs.getString("User1Rating"));
+                dateToAdd.put("user2Rating", rs.getString("User2Rating"));
                 jsons.add(dateToAdd);
             }
             con.close();

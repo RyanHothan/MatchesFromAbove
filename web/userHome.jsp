@@ -18,6 +18,7 @@
 <script type='text/javascript' src='js/basic.js'></script>
 <script type='text/javascript' src='js/like.js'></script>
 <script type='text/javascript' src='js/date.js'></script>
+<script type='text/javascript' src='js/showDates.js'></script>
 <script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>
@@ -153,6 +154,23 @@
                 </table>
                 <button id ="createAccountButton" class='createAccount' style="float:right">Create New Account</button>
                 <button id ="deleteAccountButton" style="display:none; float:right" onclick="deleteAccount()">Delete Account</button>
+                <!-- Dates Table -->
+               <table>
+                    <thead>
+                    <th>Profile 1</th>
+                    <th>Profile 2</th>
+                    <th>Date and Time</th>
+                    <th>Location</th>
+                    <th>Fee</th>
+                    <th>Comments</th>
+                    <th>User 1 Rating</th>
+                    <th>User 2 Rating</th>
+                    </thead>
+                    <tbody id="empDatesTable">
+                        
+                    </tbody>
+                </table>
+                <button id="profileDates" onclick="showDates()"> Show Dates </button>
             </div>
         </div>
 

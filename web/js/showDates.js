@@ -1,12 +1,11 @@
 function showDates()
 {
     var empSSN = $("input[name=ssn]").val();
-    
     $.ajax({
-        url: '/MatchesFromAbove/DateGetting',
+        url: '/MatchesFromAbove/DateGetter',
         type: 'GET',
         dataType: 'JSON',
-        data: {SSN: empSSN},
+        data: 'SSN=' + empSSN,
         success: function (data)
         {
             for (i = 0; i < data.length; i++)
@@ -30,6 +29,7 @@ function showDates()
                 $("#user1Rating" + i).html(data[i].user1Rating);
                 $("#user2Rating" + i).html(data[i].user2Rating);
             }
+            return data;
         }
         });
         alert("omfg");
