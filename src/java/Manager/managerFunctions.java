@@ -41,6 +41,7 @@ public class managerFunctions extends HttpServlet {
     {
         //json to pass back to our ajax request
         JSONArray jsonArray = new JSONArray();
+        
         try
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -62,6 +63,67 @@ public class managerFunctions extends HttpServlet {
                     //add the json object that we're passing into the json array
                     jsonArray.add(dateToAdd); 
                 }
+                //set the content type of our response
+                response.setContentType("application/json");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                printout.print(jsonArray);
+                printout.flush();
+            }   
+                
+                if (request.getParameter("func").equals("getRevByDate")){
+                double totalRev = 0;     
+                String [] arrr = request.getParameter("date").split("/");
+                String query = "SELECT * FROM [MatchesFromAbove].[dbo].[DATE] WHERE DATEPART(month, DATE_TIME) = "+ arrr[0]+ " AND DATEPART(year, DATE_TIME) = "+arrr[2] + " AND DATEPART(day, DATE_TIME) = "+arrr[1];
+
+                ResultSet rs = st.executeQuery(query);
+
+                //loop through result set and create the json objects
+                
+                while (rs.next())
+                {   
+                    totalRev = totalRev + Double.parseDouble(rs.getString("Fee"));
+                    JSONObject dateToAdd = new JSONObject();
+                    dateToAdd.put("fee", rs.getString("Fee"));
+                    dateToAdd.put("time", rs.getDate("Date_Time").toString());
+                    //add the json object that we're passing into the json array
+                    jsonArray.add(dateToAdd); 
+                }
+                JSONObject dateToAdd = new JSONObject();
+                dateToAdd.put("total", totalRev);
+                jsonArray.add(dateToAdd); 
+                //set the content type of our response
+                response.setContentType("application/json");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                printout.print(jsonArray);
+                printout.flush();
+            }
+                
+                
+                if (request.getParameter("func").equals("getRevBySSN")){
+                double totalRev = 0;     
+                String ssn = request.getParameter("SSN");
+                String query = "[MatchesFromAbove].[dbo].[DATE].Fee, [MatchesFromAbove].[dbo].[DATE].Date_Time"
+                        + " FROM [MatchesFromAbove].[dbo].[DATE], [MatchesFromAbove].[dbo].[CUSTOMER], [MatchesFromAbove].[dbo].[PROFILE] "
+                        + "WHERE ([MatchesFromAbove].[dbo].[DATE].Profile1Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId AND [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN = [MatchesFromAbove].[dbo].[CUSTOMER].SSN AND [MatchesFromAbove].[dbo].[CUSTOMER].SSN =" +ssn+") "
+                        + "OR ([MatchesFromAbove].[dbo].[DATE].Profile2Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId AND [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN = SSN AND [MatchesFromAbove].[dbo].[CUSTOMER].SSN = "+ssn+")";
+                ResultSet rs = st.executeQuery(query);
+
+                //loop through result set and create the json objects
+                
+                while (rs.next())
+                {   
+                    totalRev = totalRev + Double.parseDouble(rs.getString("Fee"));
+                    JSONObject dateToAdd = new JSONObject();
+                    dateToAdd.put("fee", rs.getString("Fee"));
+                    dateToAdd.put("time", rs.getDate("Date_Time").toString());
+                    //add the json object that we're passing into the json array
+                    jsonArray.add(dateToAdd); 
+                }
+                JSONObject dateToAdd = new JSONObject();
+                dateToAdd.put("total", totalRev);
+                jsonArray.add(dateToAdd); 
                 //set the content type of our response
                 response.setContentType("application/json");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
