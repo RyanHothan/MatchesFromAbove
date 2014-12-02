@@ -36,11 +36,34 @@ function showDates()
                 $("#comments" + i).html(data[i].comments);
                 $("#user1Rating" + i).html(data[i].user1Rating);
                 $("#user2Rating" + i).html(data[i].user2Rating);
+
+                if (profileId === $("profile1Id" + i).html())
+                {
+                    $("#user1Rating" + i).on('click', function ()
+                    {
+                        var innerHTML = $(this).text();
+                        $(this).html("");
+                        $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
+                    });
+                    $("#changing").on('keyup', function() {
+                        var someData = $(this).attr('value');
+                       var  
+                    });
+                }
+                else
+                {
+                    $("#user2Rating" + i).on('click', function ()
+                    {
+                        var innerHTML = $(this).text();
+                        $(this).html("");
+                        $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
+                    });
+                }
+
             }
             return data;
         }
     });
-    alert("omfg");
 }
 
 

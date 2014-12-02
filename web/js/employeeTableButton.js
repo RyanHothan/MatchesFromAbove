@@ -75,7 +75,7 @@ function populateEmployeesTable()
                                     }
                                     if (infoType === "ssn")
                                     {
-                                        $(this).parent().parent().attr('value', someData);
+                                        tdCell.parent().attr('value', someData);
                                     }
                                 }
                             });
@@ -98,14 +98,15 @@ function populateEmployeesTable()
                             dataType: 'text',
                             success: function (e) {
                                 if (!(e === "F")) {
-                                        $(this).remove();
-                                        tdCell.html(newData);
+                                        
 
                                     }
                                     if (infoType === "ssn")
                                     {
-                                        $(this).parent().parent().attr('value', someData);
+                                        tdCell.parent().attr('value', someData);
                                     }
+                                    $(this).remove();
+                                        tdCell.html(newData);
 
                             }
                         });
