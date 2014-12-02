@@ -33,7 +33,7 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-        $("#customersTable").on('click', 'td', function() {
+  $("#customersTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -46,34 +46,40 @@ function populateCustomersTable()
                     $("#changing").focus();
                     //check to see if user has clicked 'Enter'
                     $("#changing").on('keyup', function(e) {
-                        //some data is what is inside the text box
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
                         var customerToChange = $(this).parent().parent().attr('value');
-                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        var tr = $(this).parent().parent();
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
-                        if (e.keyCode === 13)
-                        {
-                            $.ajax({
-                                url: '/MatchesFromAbove/EditCustomer',
-                                type: 'POST',
-                                data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
-                                dataType: 'text',
-                                success: function(e) {
+                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        if (e.keyCode === 13){
+                            alert("lala");
+                        $.ajax({
+                            url: '/MatchesFromAbove/EditCustomer',
+                            type: 'POST',
+                            data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
+                            dataType: 'text',
+                            success: function(e) {
 
-                                    if (!(e === "F")) {
-                                        $(this).remove();
-                                        tdCell.html(newData);
+                                if (!(e === "F")) {
+                                    $(this).remove();
+                                    tdCell.html(newData);
+                                
 
-                                    }
-                                    if (infoType === "ssn")
-                                    {
-                                       tdCell.parent().attr('value', someData);
-                                    }
+                                if (infoType === "ssn")
+                                {
+                                    tr.attr('value', newData);
+                                    $(this).attr('value', newData);
                                 }
-                            });
+                            }else {
+                                 $(this).remove();
+                                    tdCell.html(someData);
+                                
+                            }
+                            }
+                        });
 
                         }
 
@@ -83,27 +89,36 @@ function populateCustomersTable()
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
                         var customerToChange = $(this).parent().parent().attr('value');
+                        var tr = $(this).parent().parent();
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        
                         $.ajax({
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: someData, customer: customerToChange},
+                            data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
                             dataType: 'text',
                             success: function(e) {
 
                                 if (!(e === "F")) {
                                     $(this).remove();
                                     tdCell.html(newData);
-                                }
+                                
 
                                 if (infoType === "ssn")
                                 {
-                                    tdCell.parent().attr('value', someData);
+                                    tr.attr('value', newData);
+                                    $(this).attr('value', newData);
                                 }
+                            }else {
+                                 $(this).remove();
+                                    tdCell.html(someData);
+                                
+                            }
                             }
                         });
+                        
                     });
                 }
             }

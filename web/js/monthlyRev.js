@@ -94,3 +94,43 @@ function getBestRep(){
             }
         });
 };
+
+function getBestCust(){
+    $.ajax({
+            url: '/MatchesFromAbove/managerFunctions',
+            type: 'GET',
+            data: {func: "getBestCust"},
+            dataType: 'text',
+            success: function(data) {
+                 $("#bestCust").empty();
+                 $("#bestCust").html(data)
+            }
+        });
+};
+
+
+function bestRatedCust(){
+    $.ajax({
+            url: '/MatchesFromAbove/managerFunctions',
+            type: 'GET',
+            data: {func: "bestRatedCust"},
+            dataType: 'text',
+            success: function(data) {
+                 $("#bestRatedCust").empty();
+                 $("#bestRatedCust").html(data)
+            }
+        });
+};
+
+function bestDateDays(){
+    $.ajax({
+            url: '/MatchesFromAbove/managerFunctions',
+            type: 'GET',
+            data: {func: "bestDateDays"},
+            dataType: 'text',
+            success: function(data) {
+                 $("#bestDateDays").empty();
+                 $("#bestDateDays").html(data)
+            }
+        });
+};

@@ -133,9 +133,21 @@
                 </tbody>
         </table>
     </div>
-    <hi style="color:yellow" onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </p>
+    <h1 style="color:yellow" onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </h1>
 
-    <p style="color:yellow" id = "bestRep"></p>
+    <p style="color:yellow" id = "bestRep">Click Above</p>
+    
+     <h1 style="color:yellow" onclick="getBestCust()" >Customer With Most Revenue: ~~Star Customer~~ </h1>
+
+    <p style="color:yellow" id = "bestCust">Click Above</p>
+    
+    <h1 style="color:yellow" onclick="bestRatedCust()" >Top Rated Customers (rating of 4 or 5): </h1>
+
+    <div style="color:yellow" id = "bestRatedCust">Click Above</div>
+    
+    <h1 style="color:yellow" onclick="bestDateDays()" >Best Date Days: </h1>
+
+    <div style="color:yellow" id = "bestDateDays">Click Above</div>
     
 
 </div> 
