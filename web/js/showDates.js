@@ -46,8 +46,7 @@ function showDates()
                         $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
                     });
                     $("#changing").on('keyup', function() {
-                        var someData = $(this).attr('value');
-                       var  
+                        var someData = $(this).attr('value'); 
                     });
                 }
                 else
