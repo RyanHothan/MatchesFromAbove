@@ -36,79 +36,92 @@ function populateEmployeesTable()
     
     
         //bind on click function for editing purposes
-        $("#employeesTable").on('click', 'td', function () {
+  $("#customersTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
-                if ($(this).attr('value') !== 'startDate')
+                if ($(this).attr('value') !== '')
                 {
                     var innerHTML = $(this).text();
-
                     $(this).html("");
                     $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
                     //change focus to the input box
                     $("#changing").focus();
                     //check to see if user has clicked 'Enter'
-                    $("#changing").on('keyup', function (e) {
-                        //some data is what is inside the text box
+                    $("#changing").on('keyup', function(e) {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
                         var employeeToChange = $(this).parent().parent().attr('value');
-                            var newData = $(this).val();
-                            var tdCell = $(this).parent();                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
-                        if (e.keyCode === 13)
-                        { 
-                            
-                            $.ajax({
-                                url: '/MatchesFromAbove/EditEmployee',
-                                type: 'POST',
-                                data: {typeOfData: infoType, thingToEdit: someData, employee: employeeToChange},
-                                dataType: 'text',
-                                success: function (e) {
-                                    if (!(e === "F")) {
-                                        alert("enter and success"); 
+                        var tr = $(this).parent().parent();
+                        var newData = $(this).val();
+                        var tdCell = $(this).parent();
+                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        if (e.keyCode === 13){
+                            alert("lala");
+                        $.ajax({
+                            url: '/MatchesFromAbove/EditCustomer',
+                            type: 'POST',
+                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
+                            dataType: 'text',
+                            success: function(e) {
 
-                                        $(this).remove();
-                                        tdCell.html(newData);
+                                if (!(e === "F")) {
+                                    $(this).remove();
+                                    tdCell.html(newData);
+                                
 
-                                    }
-                                    if (infoType === "ssn")
-                                    {
-                                        $(this).parent().parent().attr('value', someData);
-                                    }
+                                if (infoType === "ssn")
+                                {
+                                    tr.attr('value', newData);
+                                    $(this).attr('value', newData);
                                 }
-                            });
+                            }else {
+                                 $(this).remove();
+                                    tdCell.html(someData);
+                                
+                            }
+                            }
+                        });
+
                         }
 
                     });
-                    $("#changing").on("focusout", function () {
+                    $("#changing").on("focusout", function() {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
                         var employeeToChange = $(this).parent().parent().attr('value');
-                        
-                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        var tr = $(this).parent().parent();
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
+                        //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
+                        
                         $.ajax({
-                            url: '/MatchesFromAbove/EditEmployee',
+                            url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: someData, employee: employeeToChange},
+                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
                             dataType: 'text',
-                            success: function (e) {
+                            success: function(e) {
+
                                 if (!(e === "F")) {
-                                        $(this).remove();
-                                        tdCell.html(newData);
+                                    $(this).remove();
+                                    tdCell.html(newData);
+                                
 
-                                    }
-                                    if (infoType === "ssn")
-                                    {
-                                        $(this).parent().parent().attr('value', someData);
-                                    }
-
+                                if (infoType === "ssn")
+                                {
+                                    tr.attr('value', newData);
+                                    $(this).attr('value', newData);
+                                }
+                            }else {
+                                 $(this).remove();
+                                    tdCell.html(someData);
+                                
+                            }
                             }
                         });
+                        
                     });
                 }
             }

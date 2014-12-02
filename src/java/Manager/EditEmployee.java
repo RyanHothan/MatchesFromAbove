@@ -67,7 +67,7 @@ public class EditEmployee extends HttpServlet {
                         + "SET SSN = '" + ssn + "' " 
                         + "WHERE SSN IN ( SELECT SSN FROM [MatchesFromAbove].[dbo].[Person] WHERE SSN = '" + employeeSSN + "')";
                 System.out.println(query);                
-                st.executeUpdate(query);
+                System.out.println(st.executeUpdate(query));
         }
         if(dataType.equals("role"))
         {
