@@ -46,12 +46,12 @@ public class managerFunctions extends HttpServlet {
         {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw;allowMultiQueries=true");
 
             Statement st = con.createStatement();
                 if (request.getParameter("func").equals("getRev")){
                 String query = "SELECT * FROM [MatchesFromAbove].[dbo].[DATE] WHERE DATEPART(month, DATE_TIME) = "+request.getParameter("month") + " AND DATEPART(year, DATE_TIME) = "+request.getParameter("year");
-
+                    
                 ResultSet rs = st.executeQuery(query);
 
                 //loop through result set and create the json objects
@@ -69,13 +69,13 @@ public class managerFunctions extends HttpServlet {
                 PrintWriter printout = response.getWriter();
                 printout.print(jsonArray);
                 printout.flush();
+                System.out.println("rev generated");
             }   
                 
                 if (request.getParameter("func").equals("getRevByDate")){
                 double totalRev = 0;     
                 String [] arrr = request.getParameter("date").split("/");
                 String query = "SELECT * FROM [MatchesFromAbove].[dbo].[DATE] WHERE DATEPART(month, DATE_TIME) = "+ arrr[0]+ " AND DATEPART(year, DATE_TIME) = "+arrr[2] + " AND DATEPART(day, DATE_TIME) = "+arrr[1];
-
                 ResultSet rs = st.executeQuery(query);
 
                 //loop through result set and create the json objects
@@ -104,11 +104,12 @@ public class managerFunctions extends HttpServlet {
                 if (request.getParameter("func").equals("getRevBySSN")){
                 double totalRev = 0;     
                 String ssn = request.getParameter("SSN");
-                String query = "[MatchesFromAbove].[dbo].[DATE].Fee, [MatchesFromAbove].[dbo].[DATE].Date_Time"
-                        + " FROM [MatchesFromAbove].[dbo].[DATE], [MatchesFromAbove].[dbo].[CUSTOMER], [MatchesFromAbove].[dbo].[PROFILE] "
-                        + "WHERE ([MatchesFromAbove].[dbo].[DATE].Profile1Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId AND [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN = [MatchesFromAbove].[dbo].[CUSTOMER].SSN AND [MatchesFromAbove].[dbo].[CUSTOMER].SSN =" +ssn+") "
-                        + "OR ([MatchesFromAbove].[dbo].[DATE].Profile2Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId AND [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN = SSN AND [MatchesFromAbove].[dbo].[CUSTOMER].SSN = "+ssn+")";
-                ResultSet rs = st.executeQuery(query);
+                    String query = "SELECT *"
+                            + "FROM [MatchesFromAbove].[dbo].[DATE],[MatchesFromAbove].[dbo].[Profile]"
+                            + "WHERE ([MatchesFromAbove].[dbo].[DATE].Profile1Id = [MatchesFromAbove].[dbo].[Profile].ProfileId AND [MatchesFromAbove].[dbo].[Profile].OwnerSSN ='" +ssn+"') OR "
+                            + "([MatchesFromAbove].[dbo].[DATE].Profile2Id = [MatchesFromAbove].[dbo].[Profile].ProfileId AND [MatchesFromAbove].[dbo].[Profile].OwnerSSN ='"+ssn+"')";
+
+                        ResultSet rs = st.executeQuery(query);
 
                 //loop through result set and create the json objects
                 
@@ -131,11 +132,46 @@ public class managerFunctions extends HttpServlet {
                 printout.print(jsonArray);
                 printout.flush();
             }
+                
+                if (request.getParameter("func").equals("getBestRep")){
+                st.execute("DROP VIEW booob");
+                st.execute("CREATE VIEW booob AS SELECT [MatchesFromAbove].[dbo].[DATE].CustomerRep, SUM([MatchesFromAbove].[dbo].[DATE].Fee) AS sumFee FROM [MatchesFromAbove].[dbo].[DATE] GROUP BY [MatchesFromAbove].[dbo].[DATE].CustomerRep");
+                String query = "SELECT * FROM booob";
+                        ResultSet rs = st.executeQuery(query);
+                        
+               
+
+                //loop through result set and create the json objects
+                Double max = 0.0; 
+                String name = "";
+                while (rs.next())
+                {   
+                   double b = rs.getDouble("sumFee");
+                   System.out.println(b+" "+ rs.getString("CustomerRep"));
+                   if (b > max){
+                       max = b; 
+                       name = rs.getString("CustomerRep");
+                   }
+                   
+                }
+                 String query2 = "SELECT * FROM PERSON WHERE SSN = '"+name+"'";
+                ResultSet rs2 = st.executeQuery(query2);
+                 while (rs2.next())
+                {
+                    name = (rs2).getString("FirstName")+" "+(rs2).getString("LastName"); 
+                }
+                //set the content type of our response
+                response.setContentType("text/html");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                printout.print("NAME: "+name+"        Revenue Generated: $" +(long) (max * 100 + 0.5) / 100.0);
+                printout.flush();
+            }
             con.close();
             
         } catch (Exception e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()+"managerFuncetionsClass");
             return;
         }
     }
