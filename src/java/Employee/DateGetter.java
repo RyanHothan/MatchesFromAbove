@@ -46,13 +46,15 @@ public class DateGetter extends HttpServlet
 
         //create and initialize our profile object with passed in parameters
         String ssn = request.getParameter("SSN");
+        String profileId = "";
+        profileId = request.getParameter("profileId");
         JSONArray jsons = new JSONArray();
-        getDates(ssn, jsons);
+        getDates(ssn, jsons, profileId);
         PrintWriter printout = response.getWriter();
         printout.print(jsons);
     }
 
-    protected void getDates(String SSN, JSONArray jsons)
+    protected void getDates(String SSN, JSONArray jsons, String profileId)
     {
  
         try
@@ -66,7 +68,7 @@ public class DateGetter extends HttpServlet
             //add the profile to DB
             
             String checkUserQuery = "SELECT SSN FROM [MatchesFromAbove].[dbo].[Employee] " 
-                    + "WHERE SSN = " + SSN;
+                    + "WHERE SSN = '" + SSN + "'";
             
             ResultSet rs = st.executeQuery(checkUserQuery);
             String query;
@@ -80,7 +82,7 @@ public class DateGetter extends HttpServlet
             {
                 query = "SELECT * "
                         + "FROM [MatchesFromAbove].[dbo].[Date] "
-                        + "WHERE Profile1Id = '" + SSN + "' OR Profile2Id = '" + SSN + "'";
+                        + "WHERE Profile1Id = '" + profileId + "' OR Profile2Id = '" + profileId + "'";
             }
                     
             

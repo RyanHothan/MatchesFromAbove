@@ -70,7 +70,7 @@ function populateCustomersTable()
                                     }
                                     if (infoType === "ssn")
                                     {
-                                        $(this).parent().parent().attr('value', someData);
+                                       tdCell.parent().attr('value', someData);
                                     }
                                 }
                             });
@@ -100,7 +100,7 @@ function populateCustomersTable()
 
                                 if (infoType === "ssn")
                                 {
-                                    $(this).parent().parent().attr('value', someData);
+                                    tdCell.parent().attr('value', someData);
                                 }
                             }
                         });
