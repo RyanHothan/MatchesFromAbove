@@ -36,7 +36,7 @@ function populateEmployeesTable()
     
     
         //bind on click function for editing purposes
-  $("#customersTable").on('click', 'td', function() {
+  $("#employeesTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
