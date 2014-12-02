@@ -33,7 +33,7 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-        $("#customersTable").on('click', 'td', function() {
+  $("#customersTable").on('click', 'td', function() {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -94,7 +94,6 @@ function populateCustomersTable()
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
                         
-                        alert("someData: "+someData+"  infoType: "+infoType+" customerToChange:"+customerToChange);
                         $.ajax({
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',

@@ -42,18 +42,19 @@ public class DateGetter extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/json");
 
         //create and initialize our profile object with passed in parameters
         String ssn = request.getParameter("SSN");
+        String profileId = "";
+        profileId = request.getParameter("profileId");
         JSONArray jsons = new JSONArray();
-        getDates(ssn, jsons);
+        getDates(ssn, jsons, profileId);
         PrintWriter printout = response.getWriter();
         printout.print(jsons);
-        printout.flush();
     }
 
-    protected void getDates(String employeeSSN, JSONArray jsons)
+    protected void getDates(String SSN, JSONArray jsons, String profileId)
     {
  
         try
@@ -65,13 +66,31 @@ public class DateGetter extends HttpServlet
             Statement st = con.createStatement();
 
             //add the profile to DB
-            String query = "SELECT * "
-                    + "FROM [MatchesFromAbove].[dbo].[Date]"
-                    + "WHERE CustomerRep = '" + employeeSSN + "'";
+            
+            String checkUserQuery = "SELECT SSN FROM [MatchesFromAbove].[dbo].[Employee] " 
+                    + "WHERE SSN = '" + SSN + "'";
+            
+            ResultSet rs = st.executeQuery(checkUserQuery);
+            String query;
+            if(rs.next())
+            {
+                query = "SELECT * "
+                    + "FROM [MatchesFromAbove].[dbo].[Date] "
+                    + "WHERE CustomerRep = '" + SSN + "'";
+            }
+            else
+            {
+                query = "SELECT * "
+                        + "FROM [MatchesFromAbove].[dbo].[Date] "
+                        + "WHERE Profile1Id = '" + profileId + "' OR Profile2Id = '" + profileId + "'";
+            }
+                    
+            
+            
             
             System.out.println(query);
 
-            ResultSet rs = st.executeQuery(query);
+            rs = st.executeQuery(query);
             
             while(rs.next())
             {

@@ -1,11 +1,19 @@
 function showDates()
 {
     var empSSN = $("input[name=ssn]").val();
+    if ($("#profileBox").length !== 0)
+    {
+        var profileId = $("#profileBox option:selected").val();
+    }
+    else
+    {
+        var profileId = "";
+    }
     $.ajax({
         url: '/MatchesFromAbove/DateGetter',
         type: 'GET',
         dataType: 'JSON',
-        data: 'SSN=' + empSSN,
+        data: {SSN: empSSN, profileId: profileId},
         success: function (data)
         {
             for (i = 0; i < data.length; i++)
@@ -19,7 +27,7 @@ function showDates()
                 $("#date" + i).append("<td id = 'comments" + i + "'></td>");
                 $("#date" + i).append("<td id = 'user1Rating" + i + "'></td>");
                 $("#date" + i).append("<td id = 'user2Rating" + i + "'></td>");
-                
+
                 $("#profile1Id" + i).html(data[i].profile1Id);
                 $("#profile2Id" + i).html(data[i].profile2Id);
                 $("#dateTime" + i).html(data[i].dateTime);
@@ -31,7 +39,8 @@ function showDates()
             }
             return data;
         }
-        });
+    });
+    alert("omfg");
 }
 
 
