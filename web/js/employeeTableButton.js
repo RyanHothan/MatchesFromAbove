@@ -143,3 +143,29 @@ function deleteEmployee(ssn)
 
     $("tr[value=" + ssn + "]").remove();
 }
+
+function addEmployee(){
+    var newEmpSSN = $("#newEmpSSN").val().trim();
+    var newEmpPassword = $("#newEmpPassword").val().trim();
+    var newEmpFirstName = $("#newEmpFirstName").val().trim();
+    var newEmpLastName = $("#newEmpLastName").val().trim();
+    var newEmpStreet = $("#newEmpStreet").val().trim();
+    var newEmpCity = $("#newEmpCity").val().trim();
+    var newEmpState = $("#newEmpState").val().trim();
+    var newEmpZipCode = $("#newEmpZipCode").val().trim();
+    var newEmpEmail = $("#newEmpEmail").val().trim();
+    var newEmpTelephone = $("#newEmpTelephone").val().trim();
+    var newEmpRole = $("#newEmpRole").val().trim();
+    var newEmpRate = $("#newEmpRate").val().trim();
+    
+    $.ajax({
+                            url: '/MatchesFromAbove/EditCustomer',
+                            type: 'POST',
+                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
+                            dataType: 'text',
+                            success: function(e) {
+
+                                
+                            }
+                        });
+};
