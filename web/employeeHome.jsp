@@ -22,7 +22,6 @@
         <title>Customer Representative Home</title>
     </head>
     <body>
-        <h1 id="abc">Hello World!</h1>
         <div>
             <div style="width:50%; display:inline-block">
                 <input type="submit" id="customerTableButton" value="Show All Customers" onclick="populateCustomersTable()"/>

@@ -9,6 +9,8 @@
 </head>
 
 <body id="index">
+  <button onclick="window.location = 'help.html'">Help</button>
+  <button onclick="window.location = 'ER.html'">ER Diagram</button>
   <div class="login-card">
   <h1>Log-in</h1><br>
   <form  id = "loginForm" action="/MatchesFromAbove/loginhelp" method = "POST">
