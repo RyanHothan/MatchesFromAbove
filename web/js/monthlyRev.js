@@ -15,8 +15,9 @@ function getRev()
             url: '/MatchesFromAbove/managerFunctions',
             type: 'GET',
             data: {func: "getRev", month: monthToGet, year: yearToGet},
-            dataType: 'JSON',
+            dataType: 'text',
             success: function(data) {
+                alert(data);
                 for (i = 0; i < data.length; i++)
                 {   
                     $("#revPlace > tbody").append("<tr id = monthRev"+i+"></tr>");
@@ -133,4 +134,19 @@ function bestDateDays(){
                  $("#bestDateDays").html(data)
             }
         });
+};
+
+function actCust(){
+    alert("te");
+    $.ajax({
+            url: '/MatchesFromAbove/managerFunctions',
+            type: 'GET',
+            data: {func: "mostActCust"},
+            dataType: 'text',
+            success: function(data) {
+                 alert("hott "+data);
+             }     
+        });
+    
+    
 };

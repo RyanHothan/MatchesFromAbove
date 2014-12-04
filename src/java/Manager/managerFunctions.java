@@ -233,7 +233,7 @@ public class managerFunctions extends HttpServlet {
                 //loop through result set and create the json objects
                 Double max = 0.0;
                 String name = "";
-                String rating="";
+                String rating = "";
                 while (rs.next()) {
                     name = rs.getString("SSN");
                     rating = rs.getString("Rating");
@@ -241,36 +241,51 @@ public class managerFunctions extends HttpServlet {
                     ResultSet rs2 = st.executeQuery(query2);
                     while (rs2.next()) {
                         name = (rs2).getString("FirstName") + " " + (rs2).getString("LastName");
-                        printout.print("<p>NAME: " + name + "        Rating for Customer is: " + rating+"</p>");
+                        printout.print("<p>NAME: " + name + "        Rating for Customer is: " + rating + "</p>");
 
                     }
 
                 }
             }
-                
-                if (request.getParameter("func").equals("bestDateDays")) {
+
+            if (request.getParameter("func").equals("bestDateDays")) {
                 String query = "SELECT CAST([MatchesFromAbove].[dbo].[DATE].Date_Time AS DATE) as Date, SUM([MatchesFromAbove].[dbo].[DATE].User1Rating+[MatchesFromAbove].[dbo].[DATE].User2Rating) as Score FROM [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE] GROUP BY CAST([MatchesFromAbove].[dbo].[DATE].Date_Time AS DATE) HAVING (SUM([MatchesFromAbove].[dbo].[DATE].User1Rating+[MatchesFromAbove].[dbo].[DATE].User2Rating) >= 1) ORDER BY Score DESC";
                 ResultSet rs = st.executeQuery(query);
                 response.setContentType("text/html");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
                 PrintWriter printout = response.getWriter();
-                int i = 0; 
+                int i = 0;
                 while (rs.next()) {
-                    i++; 
-                    if (i == 4){
-                        break; 
+                    i++;
+                    if (i == 4) {
+                        break;
                     }
-                    printout.print("<p>RANK: "+i+ "________ DAY FOR DATE: "+rs.getString("Date").substring(5)+"________ SCORE FOR THIS DAY: "+rs.getString("Score"));
-                
-                }
-                    
+                    printout.print("<p>RANK: " + i + "________ DAY FOR DATE: " + rs.getString("Date").substring(5) + "________ SCORE FOR THIS DAY: " + rs.getString("Score"));
 
-                
+                }
 
                 //set the content type of our response
                 printout.flush();
             }
 
+            if (request.getParameter("func").equals("mostActCust")) {
+                String query = "SELECT ProfileId, SUM(points) AS totalPoints FROM	(SELECT ProfileId, SUM(numDates) AS points	FROM ( 	SELECT P.ProfileId, COUNT(*) AS numDates FROM  Profile P, Date D	WHERE D.Profile1Id = P.ProfileId 		GROUP BY (ProfileId)		UNION ALL		SELECT P.ProfileId, COUNT(*) AS numDates		FROM Profile P, Date D		WHERE D.Profile2Id = P.ProfileId 		GROUP BY (ProfileId)		) dateSSNs	GROUP BY(ProfileId)	UNION ALL	SELECT ProfileId, SUM(numLikes) AS points	FROM		(		SELECT P.ProfileId, COUNT(*) AS numLikes		FROM  Profile P, Likes L		WHERE L.LikerId = P.ProfileId		GROUP BY (ProfileId)		) likeSSNs	GROUP BY (ProfileId)) tableA GROUP BY(ProfileId)";
+                System.out.println(query);
+                ResultSet rs = st.executeQuery(query);
+                
+                response.setContentType("text/html");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+                String s = " buns"; 
+                while (rs.next()) {
+                    System.out.println("bub");
+                       s = s+"  "+ rs.getString("ProfileId");
+                   
+                }
+                //set the content type of our response
+                printout.print(s);
+                printout.flush();
+            }
             con.close();
 
         } catch (Exception e) {
