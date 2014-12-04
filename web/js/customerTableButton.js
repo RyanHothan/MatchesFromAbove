@@ -17,7 +17,7 @@ function populateCustomersTable()
             url: '/MatchesFromAbove/getAllCustomers',
             type: 'GET',
             dataType: 'JSON',
-            success: function(data) {
+            success: function (data) {
                 //pop up the table
                 $("#customersTable").show();
                 //populate the data in the table
@@ -33,7 +33,9 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
+
         $("#customersTable").on('click', 'td', function() {
+
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -45,7 +47,7 @@ function populateCustomersTable()
                     //change focus to the input box
                     $("#changing").focus();
                     //check to see if user has clicked 'Enter'
-                    $("#changing").on('keyup', function(e) {
+                    $("#changing").on('keyup', function (e) {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
@@ -61,7 +63,7 @@ function populateCustomersTable()
                                 type: 'POST',
                                 data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
                                 dataType: 'text',
-                                success: function(e) {
+                                success: function (e) {
 
                                     if (!(e === "F")) {
                                         $(this).remove();
@@ -84,7 +86,7 @@ function populateCustomersTable()
                         }
 
                     });
-                    $("#changing").on("focusout", function() {
+                    $("#changing").on("focusout", function () {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
@@ -99,7 +101,7 @@ function populateCustomersTable()
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
                             dataType: 'text',
-                            success: function(e) {
+                            success: function (e) {
 
                                 if (!(e === "F")) {
                                     $(this).remove();
