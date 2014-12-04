@@ -17,7 +17,7 @@ function populateCustomersTable()
             url: '/MatchesFromAbove/getAllCustomers',
             type: 'GET',
             dataType: 'JSON',
-            success: function(data) {
+            success: function (data) {
                 //pop up the table
                 $("#customersTable").show();
                 //populate the data in the table
@@ -33,7 +33,7 @@ function populateCustomersTable()
             }
         });
         //bind on click function for editing purposes
-  $("#customersTable").on('click', 'td', function() {
+        $("#customersTable").on('click', 'td', function () {
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
@@ -45,7 +45,7 @@ function populateCustomersTable()
                     //change focus to the input box
                     $("#changing").focus();
                     //check to see if user has clicked 'Enter'
-                    $("#changing").on('keyup', function(e) {
+                    $("#changing").on('keyup', function (e) {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
@@ -54,37 +54,36 @@ function populateCustomersTable()
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
-                        if (e.keyCode === 13){
-                            alert("lala");
-                        $.ajax({
-                            url: '/MatchesFromAbove/EditCustomer',
-                            type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
-                            dataType: 'text',
-                            success: function(e) {
+                        if (e.keyCode === 13) {
+                            $.ajax({
+                                url: '/MatchesFromAbove/EditCustomer',
+                                type: 'POST',
+                                data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
+                                dataType: 'text',
+                                success: function (e) {
 
-                                if (!(e === "F")) {
-                                    $(this).remove();
-                                    tdCell.html(newData);
-                                
+                                    if (!(e === "F")) {
+                                        $(this).remove();
+                                        tdCell.html(newData);
 
-                                if (infoType === "ssn")
-                                {
-                                    tr.attr('value', newData);
-                                    $(this).attr('value', newData);
+
+                                        if (infoType === "ssn")
+                                        {
+                                            tr.attr('value', newData);
+                                            $(this).attr('value', newData);
+                                        }
+                                    } else {
+                                        $(this).remove();
+                                        tdCell.html(someData);
+
+                                    }
                                 }
-                            }else {
-                                 $(this).remove();
-                                    tdCell.html(someData);
-                                
-                            }
-                            }
-                        });
+                            });
 
                         }
 
                     });
-                    $("#changing").on("focusout", function() {
+                    $("#changing").on("focusout", function () {
                         var someData = $(this).attr('value');
                         //this is the value of the table cell
                         var infoType = $(this).parent().attr('value');
@@ -93,32 +92,33 @@ function populateCustomersTable()
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
-                        
+
                         $.ajax({
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
                             data: {typeOfData: infoType, thingToEdit: newData, customer: customerToChange},
                             dataType: 'text',
-                            success: function(e) {
+                            success: function (e) {
 
                                 if (!(e === "F")) {
                                     $(this).remove();
                                     tdCell.html(newData);
-                                
 
-                                if (infoType === "ssn")
-                                {
-                                    tr.attr('value', newData);
-                                    $(this).attr('value', newData);
+
+                                    if (infoType === "ssn")
+                                    {
+                                        tr.attr('value', newData);
+                                        $(this).attr('value', newData);
+                                    }
                                 }
-                            }else {
-                                 $(this).remove();
+                                else {
+                                    $(this).remove();
                                     tdCell.html(someData);
-                                
-                            }
+
+                                }
                             }
                         });
-                        
+
                     });
                 }
             }

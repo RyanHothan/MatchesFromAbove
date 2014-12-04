@@ -19,6 +19,7 @@
 <script type='text/javascript' src='js/like.js'></script>
 <script type='text/javascript' src='js/date.js'></script>
 <script type='text/javascript' src='js/showDates.js'></script>
+<script type='text/javascript' src='js/makeReferral.js'></script>
 <script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>
@@ -326,6 +327,8 @@
             </form>
             <button id="makeDateButton" onclick="makeDate()">Make Date</button>
             <button id="likeButton" onclick="makeLike()">Like</button>
+            <input type="text" id="referralProfileA" placeHolder="Profile A" >
+            <input type="text" id="referralProfileB" placeHolder="Profile B" >
             <button id="referralButton" onclick="makeReferral()">Refer</button>
         </div>
     </body>
