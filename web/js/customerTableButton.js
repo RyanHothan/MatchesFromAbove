@@ -37,7 +37,7 @@ function populateCustomersTable()
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
-                if ($(this).attr('value') !== '')
+                if ($(this).attr('value') !== 'lastActiveDate')
                 {
                     var innerHTML = $(this).text();
                     $(this).html("");
@@ -55,7 +55,6 @@ function populateCustomersTable()
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
                         if (e.keyCode === 13){
-                            alert("lala");
                         $.ajax({
                             url: '/MatchesFromAbove/EditCustomer',
                             type: 'POST',
