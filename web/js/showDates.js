@@ -1,7 +1,8 @@
 function showDates()
 {
     var empSSN = $("input[name=ssn]").val();
-    if ($("#profileBox").length !== 0)
+    $("#empDatesTable").empty();
+    if ($("#profileBox").length > 0 || $("#profileBox option:selected").val() === 'No Profile Selected')
     {
         var profileId = $("#profileBox option:selected").val();
     }
@@ -36,27 +37,72 @@ function showDates()
                 $("#comments" + i).html(data[i].comments);
                 $("#user1Rating" + i).html(data[i].user1Rating);
                 $("#user2Rating" + i).html(data[i].user2Rating);
-
-                if (profileId === $("profile1Id" + i).html())
+                
+                if (profileId === $("#profile1Id" + i).html())
                 {
                     $("#user1Rating" + i).on('click', function ()
                     {
+                        if($(this).children().length !== 0)
+                        {
+                            return;
+                        }
                         var innerHTML = $(this).text();
                         $(this).html("");
                         $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
+                        
+                        $("#changing").on('keyup', function (e) {
+                        var newRating = $(this).attr('value');
+                        var profileOne = $(this).parent().prev().prev().prev().prev().prev().prev().html();
+                        var profileTwo = $(this).parent().prev().prev().prev().prev().prev().html();
+                        var dateTime = $(this).parent().prev().prev().prev().prev().html();
+                        var tdCell = $(this).parent();
+                        if (e.keyCode === 13)
+                        {
+                            $.ajax({
+                                url: '/MatchesFromAbove/EditUserDateRating',
+                                type: 'POST',
+                                data: {profileOne: profileOne, profileTwo: profileTwo, dateTime: dateTime, ratingToChange : 'User1Rating', newRating : newRating},
+                                dataType: "text"
+                            });
+                            $(this).remove();
+                            tdCell.html(newRating);
+                        }
                     });
-                    $("#changing").on('keyup', function() {
-                        var someData = $(this).attr('value'); 
                     });
+                    
                 }
                 else
                 {
                     $("#user2Rating" + i).on('click', function ()
                     {
+                        if($(this).children().length !== 0)
+                        {
+                            return;
+                        }
                         var innerHTML = $(this).text();
                         $(this).html("");
                         $(this).append("<input type='text' value='" + innerHTML + "' id='changing'/> <input type='submit'");
+                        
+                        $("#changing").on('keyup', function (e) {
+                        var newRating = $(this).attr('value');
+                        var profileOne = $(this).parent().prev().prev().prev().prev().prev().prev().html();
+                        var profileTwo = $(this).parent().prev().prev().prev().prev().prev().html();
+                        var dateTime = $(this).parent().prev().prev().prev().prev().html();
+                        var tdCell = $(this).parent();
+                        if (e.keyCode === 13)
+                        {
+                            $.ajax({
+                                url: '/MatchesFromAbove/EditUserDateRating',
+                                type: 'POST',
+                                data: {profileOne: profileOne, profileTwo: profileTwo, dateTime: dateTime, ratingToChange : 'User2Rating', newRating : newRating},
+                                dataType: "text"
+                            });
+                            $(this).remove();
+                            tdCell.html(newRating);
+                        }
                     });
+                    });
+                    
                 }
 
             }

@@ -19,6 +19,7 @@
 <script type='text/javascript' src='js/like.js'></script>
 <script type='text/javascript' src='js/date.js'></script>
 <script type='text/javascript' src='js/showDates.js'></script>
+<script type='text/javascript' src='js/makeReferral.js'></script>
 <script src="js/profileSelect.js" type="text/javascript"></script>
 <!DOCTYPE html>
 <html>
@@ -101,9 +102,9 @@
             </div>
 
             <!--Div for profile viewers-->
-            <div style="width:50%; display:inline-block">
+            <div style="width:30%; display:inline-block">
                 <h1 align="center" style="color:white;">Hello ${currentUser.firstName} ${currentUser.lastName}!</h1>
-                <table style="width: 800px;">
+                <table style="width: 500px;">
                     <thead>
                     <th>Profile Name</th>
                     <th>Age</th>
@@ -326,6 +327,8 @@
             </form>
             <button id="makeDateButton" onclick="makeDate()">Make Date</button>
             <button id="likeButton" onclick="makeLike()">Like</button>
+            <input type="text" id="referralProfileA" placeHolder="Profile A" >
+            <input type="text" id="referralProfileB" placeHolder="Profile B" >
             <button id="referralButton" onclick="makeReferral()">Refer</button>
         </div>
     </body>

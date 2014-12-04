@@ -137,15 +137,20 @@ function bestDateDays(){
 };
 
 function actCust(){
-    alert("te");
     $.ajax({
             url: '/MatchesFromAbove/managerFunctions',
             type: 'GET',
             data: {func: "mostActCust"},
-            dataType: 'text',
-            success: function(data) {
-                 alert("hott "+data);
-             }     
+            dataType: 'JSON',
+           success: function(data) {
+               $("#mostActCustTable > tbody").html("");
+                 for (i = 0; i < data.length; i++)
+                {   
+                    $("#mostActCustTable > tbody").append("<tr id = mostActCustTable"+i+"></tr>");
+                    $("#mostActCustTable"+i).append("<td value='name'>" + data[i].name  + "</td>");
+                    $("#mostActCustTable"+i).append("<td value='level'>" + data[i].level + "</td>");
+                }          
+            }
         });
     
     

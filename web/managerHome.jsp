@@ -157,10 +157,9 @@
         <button onclick="actCust()">Most Active Customers</button>     
         <table id="mostActCustTable">
             <thead>
-                <tr colspan="3"><h3>Sales For Selected Customer</h3></tr>
-            <th>Fee for Date</th>
-            <th>Date's Time</th>
-            <th>Total</th>
+                <tr colspan="3"><h3>Activity level For Top Customers</h3></tr>
+            <th>Name</th>
+            <th>Level</th>
             </thead>
             <tbody>
             </tbody>
