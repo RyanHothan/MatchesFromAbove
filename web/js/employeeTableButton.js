@@ -40,7 +40,7 @@ function populateEmployeesTable()
             //if children length is not 0 that means this table cell has been clicked before
             if ($(this).children().length === 0)
             {
-                if ($(this).attr('value') !== '')
+                if ($(this).attr('value') !== 'startdate')
                 {
                     var innerHTML = $(this).text();
                     $(this).html("");
@@ -58,11 +58,11 @@ function populateEmployeesTable()
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
                         if (e.keyCode === 13){
-                            alert("lala");
+                           alert( "typeOfData: "+ infoType+" thingToEdit: "+newData+" employee: "+ employeeToChange);
                         $.ajax({
-                            url: '/MatchesFromAbove/EditCustomer',
+                            url: '/MatchesFromAbove/EditEmployee',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
+                            data: {typeOfData: infoType, thingToEdit: newData, emp: employeeToChange},
                             dataType: 'text',
                             success: function(e) {
 
@@ -96,11 +96,11 @@ function populateEmployeesTable()
                         var newData = $(this).val();
                         var tdCell = $(this).parent();
                         //keycode 13 is for ENTER. if someone clicks enter then we make a servlet call
-                        
+                        alert( "typeOfData: "+ infoType+" thingToEdit: "+newData+" employee: "+ employeeToChange);
                         $.ajax({
-                            url: '/MatchesFromAbove/EditCustomer',
+                            url: '/MatchesFromAbove/EditEmployee',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
+                            data: {typeOfData: infoType, thingToEdit: newData, emp: employeeToChange},
                             dataType: 'text',
                             success: function(e) {
 
@@ -134,7 +134,7 @@ function populateEmployeesTable()
 function deleteEmployee(ssn)
 {
     $.ajax({
-        url: '/MatchesFromAbove/deleteCustomer',
+        url: '/MatchesFromAbove/deleteEmployee',
         type: 'POST',
         data: 'ssn=' + ssn,
         dataType: 'text'
@@ -145,26 +145,38 @@ function deleteEmployee(ssn)
 }
 
 function addEmployee(){
-    var newEmpSSN = $("#newEmpSSN").val().trim();
-    var newEmpPassword = $("#newEmpPassword").val().trim();
-    var newEmpFirstName = $("#newEmpFirstName").val().trim();
-    var newEmpLastName = $("#newEmpLastName").val().trim();
-    var newEmpStreet = $("#newEmpStreet").val().trim();
-    var newEmpCity = $("#newEmpCity").val().trim();
-    var newEmpState = $("#newEmpState").val().trim();
-    var newEmpZipCode = $("#newEmpZipCode").val().trim();
-    var newEmpEmail = $("#newEmpEmail").val().trim();
-    var newEmpTelephone = $("#newEmpTelephone").val().trim();
-    var newEmpRole = $("#newEmpRole").val().trim();
-    var newEmpRate = $("#newEmpRate").val().trim();
-    
+    var SSN = $("#newEmpSSN").val().trim();
+    var Password = $("#newEmpPassword").val().trim();
+    var FirstName = $("#newEmpFirstName").val().trim();
+    var LastName = $("#newEmpLastName").val().trim();
+    var Street = $("#newEmpStreet").val().trim();
+    var City = $("#newEmpCity").val().trim();
+    var State = $("#newEmpState").val().trim();
+    var ZipCode = $("#newEmpZipCode").val().trim();
+    var Email = $("#newEmpEmail").val().trim();
+    var Telephone = $("#newEmpTelephone").val().trim();
+    var Role = $("#newEmpRole").val().trim();
+    var Rate = $("#newEmpRate").val().trim();
     $.ajax({
-                            url: '/MatchesFromAbove/EditCustomer',
+                            url: '/MatchesFromAbove/addEmployee',
                             type: 'POST',
-                            data: {typeOfData: infoType, thingToEdit: newData, employee: employeeToChange},
+                            data: {SSN:  SSN,  Password: Password,  FirstName: FirstName, LastName: LastName , Street: Street ,  City: City,  State: State,  ZipCode: ZipCode , Email: Email, Telephone: Telephone, Role: Role, Rate: Rate},
                             dataType: 'text',
                             success: function(e) {
-
+                                if (e ==="success"){
+                                    $("#newEmpSSN").html = "";
+                                    $("#newEmpPassword").html = "";
+                                    $("#newEmpFirstName").html = "";
+                                    $("#newEmpLastName").html = "";
+                                    $("#newEmpStreet").html = "";
+                                    $("#newEmpCity").html = "";
+                                    $("#newEmpState").html = "";
+                                    $("#newEmpZipCode").html = "";;
+                                    $("#newEmpEmail").html = "";
+                                    $("#newEmpTelephone").html = "";
+                                    $("#newEmpRole").html = "";
+                                    $("#newEmpRate").html = "";
+                                }
                                 
                             }
                         });

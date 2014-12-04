@@ -28,8 +28,8 @@
         </div>
         <div id="container"> 
             <h3>Show: </h3>
-            <input type="submit" class="managerButtons" id="customerTableButton" value="Customers" onclick="populateCustomersTable()"/>
-            <input type="submit" class="managerButtons" id="employeeTableButton" value="Employees" onclick="populateEmployeesTable()"/>
+            <input type="submit" class="managerButtons" id="customerTableButton" value="Show Customers" onclick="populateCustomersTable()"/>
+            <input type="submit" class="managerButtons" id="employeeTableButton" value="Show Employees" onclick="populateEmployeesTable()"/>
 
             <div style="float:left; width:100%; min-height: 100px"> 
 
@@ -62,6 +62,24 @@
                     </tbody>
 
                 </table>
+
+            </div>
+            <div style="padding: 50px">
+                INFO TO ADD EMPLOYEE:<br>
+                <input type="text" style="display:inline-block" id="newEmpSSN" value ="SSN" />
+                <input type="text" style="display:inline-block" id="newEmpPassword" value ="Password" />
+                <input type="text" style="display:inline-block" id="newEmpFirstName" value ="FirstName" />
+                <input type="text" style="display:inline-block" id="newEmpLastName" value ="LastName" />
+                <input type="text" style="display:inline-block" id="newEmpStreet" value ="Street" />
+                <input type="text" style="display:inline-block" id="newEmpCity" value ="City" />
+                <input type="text" style="display:inline-block" id="newEmpState" value ="State" />
+                <input type="text" style="display:inline-block" id="newEmpZipCode" value ="ZipCode" />
+                <input type="text" style="display:inline-block" id="newEmpEmail" value ="Email" />
+                <input type="text" style="display:inline-block" id="newEmpTelephone" value ="Telephone" />
+                <input type="text" style="display:inline-block" id="newEmpRole" value ="Role" />
+                <input type="text" style="display:inline-block" id="newEmpRate" value ="Rate" /><br><br>
+                <input type="submit" class="managerButtons" id="addEmployee" value="Add Employee" onclick="addEmployee()"/>
+
             </div>
             <div style="width: 100%; min-height: 100px">
 
@@ -108,15 +126,14 @@
             <table id="dateGenRev">
                 <thead>
                     <tr colspan="3"><h3>Sales For Selected Day</h3></tr>
-                        <th>Fee for Date</th>
-                        <th>Date's Time</th>
-                        <th>Total</th>
+                <th>Fee for Date</th>
+                <th>Date's Time</th>
+                <th>Total</th>
                 </thead>
                 <tbody>
                 </tbody>
             </table>
         </div>
-
 
         <p>Show revenue by customer SSN</p>
         <p>SSN: <input type="text" id="custName"></p> <button onclick="getRevBySSN()">$ By Customer</button>             
@@ -124,31 +141,48 @@
     <div style="width: 100%">
         <table id="nameGenRev">
             <thead>
-                    <tr colspan="3"><h3>Sales For Selected Customer</h3></tr>
-                        <th>Fee for Date</th>
-                        <th>Date's Time</th>
-                        <th>Total</th>
-                </thead>
-                <tbody>
-                </tbody>
+                <tr colspan="3"><h3>Sales For Selected Customer</h3></tr>
+            <th>Fee for Date</th>
+            <th>Date's Time</th>
+            <th>Total</th>
+            </thead>
+            <tbody>
+            </tbody>
         </table>
+        
+                
+    </div >
+    <div style="width: 100%">
+        <p>Show most active customers</p>
+        <button onclick="actCust()">Most Active Customers</button>     
+        <table id="mostActCustTable">
+            <thead>
+                <tr colspan="3"><h3>Activity level For Top Customers</h3></tr>
+            <th>Name</th>
+            <th>Level</th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        
     </div>
+    
     <h1 style="color:yellow" onclick="getBestRep()" >Customer Rep. With Most Revenue: ~~Star Employee~~ </h1>
 
     <p style="color:yellow" id = "bestRep">Click Above</p>
-    
-     <h1 style="color:yellow" onclick="getBestCust()" >Customer With Most Revenue: ~~Star Customer~~ </h1>
+
+    <h1 style="color:yellow" onclick="getBestCust()" >Customer With Most Revenue: ~~Star Customer~~ </h1>
 
     <p style="color:yellow" id = "bestCust">Click Above</p>
-    
+
     <h1 style="color:yellow" onclick="bestRatedCust()" >Top Rated Customers (rating of 4 or 5): </h1>
 
     <div style="color:yellow" id = "bestRatedCust">Click Above</div>
-    
+
     <h1 style="color:yellow" onclick="bestDateDays()" >Best Date Days: </h1>
 
     <div style="color:yellow" id = "bestDateDays">Click Above</div>
-    
+
 
 </div> 
 

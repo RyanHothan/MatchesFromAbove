@@ -10,7 +10,14 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,11 +46,11 @@ public class managerFunctions extends HttpServlet {
             throws ServletException, IOException {
         //json to pass back to our ajax request
         JSONArray jsonArray = new JSONArray();
-
+        Connection con = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw;allowMultiQueries=true");
+            con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw;allowMultiQueries=true");
 
             Statement st = con.createStatement();
             if (request.getParameter("func").equals("getRev")) {
@@ -163,68 +170,85 @@ public class managerFunctions extends HttpServlet {
 
             if (request.getParameter("func").equals("getBestCust")) {
 
-                try {
-                    st.execute("CREATE VIEW Y AS "
-                            + "                           SELECT P.OwnerSSN, SUM(D.Fee) AS sumFee "
-                            + "                           FROM Profile P, Date D "
-                            + "                           WHERE D.Profile2Id = P.ProfileId "
-                            + "                           GROUP BY OwnerSSN ");
-                } catch (Exception e) {
-                    System.out.println("view exists");
-                    st.execute("DROP VIEW Y");
-                    st.execute("CREATE VIEW Y AS "
-                            + "                           SELECT P.OwnerSSN, SUM(D.Fee) AS sumFee "
-                            + "                           FROM Profile P, Date D "
-                            + "                           WHERE D.Profile2Id = P.ProfileId "
-                            + "                           GROUP BY OwnerSSN ");
+                ResultSet rs = st.executeQuery("                          SELECT [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN, SUM([MatchesFromAbove].[dbo].[DATE].Fee) AS sumFee "
+                        + "                           FROM [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE] "
+                        + "                           WHERE [MatchesFromAbove].[dbo].[DATE].Profile1Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId "
+                        + "                           GROUP BY OwnerSSN ");
 
+                
+
+                
+                Map<String, Integer> my = new HashMap<String, Integer>();
+
+                
+                while (rs.next()){
+                    System.out.println("tack");
+                    if (!my.containsKey(rs.getString("OwnerSSN"))){
+                        my.put(rs.getString("OwnerSSN"),rs.getInt("sumFee"));
+                    }else{
+                        my.put(rs.getString("OwnerSSN"),(rs.getInt("sumFee"))+my.get(rs.getString("OwnerSSN")));
+                    
+                    }
+                    System.out.println("2");
                 }
-
-                try {
-                    st.execute("CREATE VIEW X AS "
-                            + "                           SELECT P.OwnerSSN, SUM(D.Fee) AS sumFee "
-                            + "                           FROM Profile P, Date D "
-                            + "                           WHERE D.Profile1Id = P.ProfileId "
-                            + "                           GROUP BY OwnerSSN ");
-                } catch (Exception e) {
-                    System.out.println("view exists");
-                    st.execute("DROP VIEW X");
-                    st.execute("CREATE VIEW X AS "
-                            + "                           SELECT P.OwnerSSN, SUM(D.Fee) AS sumFee "
-                            + "                           FROM Profile P, Date D "
-                            + "                           WHERE D.Profile1Id = P.ProfileId "
-                            + "                           GROUP BY OwnerSSN ");
-
+                ResultSet rs1 = st.executeQuery("                          SELECT [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN, SUM([MatchesFromAbove].[dbo].[DATE].Fee) AS sumFee "
+                        + "                           FROM [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE] "
+                        + "                           WHERE [MatchesFromAbove].[dbo].[DATE].Profile2Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId "
+                        + "                           GROUP BY OwnerSSN ");
+                System.out.println("lalaland");
+                if (rs1 != null)
+                while (rs1.next()){
+                   System.out.println("tack");
+                    if (!my.containsKey(rs1.getString("OwnerSSN"))){
+                        my.put(rs1.getString("OwnerSSN"),rs1.getInt("sumFee"));
+                    }else{
+                        my.put(rs1.getString("OwnerSSN"),(rs1.getInt("sumFee"))+my.get(rs1.getString("OwnerSSN")));
+                    
+                    }
+                    System.out.println("2");
                 }
-                try {
-                    st.execute("CREATE VIEW NA AS ((SELECT * FROM X) UNION (SELECT * FROM Y))");
-                } catch (Exception e) {
-                    System.out.println("view exists");
-                    st.execute("DROP VIEW NA");
-                    st.execute("CREATE VIEW NA AS ((SELECT * FROM X) UNION (SELECT * FROM Y))");
-
+                String ssn = "";
+                int max = 0; 
+                Iterator it = my.entrySet().iterator();
+                while (it.hasNext()) {
+                    
+                    Map.Entry pairs = (Map.Entry)it.next();
+                    System.out.println(pairs.getKey()+" "+pairs.getValue());
+                    if ((Integer)pairs.getValue() > max){
+                        ssn = (String)pairs.getKey();
+                        max = (Integer) pairs.getValue(); 
+                    
+                    }
+                    it.remove(); // avoids a ConcurrentModificationException
                 }
-
-                String query = "SELECT  OwnerSSN, SUM(sumFee) as total FROM NA GROUP BY OwnerSSN";
-                ResultSet rs = st.executeQuery(query);
-                System.out.println("buttercup");
-
-                while (rs.next()) {
-                    System.out.println("--");
-
-                }
+                
+                String query = "SELECT * FROM PERSON WHERE SSN = '" + ssn + "'";
+                    ResultSet t = st.executeQuery(query);
+                    t.next();
+                String name = t.getString("FirstName")+" "+ t.getString("LastName");
+                System.out.println(my);
 
                 //set the content type of our response
                 response.setContentType("text/html");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
                 PrintWriter printout = response.getWriter();
-                printout.print("NAME: Revenue Generated: $");
+                printout.print("NAME: "+name+" Revenue Generated: $"+max);
                 printout.flush();
             }
 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
             if (request.getParameter("func").equals("bestRatedCust")) {
 
-                String query = "SELECT * FROM Customer C WHERE C.Rating > 3";
+                String query = "SELECT * FROM Customer C WHERE Rating > 3";
                 ResultSet rs = st.executeQuery(query);
                 response.setContentType("text/html");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
@@ -233,7 +257,7 @@ public class managerFunctions extends HttpServlet {
                 //loop through result set and create the json objects
                 Double max = 0.0;
                 String name = "";
-                String rating="";
+                String rating = "";
                 while (rs.next()) {
                     name = rs.getString("SSN");
                     rating = rs.getString("Rating");
@@ -241,41 +265,122 @@ public class managerFunctions extends HttpServlet {
                     ResultSet rs2 = st.executeQuery(query2);
                     while (rs2.next()) {
                         name = (rs2).getString("FirstName") + " " + (rs2).getString("LastName");
-                        printout.print("<p>NAME: " + name + "        Rating for Customer is: " + rating+"</p>");
+                        printout.print("<p>NAME: " + name + "        Rating for Customer is: " + rating + "</p>");
 
                     }
 
                 }
             }
-                
-                if (request.getParameter("func").equals("bestDateDays")) {
+
+            if (request.getParameter("func").equals("bestDateDays")) {
                 String query = "SELECT CAST([MatchesFromAbove].[dbo].[DATE].Date_Time AS DATE) as Date, SUM([MatchesFromAbove].[dbo].[DATE].User1Rating+[MatchesFromAbove].[dbo].[DATE].User2Rating) as Score FROM [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE] GROUP BY CAST([MatchesFromAbove].[dbo].[DATE].Date_Time AS DATE) HAVING (SUM([MatchesFromAbove].[dbo].[DATE].User1Rating+[MatchesFromAbove].[dbo].[DATE].User2Rating) >= 1) ORDER BY Score DESC";
                 ResultSet rs = st.executeQuery(query);
                 response.setContentType("text/html");
                 //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
                 PrintWriter printout = response.getWriter();
-                int i = 0; 
+                int i = 0;
                 while (rs.next()) {
-                    i++; 
-                    if (i == 4){
-                        break; 
+                    i++;
+                    if (i == 4) {
+                        break;
                     }
-                    printout.print("<p>RANK: "+i+ "________ DAY FOR DATE: "+rs.getString("Date").substring(5)+"________ SCORE FOR THIS DAY: "+rs.getString("Score"));
-                
-                }
-                    
+                    printout.print("<p>RANK: " + i + "________ DAY FOR DATE: " + rs.getString("Date").substring(5) + "________ SCORE FOR THIS DAY: " + rs.getString("Score"));
 
-                
+                }
 
                 //set the content type of our response
                 printout.flush();
             }
 
+            if (request.getParameter("func").equals("mostActCust")) {
+                
+                
+                String query; 
+                query = "SELECT [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN, COUNT(*) AS numDates\n"
+                        + "		FROM  [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE]\n"
+                        + "		WHERE [MatchesFromAbove].[dbo].[DATE].Profile1Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId\n"
+                        + "		GROUP BY OwnerSSN\n"
+                        + "		UNION ALL\n"
+                        + "		SELECT [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN, COUNT(*) AS numDates\n"
+                        + "		FROM [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[DATE]\n"
+                        + "		WHERE [MatchesFromAbove].[dbo].[DATE].Profile2Id = [MatchesFromAbove].[dbo].[PROFILE].ProfileId\n"
+                        + "		GROUP BY OwnerSSN";
+                System.out.println(query);
+                ResultSet rs = st.executeQuery(query);
+                Map<String, Integer> my = new HashMap<String, Integer>();
+
+                
+                while (rs.next()){
+                    if (!my.containsKey(rs.getString("OwnerSSN"))){
+                        my.put(rs.getString("OwnerSSN"),1);
+                    }else{
+                        my.put(rs.getString("OwnerSSN"),(Integer)my.get(rs.getString("OwnerSSN"))+1);
+                    
+                    }
+                    
+                }
+                System.out.println(my);
+
+               
+                query = "SELECT [MatchesFromAbove].[dbo].[PROFILE].OwnerSSN, COUNT(*) AS numLikes\n"
+                        + "		FROM  [MatchesFromAbove].[dbo].[PROFILE], [MatchesFromAbove].[dbo].[LIKES]\n"
+                        + "		WHERE [MatchesFromAbove].[dbo].[LIKES].LikerId = [MatchesFromAbove].[dbo].[PROFILE].ProfileId\n"
+                        + "		GROUP BY OwnerSSN";
+                
+                rs = st.executeQuery(query);
+                 while (rs.next()){
+                    if (!my.containsKey(rs.getString("OwnerSSN"))){
+                        my.put(rs.getString("OwnerSSN"),1);
+                    }else{
+                        my.put(rs.getString("OwnerSSN"),(Integer)my.get(rs.getString("OwnerSSN"))+1);
+                    
+                    }
+                    
+                }
+    
+                response.setContentType("application/json");
+                //printout prints it to our ajax call and it shows up there as data. you can use this data in the success function.
+                PrintWriter printout = response.getWriter();
+//                String s = " buns"; 
+//                while (rs.next()) {
+//                    System.out.println("bub");
+//                       s = s+"  "+ rs.getString("OwnerSSN");
+//                   
+//                }
+                
+                Iterator it = my.entrySet().iterator();
+                while (it.hasNext()) {
+                    
+                    Map.Entry pairs = (Map.Entry)it.next();
+                    
+                    JSONObject dateToAdd = new JSONObject();
+                    query = "SELECT * FROM PERSON WHERE SSN = '" + pairs.getKey() + "'";
+                    ResultSet t = st.executeQuery(query);
+                    t.next();
+                    
+                    dateToAdd.put("name",t.getString("FirstName") +" "+t.getString("LastName") );
+                    dateToAdd.put("level", pairs.getValue());
+                    if( (Integer)pairs.getValue() > 1)
+                                    jsonArray.add(dateToAdd);
+
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+                
+                printout.print(jsonArray);
+
+                //set the content type of our response
+                printout.flush();
+            }
             con.close();
 
         } catch (Exception e) {
             System.out.println(e.getMessage() + "managerFuncetionsClass");
-            return;
+            if(con != null)            
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(managerFunctions.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

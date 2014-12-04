@@ -157,7 +157,7 @@ table {
 	line-height: 24px;
 	margin: 30px;
 	text-align: left;
-	width: 600px;
+	width: 500px;
 }
 
 #profileInfoTable {
@@ -168,7 +168,7 @@ table {
 	line-height: 24px;
 	margin: 30px;
 	text-align: left;
-	width: 400px;
+	width: 300px;
 }
 
 
@@ -181,6 +181,10 @@ table {
 	margin: 30px;
 	text-align: left;
 	width: 600px;
+}
+#recProfileTableTb{
+   
+    
 }
 th {
 	background: url(http://jackrugile.com/images/misc/noise-diagonal.png), linear-gradient(#777, #444);

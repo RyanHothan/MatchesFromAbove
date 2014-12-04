@@ -102,9 +102,9 @@
             </div>
 
             <!--Div for profile viewers-->
-            <div style="width:50%; display:inline-block">
+            <div style="width:30%; display:inline-block">
                 <h1 align="center" style="color:white;">Hello ${currentUser.firstName} ${currentUser.lastName}!</h1>
-                <table style="width: 800px;">
+                <table style="width: 500px;">
                     <thead>
                     <th>Profile Name</th>
                     <th>Age</th>
