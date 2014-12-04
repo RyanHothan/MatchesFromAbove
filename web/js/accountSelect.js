@@ -50,7 +50,7 @@ function readAccount()
                         var tdCell = $(this).parent();
                         if($(this).parent().parent().attr('value') === 'accountNumber')
                         {
-                            $("#accountBox option:selected").html(newData)
+                            $("#accountBox option:selected").html(newData);
                             $("#accountBox option:selected").attr('value', newData);
                         }
                         $(this).remove();

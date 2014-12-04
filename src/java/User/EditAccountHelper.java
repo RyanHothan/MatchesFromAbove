@@ -52,6 +52,7 @@ public class EditAccountHelper extends HttpServlet
     {
         try
         {
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost;user=sa;password=nopw");

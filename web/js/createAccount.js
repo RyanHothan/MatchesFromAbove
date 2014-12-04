@@ -15,7 +15,7 @@ function createAccount()
         dataType: 'JSON',
         success: function (data)
         {
-            $("#accountBox").append("<option value = '" + ccns + "'>" + data[0].accountNumber + "</option>");
+            $("#accountBox").append("<option>" + data[0].accountNumber + "</option>");
             $.modal.close();
         }
     });
